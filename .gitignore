@@ -1,0 +1,15 @@
+.DS_Store
+**/.DS_Store
+
+# Cursor / IDE
+.cursor/
+.vscode/
+.idea/
+
+# Python caches
+**/__pycache__/
+**/*.pyc
+
+# Nested repos / submodules accidentally checked in
+**/.git/
+

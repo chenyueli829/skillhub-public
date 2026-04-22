@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>金融核算中台产品经理晋级答辩</title>
+    <style>
+        /* 基础重置 */
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+        
+        /* 全局样式 */
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "PingFang SC", "Hiragino Sans GB", sans-serif;
+            background: #121212;
+            color: #FFFFFF;
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            letter-spacing: -0.01em;
+        }
+        
+        /* 幻灯片容器 */
+        .presentation { 
+            width: 100%; 
+            height: 100%; 
+            position: relative; 
+        }
+        
+        /* 单页样式 */
+        .slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+        
+        .slide.active { 
+            opacity: 1; 
+            z-index: 1; 
+        }
+        
+        /* 布局系统 */
+        .title-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            width: 100%;
+            max-width: 1400px;
+        }
+        
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            width: 100%;
+            max-width: 1200px;
+        }
+        
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            width: 100%;
+            max-width: 1000px;
+        }
+        
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            width: 100%;
+            max-width: 1300px;
+        }
+        
+        .agenda-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            width: 100%;
+            max-width: 1100px;
+        }
+        
+        .process {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 100%;
+            max-width: 1400px;
+            position: relative;
+        }
+        
+        /* 标题样式 */
+        .main-title {
+            font-size: 4.5vw;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00F5A0, #00D9F5);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            margin-bottom: 24px;
+            line-height: 1.1;
+        }
+        
+        .sub-title {
+            font-size: 1.5vw;
+            color: rgba(238, 238, 238, 0.85);
+            text-align: center;
+            margin-bottom: 60px;
+            font-weight: 400;
+        }
+        
+        /* 对比区块 */
+        .comparison-block {
+            text-align: center;
+            padding: 40px 32px;
+        }
+        
+        .comparison-left {
+            opacity: 0.7;
+        }
+        
+        .comparison-right {
+            background: linear-gradient(145deg, rgba(0, 245, 160, 0.06), rgba(0, 217, 245, 0.03));
+            border: 1px solid rgba(0, 217, 245, 0.3);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .comparison-title {
+            font-size: 2vw;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        
+        .comparison-desc {
+            font-size: 1.1vw;
+            color: rgba(238, 238, 238, 0.7);
+            line-height: 1.4;
+        }
+        
+        /* 卡片样式 */
+        .column-box {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 32px 28px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .column-box:hover {
+            transform: translateY(-4px);
+            border-color: rgba(0, 245, 160, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        
+        .challenge-card {
+            background: linear-gradient(145deg, rgba(255, 77, 77, 0.06), rgba(255, 77, 77, 0.02));
+            border: 1px solid rgba(255, 77, 77, 0.2);
+            border-left: 4px solid #FF4D4D;
+        }
+        
+        .concept-card {
+            background: linear-gradient(145deg, rgba(0, 245, 160, 0.08), rgba(0, 245, 160, 0.02));
+            border: 1px solid rgba(0, 245, 160, 0.2);
+            border-left: 4px solid #00F5A0;
+        }
+        
+        .agenda-item {
+            position: relative;
+            padding-left: 60px;
+        }
+        
+        .agenda-item::before {
+            content: attr(data-number);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #00F5A0, #00D9F5);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.2vw;
+        }
+        
+        /* 流程步骤 */
+        .process-step {
+            text-align: center;
+            flex: 1;
+            position: relative;
+        }
+        
+        .process-step:not(:last-child)::after {
+            content: "→";
+            position: absolute;
+            right: -40px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2vw;
+            color: #00D9F5;
+            opacity: 0.6;
+        }
+        
+        .step-number {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #00F5A0, #00D9F5);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-weight: 600;
+            font-size: 1.3vw;
+        }
+        
+        .step-title {
+            font-size: 1.3vw;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        
+        .step-desc {
+            font-size: 0.95vw;
+            color: rgba(238, 238, 238, 0.7);
+            line-height: 1.4;
+        }
+        
+        /* 金句引用 */
+        .golden-quote {
+            background: linear-gradient(145deg, rgba(0, 245, 160, 0.06), rgba(0, 217, 245, 0.03));
+            border-left: 3px solid #00D9F5;
+            border-radius: 12px;
+            padding: 28px 32px;
+            margin: 40px 0;
+            backdrop-filter: blur(10px);
+            color: #00F5A0;
+            font-size: 1.4vw;
+            font-weight: 500;
+            line-height: 1.3;
+            text-align: center;
+        }
+        
+        /* 导航系统 */
+        .navigation {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            padding: 12px 20px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-dot.active {
+            width: 28px;
+            border-radius: 4px;
+            background: linear-gradient(135deg, #00F5A0, #00D9F5);
+        }
+        
+        .nav-button {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-button:hover {
+            background: rgba(0, 245, 160, 0.1);
+            border-color: rgba(0, 245, 160, 0.3);
+        }
+        
+        .prev { left: 40px; }
+        .next { right: 40px; }
+        
+        .fullscreen-btn {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 100;
+        }
+        
+        /* 内容样式 */
+        .content-title {
+            font-size: 2.2vw;
+            font-weight: 600;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #00F5A0, #00D9F5);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .content-list {
+            list-style: none;
+        }
+        
+        .content-list li {
+            position: relative;
+            padding-left: 32px;
+            margin-bottom: 16px;
+            font-size: 1.2vw;
+            line-height: 1.4;
+            color: rgba(238, 238, 238, 0.85);
+        }
+        
+        .content-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #00F5A0;
+            font-size: 1.5em;
+            margin-right: 12px;
+        }
+        
+        .metric-box {
+            text-align: center;
+            padding: 24px;
+        }
+        
+        .metric-value {
+            font-size: 3vw;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00F5A0, #00D9F5);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+        
+        .metric-label {
+            font-size: 1vw;
+            color: rgba(238, 238, 238, 0.7);
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation">
+        <!-- 第一页：标题页 -->
+        <div class="slide active" data-slide="0">
+            <h1 class="main-title">金融核算中台产品经理晋级答辩</h1>
+            <p class="sub-title">从执行者到价值创造者的成长之路</p>
+            
+            <div class="title-comparison">
+                <div class="comparison-block comparison-left">
+                    <div class="comparison-title">产品执行者</div>
+                    <div class="comparison-desc">需求实现 · 功能交付</div>
+                </div>
+                <div class="comparison-block comparison-right">
+                    <div class="comparison-title">价值创造者</div>
+                    <div class="comparison-desc">业务洞察 · 战略规划</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 第二页：个人成长轨迹 -->
+        <div class="slide" data-slide="1">
+            <h1 class="main-title">个人成长轨迹</h1>
+            
+            <div class="two-column">
+                <div class="column-box">
+                    <h2 class="content-title">基本信息</h2>
+                    <ul class="content-list">
+                        <li>职位：金融核算中台产品经理</li>
+                        <li>司龄：X年金融科技经验</li>
+                        <li>成长阶段：执行层 → 项目层 → 战略层</li>
+                    </ul>
+                </div>
+                
+                <div class="column-box">
+                    <h2 class="content-title">核心能力矩阵</h2>
+                    <ul class="content-list">
+                        <li>产品设计：用户价值导向</li>
+                        <li>业务理解：金融核算专家</li>
+                        <li>技术架构：中台化思维</li>
+                        <li>项目管理：敏捷交付能力</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 第三页：项目背景与挑战 -->
+        <div class="slide" data-slide="2">
+            <h1 class="main-title">项目背景与挑战</h1>
+            
+            <div class="two-column">
+                <div class="column-box challenge-card">
+                    <h2 class="content-title">传统金融核算困境</h2>
+                    <ul class="content-list">
+                        <li>数据孤岛：15+系统独立核算</li>
+                        <li>手工操作：日均3000+笔手工凭证</li>
+                        <li>风险隐患：月度差错率2.5%</li>
+                        <li>效率瓶颈：月末结算耗时5-7天</li>
+                    </ul>
+                </div>
+                
+                <div class="column-box concept-card">
+                    <h2 class="content-title">中台化战略价值</h2>
+                    <ul class="content-list">
+                        <li>统一核算标准与数据模型</li>
+                        <li>自动化流程引擎建设</li>
+                        <li>实时风险监控体系</li>
+                        <li>智能化决策支持能力</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 第四页：解决方案架构 -->
+        <div class="slide" data-slide="3">
+            <h1 class="main-title">解决方案架构</h1>
+            
+            <div class="process">
+                <div class="process-step">
+                    <div class="step-number">1</div>
+                    <div class="step-title">数据整合层</div>
+                    <div class="step-desc">统一接入30+业务系统<br>建立标准化数据模型</div>
+                </div>
+                
+                <div class="process-step">
+                    <div class="step-number">2</div>
+                    <div class="step-title">核算引擎层</div>
+                    <div class="step-desc">自动化规则引擎<br>实时核算处理能力</div>
+                </div>
+                
+                <div class="process-step">
+                    <div class="step-number">3</div>
+                    <div class="step-title">风险控制层</div>
+                    <div class="step-desc">多维度风险监控<br>智能预警机制</div>
+                </div>
+                
+                <div class="process-step">
+                    <div class="step-number">4</div>
+                    <div class="step-title">应用服务层</div>
+                    <div class="step-desc">灵活配置能力<br>开放API接口</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 第五页：核心成果展示 -->
+        <div class="slide" data-slide="4">
+            <h1 class="main-title">核心成果展示</h1>
+            
+            <div class="grid-3">
+                <div class="column-box">
+                    <div class="metric-box">
+                        <div class="metric-value">50万+</div>
+                        <div class="metric-label">企业账户覆盖</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value">8大</div>
+                        <div class="metric-label">核心金融场景</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value">300亿</div>
+                        <div class="metric-label">日均处理资金</div>
+                    </div>
+                </div>
+                
+                <div class="column-box">
+                    <div class="metric-box">
+                        <div class="metric-value">85%</div>
+                        <div class="metric-label">核算效率提升</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value">0.1%</div>
+                        <div class="metric-label">差错率降低至</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value">1天</div>
+                        <div class="metric-label">结算时间缩短</div>
+                    </div>
+                </div>
+                
+                <div class="column-box">
+                    <div class="metric-box">
+                        <div class="metric-value">500万+</div>
+                        <div class="metric-label">年度成本节约</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value">100%</div>
+                        <div class="metric-label">实时风险监控</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value">98%</div>
+                        <div class="metric-label">客户满意度</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 第六页：重点项目突破 -->
+        <div class="slide" data-slide="5">
+            <h1 class="main-title">重点项目突破</h1>
+            
+            <div class="two-column">
+                <div class="column-box">
+                    <h2 class="content-title">跨境支付核算自动化</h2>
+                    <ul class="content-list">
+                        <li>挑战：多币种、多时区复杂核算</li>
+                        <li>突破：实现T+0自动对账机制</li>
+                        <li>价值：支撑日均10亿跨境交易</li>
+                    </ul>
+                </div>
+                
+                <div class="column-box">
+                    <h2 class="content-title">智能风险预警系统</h2>
+                    <ul class="content-list">
+                        <li>挑战：传统规则引擎误报率高</li>
+                        <li>突破：引入机器学习算法优化</li>
+                        <li>价值：风险识别准确率提升至95%</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 第七页：个人能力成长 -->
+        <div class="slide" data-slide="6">
+            <h1 class="main-title">个人能力成长</h1>
+            
+            <div class="grid-2">
+                <div class="column-box">
+                    <h2 class="content-title">专业能力提升</h2>
+                    <ul class="content-list">
+                        <li>金融业务理解：从模块到生态</li>
+                        <li>技术架构能力：从应用到平台</li>
+                        <li>项目管理能力：从执行到规划</li>
+                    </ul>
+                </div>
+                
+                <div class="column-box">
+                    <h2 class="content-title">方法论沉淀</h2>
+                    <ul class="content-list">
+                        <li>用户价值导向的产品设计</li>
+                        <li>数据驱动的决策机制</li>
+                        <li>敏捷迭代的项目管理</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 第八页：未来规划展望 -->
+        <div class="slide" data-slide="7">
+            <h1 class="main-title">未来规划展望</h1>
+            
+            <div class="agenda-grid">
+                <div class="agenda-item" data-number="01">
+                    <h3>技术演进：AI驱动的智能核算</h3>
+                    <p>预测性风险控制 · 自适应规则引擎</p>
+                </div>
+                
+                <div class="agenda-item" data-number="02">
+                    <h3>业务拓展：生态化服务能力</h3>
+                    <p>开放平台建设 · 合作伙伴集成</p>
+                </div>
+                
+                <div class="agenda-item" data-number="03">
+                    <h3>个人发展：战略产品思维</h3>
+                    <p>行业洞察能力 · 商业价值创造</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 第九页：总结与感谢 -->
+        <div class="slide" data-slide="8">
+            <h1 class="main-title">总结与感谢</h1>
+            
+            <div class="golden-quote">
+                产品经理的价值在于连接技术与业务，创造可持续的商业价值。
+            </div>
+            
+            <div class="two-column">
+                <div class="column-box">
+                    <h2 class="content-title">核心理念</h2>
+                    <ul class="content-list">
+                        <li>以用户价值为中心</li>
+                        <li>以技术创新为驱动</li>
+                    </ul>
+                </div>
+                
+                <div class="column-box">
+                    <h2 class="content-title">未来承诺</h2>
+                    <ul class="content-list">
+                        <li>持续学习，勇于创新</li>
+                        <li>创造更大商业价值</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 导航系统 -->
+    <div class="navigation">
+        <div class="nav-dot active" data-slide="0"></div>
+        <div class="nav-dot" data-slide="1"></div>
+        <div class="nav-dot" data-slide="2"></div>
+        <div class="nav-dot" data-slide="3"></div>
+        <div class="nav-dot" data-slide="4"></div>
+        <div class="nav-dot" data-slide="5"></div>
+        <div class="nav-dot" data-slide="6"></div>
+        <div class="nav-dot" data-slide="7"></div>
+        <div class="nav-dot" data-slide="8"></div>
+    </div>
+    
+    <div class="nav-button prev">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+    </div>
+    
+    <div class="nav-button next">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+    </div>
+    
+    <div class="fullscreen-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M8 3H5C3.89543 3 3 3.89543 3 5V8M21 8V5C21 3.89543 20.1046 3 19 3H16M16 21H19C20.1046 21 21 20.1046 21 19V16M3 16V19C3 20.1046 3.89543 21 5 21H8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+    </div>
+    
+    <script>
+        // 幻灯片管理
+        let currentSlide = 0;
+        const totalSlides = document.querySelectorAll('.slide').length;
+        const slides = document.querySelectorAll('.slide');
+        const navDots = document.querySelectorAll('.nav-dot');
+        
+        // 切换到指定幻灯片
+        function goToSlide(n) {
+            if (n < 0 || n >= totalSlides) return;
+            
+            // 更新当前幻灯片状态
+            slides[currentSlide].classList.remove('active');
+            navDots[currentSlide].classList.remove('active');
+            
+            currentSlide = n;
+            
+            slides[currentSlide].classList.add('active');
+            navDots[currentSlide].classList.add('active');
+        }
+        
+        // 下一页
+        function nextSlide() {
+            goToSlide(currentSlide + 1);
+        }
+        
+        // 上一页
+        function prevSlide() {
+            goToSlide(currentSlide - 1);
+        }
+        
+        // 全屏切换
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log(`全屏请求错误: ${err.message}`);
+                });
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+        
+        // 键盘事件监听
+        document.addEventListener('keydown', (e) => {
+            switch(e.key) {
+                case 'ArrowRight':
+                case ' ':
+                    e.preventDefault();
+                    nextSlide();
+                    break;
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    prevSlide();
+                    break;
+                case 'f':
+                case 'F':
+                    e.preventDefault();
+                    toggleFullscreen();
+                    break;
+                case 'Escape':
+                    if (document.fullscreenElement) {
+                        toggleFullscreen();
+                    }
+                    break;
+            }
+        });
+        
+        // 触摸事件监听
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+        
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+        
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchEndX - touchStartX;
+            
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    prevSlide(); // 右滑，上一页
+                } else {
+                    nextSlide(); // 左滑，下一页
+                }
+            }
+        }
+        
+        // 导航圆点点击事件
+        navDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                goToSlide(index);
+            });
+        });
+        
+        // 防抖处理
+        let lastSlideTime = 0;
+        const slideDebounce = 300;
+        
+        const debouncedNextSlide = () => {
+            const now = Date.now();
+            if (now - lastSlideTime > slideDebounce) {
+                nextSlide();
+                lastSlideTime = now;
+            }
+        };
+        
+        const debouncedPrevSlide = () => {
+            const now = Date.now();
+            if (now - lastSlideTime > slideDebounce) {
+                prevSlide();
+                lastSlideTime = now;
+            }
+        };
+        
+        // 更新按钮事件
+        document.querySelector('.next').onclick = debouncedNextSlide;
+        document.querySelector('.prev').onclick = debouncedPrevSlide;
+        
+        // 初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            goToSlide(0);
+        });
+    </script>
+</body>
+</html>

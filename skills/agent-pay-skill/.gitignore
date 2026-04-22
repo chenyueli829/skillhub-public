@@ -1,0 +1,29 @@
+# 运行时生成（用户自己的数据）
+lib/keys/
+lib/config.json
+setup/assets/register_qr.png
+setup/assets/sign_service_qr.png
+setup/.pending_session.json
+
+# 编译的签名二进制（通过 release 分发，不提交到 git）
+signer/bin/
+
+# Python 缓存
+__pycache__/
+*.pyc
+
+我的知识库/
+
+# IDE / AI 工具
+.idea/
+.vscode/
+.codebuddy/
+.claude/
+.claude/CLAUDE.md
+
+# 打包产物
+*.zip
+
+# 空目录
+templates/
+.cursor/
