@@ -2,8 +2,6 @@
 **/.DS_Store
 
 # Cursor / IDE
-.cursor/
-.vscode/
 .idea/
 
 # Python caches

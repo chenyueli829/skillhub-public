@@ -1,0 +1,147 @@
+{
+  "title": "从龙虾到爱马仕：我为什么放弃了手动维护 Skill",
+  "style": "editorial-light",
+  "style_guidelines": {
+    "color_palette": "Warm cream/off-white background (#faf6ef / #f5f0e6), charcoal text (#2d2d2d), burgundy accent (#8b2a2a), soft sage (#6b8e6b) and muted mustard (#c9a24e) as secondary accents. Overall LIGHT, WARM, magazine aesthetic.",
+    "typography": "Elegant serif headlines (Playfair Display / Freight Display style), clean sans-serif body (Inter / Söhne). Large dramatic headline hierarchy (72pt+), comfortable body text (20-24pt), generous line-height 1.6, charcoal #2d2d2d text color.",
+    "imagery": "Minimal editorial illustrations of a lobster (🦞 representing OpenClaw) and a horse (🐴 representing Hermes Agent) rendered in warm watercolor or hand-drawn ink-wash style. Soft pastel accents. Light playful sketches to illustrate concepts. Magazine-quality composition.",
+    "layout": "12-column editorial grid, generous whitespace (45%+), intentional asymmetry, pull quotes as design elements, elegant margins, clear hierarchy.",
+    "effects": "Subtle paper/linen texture (2-3% noise), thin hairline rules in charcoal or burgundy, soft drop shadows, no gradients. Clean, refined, magazine-print aesthetic.",
+    "visual_language": "Bloomberg Businessweek / The New Yorker / MIT Technology Review aesthetic. Sophisticated light-toned magazine spread, intellectual yet approachable, tasteful illustration."
+  },
+  "aspect_ratio": "16:9",
+  "slides": [
+    {
+      "slide_number": 1,
+      "type": "title",
+      "title": "从龙虾到爱马仕",
+      "subtitle": "我为什么放弃了手动维护 Skill",
+      "visual_description": "TIME magazine cover style slide. The iconic TIME magazine red border frame (thick solid red #d7192d border, ~40-50px wide) around the entire slide edge. Top-left inside border: bold red 'TIME' style wordmark replaced with a tasteful 'HERMES vs OPENCLAW' header in red serif. Inside the red border: warm cream background (#faf6ef). Central composition: on the LEFT a hand-drawn warm watercolor illustration of a red LOBSTER (🦞, representing OpenClaw) facing RIGHT; on the RIGHT a elegant ink-wash illustration of a HORSE (🐴, representing Hermes Agent / 爱马仕) facing LEFT. Between them a thin vertical rule with the word 'VS' in charcoal serif. Below: large bold Chinese serif headline '从龙虾到爱马仕' (~80pt, charcoal #2d2d2d), smaller subtitle underneath in lighter serif italic '我为什么放弃了手动维护 Skill'. Bottom-right small tag: 'Internal Sharing · Issue 2026.04'. TIME-magazine cover aesthetic but with a bright, warm, editorial feel. Do NOT render letters TIME literally – use 'HERMES vs OPENCLAW' inside the red border instead. Overall light and elegant."
+    },
+    {
+      "slide_number": 2,
+      "type": "intro",
+      "title": "一匹黑马闯入视野",
+      "key_points": [
+        "2026 年 4 月,Hermes Agent 开源",
+        "46 天 GitHub Stars 破 10 万,史上第二快",
+        "普通人:继续养虾,还是换马养?"
+      ],
+      "visual_description": "Editorial magazine intro spread, warm cream background (#faf6ef). Left column 50%: large bold serif Chinese headline '一匹黑马闯入视野' (~72pt charcoal), supporting body text in clean sans-serif listing the three key points. Burgundy thin hairline rule above the headline. Right column 50%: a tasteful hand-drawn ink-wash illustration of a galloping horse silhouette with soft watercolor splash in muted mustard and sage. Small lobster silhouette in the bottom-right corner, faded, as if the horse is passing by. Subtle paper texture. Consistent editorial magazine style with slide 1."
+    },
+    {
+      "slide_number": 3,
+      "type": "content",
+      "title": "Hermes 切中了什么痛点?",
+      "key_points": [
+        "Skill 写起来麻烦",
+        "调试完还得维护",
+        "有时候写 Skill 比手动做还慢"
+      ],
+      "visual_description": "Editorial magazine page, warm cream background (#faf6ef). Top: large serif headline 'Hermes 切中了什么痛点?' in charcoal, with thin burgundy rule under it. Left 40%: tasteful illustration of a person (simple line-drawing / New Yorker cartoon style) sitting at a desk frustrated, surrounded by scattered paper notes labeled 'Skill v1', 'Skill v2', 'Skill v3' — representing the pain of Skill maintenance. Right 60%: pull quote in large italic serif: 'Skill 维护,太麻烦了。' with three bullet points below in sans-serif body text. Burgundy pull-quote marks (large '「」'). Consistent light editorial aesthetic. Maintain EXACT style from reference."
+    },
+    {
+      "slide_number": 4,
+      "type": "content",
+      "title": "试用两周 · 四个 Aha 时刻",
+      "key_points": [
+        "1. 预装一批高质量 Skill — 开箱即用",
+        "2. 聊着聊着,它自己建了 Skill",
+        "3. 我没说\"请记住\",它自己就记了",
+        "4. 说到一半能补充 — 嘴瓢星人的福音"
+      ],
+      "visual_description": "Editorial 2x2 grid layout, warm cream background (#faf6ef). Top headline '试用两周 · 四个 Aha 时刻' in serif charcoal. Four equal quadrants, each with thin charcoal hairline border. Each quadrant contains: a large editorial number ('01', '02', '03', '04' in bold serif burgundy), a short title in charcoal serif bold, and a one-line description in sans-serif. Each quadrant also has a tiny editorial illustration: (1) a gift-box icon, (2) a tiny horse auto-writing on a notepad, (3) a brain with subtle sparkles, (4) a speech bubble with wavy lines. Keep illustrations simple, warm watercolor / ink-wash style. Consistent editorial light magazine style with previous slides."
+    },
+    {
+      "slide_number": 5,
+      "type": "content",
+      "title": "AutoSkill:从\"我维护\"到\"它维护\"",
+      "key_points": [
+        "第 1 次爬虫 → 普通脚本",
+        "第 3 次 → 自动创建 \"写爬虫\" Skill",
+        "第 10 次 → 只说\"爬一下 XX\",秒懂习惯"
+      ],
+      "visual_description": "Editorial feature spread, warm cream background (#faf6ef). Headline 'AutoSkill:从「我维护」到「它维护」' in large serif. Central element: a horizontal editorial timeline illustration with THREE stages drawn in hand-drawn ink-wash style: Stage 1 (small page icon labeled '第1次'), an elegant arrow, Stage 2 (a slightly bigger page with a gear, labeled '第3次'), another arrow, Stage 3 (a glowing polished 'Skill' card labeled '第10次'). Each stage has a tiny horse mascot next to it, progressively more confident. Below the timeline: a pull quote in burgundy italic serif: '从「我维护 Skill」变成了「它帮我维护 Skill」。' Soft paper texture, light editorial tone."
+    },
+    {
+      "slide_number": 6,
+      "type": "content",
+      "title": "默认自动记忆:不用说\"请记住\"",
+      "key_points": [
+        "第 1 次: 随口说「我喜欢简洁风格」",
+        "一周后: \"帮我写个文档\" → 直接简洁输出",
+        "一个月后: \"周报\" → 自动知道格式、内容、发给谁"
+      ],
+      "visual_description": "Editorial magazine page, warm cream background (#faf6ef). Headline '默认自动记忆:不用说「请记住」' in serif charcoal. Left column 55%: three stacked editorial cards (thin charcoal border, slightly offset), each showing a dialogue snippet: '第 1 次'、'一周后'、'一个月后', with the user quote in quotation marks and the AI's behavior described underneath. Right column 45%: a tasteful ink-wash illustration of a horse head in profile with subtle thought bubbles drifting upward, containing small icons (clock, heart, document). Small text annotation: '大约每 15 轮对话主动做一次反思'. Consistent light editorial style."
+    },
+    {
+      "slide_number": 7,
+      "type": "content",
+      "title": "Harness 架构:AI Agent 的五层缰绳",
+      "key_points": [
+        "指令层 · 做什么、怎么做",
+        "记忆层 · 记得住",
+        "约束层 · 画红线",
+        "反馈层 · 会反思",
+        "编排层 · 能协作"
+      ],
+      "visual_description": "Editorial diagram slide, warm cream background (#faf6ef). Top headline 'Harness 架构:AI Agent 的五层缰绳' in serif. Subtitle italic small: 'AI 的瓶颈不是模型本身,而是模型周围的环境。— Mitchell Hashimoto'. Central visual: a tasteful hand-drawn ink-wash illustration of a horse with reins (harness) clearly visible, each of FIVE rein straps labeled with a layer name in small serif: 指令层、记忆层、约束层、反馈层、编排层. Each label has a short description next to it on a sidebar list. Muted mustard and sage accents on the labels. The horse illustration is light, refined, magazine-editorial style. Consistent with previous slides."
+    },
+    {
+      "slide_number": 8,
+      "type": "content",
+      "title": "三大工具对比:同一栋房子的三个角色",
+      "key_points": [
+        "OpenClaw 🦞 · 约束层 + 编排层更成熟",
+        "Hermes 🐴 · 指令层 + 记忆层自动化",
+        "Claude Code 💻 · 实时交互编码"
+      ],
+      "visual_description": "Editorial comparison spread, warm cream background (#faf6ef). Top headline '三大工具对比' in serif charcoal, subtitle italic '同一栋房子里分工不同的三个角色'. Below: a three-column comparison table rendered as an editorial infographic. Column 1: small red lobster illustration 🦞, title 'OpenClaw', tag '可控可审计', brief bullets. Column 2: small elegant horse illustration 🐴, title 'Hermes', tag '自动进化', brief bullets (highlighted with soft sage green background). Column 3: small laptop illustration 💻, title 'Claude Code', tag '专注编码', brief bullets. Thin charcoal vertical rules between columns. Each column has one tiny star icon indicator where it excels. Consistent editorial light aesthetic."
+    },
+    {
+      "slide_number": 9,
+      "type": "content",
+      "title": "知识 = 记忆 + 技能",
+      "key_points": [
+        "记忆: 原始信息 (「我喜欢简洁风格」)",
+        "Skill: 蒸馏出的可复用知识 (「写文档默认简洁」)",
+        "Hermes 把蒸馏过程自动化了"
+      ],
+      "visual_description": "Editorial concept illustration slide, warm cream background (#faf6ef). Headline '知识 = 记忆 + 技能' in large serif charcoal, centered. Central visual: a beautiful hand-drawn editorial illustration of a vintage distillation apparatus (alchemy beaker + coil) in warm ink-wash. Into the top of the flask drip water drops labeled '记忆 1', '记忆 2', '记忆 3'. Out of the spout, an elegant drop labeled 'SKILL' falls into a small elegant glass. Annotation labels around in thin charcoal serif: '原始信息 → 蒸馏 → 可复用知识'. Burgundy accent on the SKILL label. Subtle paper texture. Pull quote below: '核心区别不是谁更强,而是蒸馏由谁完成。' Very editorial, tasteful, consistent light aesthetic."
+    },
+    {
+      "slide_number": 10,
+      "type": "content",
+      "title": "冷静看 Hermes · 优 & 缺",
+      "key_points": [
+        "优: 自动维护 · 默认记忆 · 成本低 · MIT 开源 · 24/7",
+        "缺: Skill 有噪声 · 生态年轻 · Multi-Agent 弱 · 安全追赶中"
+      ],
+      "visual_description": "Editorial magazine page with a balanced two-column layout, warm cream background (#faf6ef). Top headline '冷静看 Hermes · 优 & 缺' in serif. Two vertical columns separated by a thin charcoal rule. LEFT column in soft sage green tint background: '优点' large serif, with 5 bullets in clean sans-serif. RIGHT column in soft warm-peach tint background: '局限' large serif, with 4 bullets. Each bullet has a small icon prefix (soft check for pros, soft warning for cons). Small editorial illustration at the top: a balance scale hand-drawn in ink, with a horse on each pan, one labeled '优' one labeled '缺'. Consistent light editorial style."
+    },
+    {
+      "slide_number": 11,
+      "type": "content",
+      "title": "没有完美工具,只有合适选择",
+      "key_points": [
+        "选 Hermes · 个人助理、自动进化、24/7",
+        "选 OpenClaw · 团队协作、可审计、稳定",
+        "关键 · 多用,别纠结",
+        "AI 工具迭代很快,短板明天就补"
+      ],
+      "visual_description": "Editorial decision-matrix slide, warm cream background (#faf6ef). Top headline '没有完美工具,只有合适选择' in large serif. Central visual: two elegant circles overlapping (Venn-diagram style) drawn in thin charcoal line art with watercolor fills — left circle soft burgundy (labeled 'Hermes 🐴 个人 · 自动'), right circle soft sage (labeled 'OpenClaw 🦞 团队 · 可控'), overlap labeled '都可用'. Below: a pull quote in italic serif burgundy: '选一个上手、用起来、让它帮你干活。' Short bullets on the sides. Consistent editorial magazine style. Light, warm, tasteful."
+    },
+    {
+      "slide_number": 12,
+      "type": "conclusion",
+      "title": "快速入门 · 三步上马",
+      "subtitle": "准备一台设备,5 分钟安装",
+      "key_points": [
+        "① 安装: curl -sSL install.sh | bash",
+        "② 配置 API Key (Claude / GPT / Gemini / DeepSeek)",
+        "③ 开始对话: hermes"
+      ],
+      "visual_description": "Editorial closing slide, warm cream background (#faf6ef). Large serif headline '快速入门 · 三步上马'. Subtitle italic lighter serif '准备一台设备,5 分钟安装'. Three horizontal editorial cards: ① 安装, ② 配置, ③ 对话 — each with a small monospace code snippet area (light gray background), and a tiny hand-drawn illustration above (download cloud, key icon, speech bubble). Below cards: a final pull quote large italic serif '不要纠结「最好的」,选一个,让它帮你干活。' Bottom-right: a refined editorial logo-mark '—— END ——' in charcoal serif small. Consistent light magazine aesthetic, closing feel. Maintain EXACT visual style from reference."
+    }
+  ]
+}

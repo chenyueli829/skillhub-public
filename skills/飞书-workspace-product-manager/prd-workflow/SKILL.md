@@ -1,5 +1,5 @@
 ---
-name: prd-workflow
+name: cyl-prd-workflow
 description: Complete PRD workflow with integrated review, flowchart, and export. Deep interview → Requirement analysis → PRD generation → Review → Flowchart → Quality check → Word export. Specialized for financial products with compliance checkpoints.
 ---
 

@@ -1,5 +1,5 @@
 ---
-name: ai-learning-accelerator
+name: cyl-ai-learning-accelerator
 description: 任意领域速成路径生成器。输入想学的任何领域或技术，基于学习科学生成个性化学习路径：知识图谱→分阶段计划→精选资源→刻意练习→检验标准，从零到能干活的最短路径。
 ---
 

@@ -1,5 +1,5 @@
 ---
-name: agent-pay-skill
+name: cyl-agent-pay-skill
 description: AI钱包支付助手。当用户需要开通AI钱包、付款购买服务、收款、查余额时使用。
 metadata: {"openclaw": {"emoji": "💰", "requires": {"bins": ["python3", "bash"]}}}
 ---

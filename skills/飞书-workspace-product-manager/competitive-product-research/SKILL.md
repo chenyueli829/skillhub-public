@@ -1,5 +1,5 @@
 ---
-name: competitive-product-research
+name: cyl-competitive-product-research
 description: >-
   Competitive product research expert: structured benchmarking across 8 UX dimensions,
   outputs an actionable HTML report with S/A/B/C health score and P0/P1/P2 recommendations.

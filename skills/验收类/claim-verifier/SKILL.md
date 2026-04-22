@@ -1,5 +1,5 @@
 ---
-name: claim-verifier
+name: cyl-claim-verifier
 description: >
   Use this skill to verify the credibility of claims, data points, and observations in an article or document.
   Trigger when: user asks to "verify sources", "check credibility", "validate data", "fact-check", "校验数据来源",

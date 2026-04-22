@@ -1,5 +1,5 @@
 ---
-name: version-planner
+name: cyl-version-planner
 description: 帮助用户把产品需求拆解成渐进式版本规划。当用户说"拆版本"、"版本规划"、"MVP怎么做"、"分阶段实现"时触发。
 ---
 

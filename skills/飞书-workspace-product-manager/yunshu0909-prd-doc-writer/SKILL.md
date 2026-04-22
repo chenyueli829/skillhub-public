@@ -1,5 +1,5 @@
 ---
-name: prd-doc-writer
+name: cyl-prd-doc-writer
 description: Write and iteratively refine PRD/需求文档 with a story-driven structure and strict staged confirmations (journey map alignment, per-story single-point confirmation, final generation gate). Use when the user asks to 梳理/撰写/完善 PRD、需求文档、用户故事、验收标准，并希望用 ASCII 线框图与 Mermaid（流程图/状态图/时序图）来减少歧义、共同完成文档。
 ---
 # PRD文档梳理提示词

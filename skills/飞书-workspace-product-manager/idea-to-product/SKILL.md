@@ -1,5 +1,5 @@
 ---
-name: idea-to-product
+name: cyl-idea-to-product
 description: Turn product ideas into MVPs, UX flows, Playwright checks, and explicit feedback loops. Built by ClawAether.
 metadata:
   openclaw:

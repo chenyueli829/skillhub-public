@@ -1,5 +1,5 @@
 ---
-name: req-change-workflow
+name: cyl-req-change-workflow
 description: >
   Standardize requirement/feature changes in an existing codebase (especially Chrome extensions) by turning
   "改需求/需求变更/调整交互/改功能/重构流程" into a repeatable loop: clarify acceptance criteria, confirm current
