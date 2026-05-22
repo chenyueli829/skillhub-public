@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>具身智能行业研究：AI机器人赛道深度分析</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <style>html,body{margin:0;padding:0}#root{min-height:100vh}</style>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel" data-presets="react">
+const { useState, useRef, useEffect } = React;
+const C={bg:"#faf8f5",t:"#2c2a26",l:"#6b6560",m:"#9a9590",r:"#c0392b",b:"#2980b9",g:"#27ae60",go:"#d4a853",w:"#fff",bd:"#e8e4df",dk:"#1a1814"};
+
+const B=({c,children})=>{const s={gold:[`#fef9f0`,C.go],blue:["#f0f6fe",C.b],green:["#f0fef5",C.g],red:["#fef0f0",C.r]};const[bg,br]=s[c]||s.gold;return <div style={{background:bg,borderLeft:`4px solid ${br}`,borderRadius:"0 10px 10px 0",padding:"16px 20px",margin:"18px 0",fontSize:14,lineHeight:1.7}}>{children}</div>};
+
+const N=({l,children,s})=><div style={{background:"linear-gradient(135deg,#fefbf3,#fef7e8)",border:"1px solid #f0e6cc",borderRadius:12,padding:"16px 20px",margin:"18px 0"}}><div style={{fontSize:11,letterSpacing:2,color:C.go,fontWeight:600,marginBottom:4}}>📝 {l}</div><div style={{fontSize:14,color:"#5a4e3a",fontStyle:"italic",lineHeight:1.7}}>{children}</div>{s&&<div style={{fontSize:11,color:"#a09070",marginTop:4}}>{s}</div>}</div>;
+
+const Ab=({l,children})=><div style={{background:"linear-gradient(135deg,#f0f4ff,#e8efff)",border:"1px solid #c8d6f0",borderRadius:12,padding:"16px 20px",margin:"18px 0"}}><div style={{fontSize:11,letterSpacing:2,color:C.b,fontWeight:600,marginBottom:4}}>🤖 {l}</div><div style={{fontSize:14,color:"#3a4a6a",lineHeight:1.7}}>{children}</div></div>;
+
+const Tg=({c,children})=><span style={{display:"inline-block",fontSize:11,padding:"2px 8px",borderRadius:4,fontWeight:600,background:{r:"#fde8e8",b:"#e8f0fd",g:"#e8fde8"}[c],color:{r:C.r,b:C.b,g:C.g}[c]}}>{children}</span>;
+
+const D=({i,t,children})=><div style={{background:C.w,border:`1px solid ${C.bd}`,borderRadius:10,padding:"14px 18px",margin:"12px 0"}}><div style={{fontSize:13,fontWeight:700,color:C.b,marginBottom:4}}>{i} {t}</div><div style={{fontSize:13,color:C.l,lineHeight:1.7}}>{children}</div></div>;
+
+const At=({n,d})=><div style={{display:"flex",alignItems:"center",gap:12,padding:"12px 16px",background:C.w,border:`1px solid ${C.bd}`,borderRadius:8,margin:"8px 0"}}><span style={{fontSize:20}}>📄</span><div style={{flex:1}}><div style={{fontSize:13,fontWeight:600,color:C.b}}>{n}</div><div style={{fontSize:12,color:C.m}}>{d}</div></div><div style={{fontSize:11,color:C.m,padding:"4px 10px",background:"#f0f0f0",borderRadius:4}}>附件</div></div>;
+
+const CG=({items})=><div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(200px,1fr))",gap:12,margin:"18px 0"}}>{items.map((c,i)=><div key={i} style={{background:C.w,border:`1px solid ${C.bd}`,borderLeft:c.bc?`3px solid ${c.bc}`:`1px solid ${C.bd}`,borderRadius:10,padding:16}}>{c.ic&&<div style={{fontSize:24,marginBottom:6}}>{c.ic}</div>}<div style={{fontWeight:700,fontSize:13,marginBottom:4}}>{c.t}</div><div style={{fontSize:12,color:C.l,lineHeight:1.6}}>{c.d}</div></div>)}</div>;
+
+const H2=({children,s})=><div><h2 style={{fontWeight:700,fontSize:22,marginBottom:4}}>{children}</h2>{s&&<p style={{fontSize:14,color:C.l,borderLeft:`3px solid ${C.go}`,paddingLeft:14,marginBottom:18}}>{s}</p>}</div>;
+const H3=({children})=><h3 style={{fontSize:17,fontWeight:600,margin:"24px 0 8px"}}>◆ {children}</h3>;
+const P=({children})=><p style={{fontSize:14,marginBottom:12,lineHeight:1.8}}>{children}</p>;
+
+// ===== TAB 1 =====
+const secs=[{id:"intro",l:"行业概述",ic:"🌍"},{id:"why",l:"为什么现在",ic:"🔥"},{id:"blocks",l:"卡点",ic:"🚧"},{id:"land",l:"竞品格局",ic:"🏢"},{id:"qx",l:"千寻差异化",ic:"⭐"},{id:"tech",l:"技术原理",ic:"⚙️"},{id:"fut",l:"未来展望",ic:"🚀"},{id:"jour",l:"调研过程",ic:"🎙️"},{id:"ai",l:"AI Native",ic:"🤖"}];
+
+function T1(){
+  const[a,sA]=useState("intro");const rs=useRef({});
+  const go=id=>{sA(id);rs.current[id]?.scrollIntoView({behavior:"smooth",block:"start"})};
+  useEffect(()=>{const ob=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)sA(e.target.id)})},{rootMargin:"-80px 0px -60% 0px",threshold:0.1});Object.values(rs.current).forEach(el=>{if(el)ob.observe(el)});return()=>ob.disconnect()},[]);
+  const r=id=>el=>{rs.current[id]=el};
+
+  return <div style={{display:"flex"}}>
+    <nav style={{width:160,flexShrink:0,position:"sticky",top:52,height:"calc(100vh - 52px)",overflowY:"auto",padding:"14px 6px 14px 0",borderRight:`1px solid ${C.bd}`,display:"flex",flexDirection:"column",gap:1}}>
+      {secs.map(s=><button key={s.id} onClick={()=>go(s.id)} style={{display:"flex",alignItems:"center",gap:5,padding:"6px 8px",border:"none",borderRadius:5,cursor:"pointer",background:a===s.id?"rgba(192,57,43,0.06)":"transparent",color:a===s.id?C.r:C.l,fontWeight:a===s.id?600:400,fontSize:12,textAlign:"left",fontFamily:"inherit",borderLeft:a===s.id?`3px solid ${C.r}`:"3px solid transparent"}}>{s.ic} {s.l}</button>)}
+    </nav>
+    <div style={{flex:1,padding:"20px 0 60px 24px",minWidth:0}}>
+
+      <div id="intro" ref={r("intro")} style={{marginBottom:50}}>
+        <H2 s="让AI拥有身体，能看、能想、能动手。">什么是具身智能？</H2>
+        <P>ChatGPT活在屏幕里。<strong>具身智能</strong>是给AI装上眼睛和手脚，让它走进真实世界。</P>
+        <N l="我的观察" s="— Get笔记 · 2026-03-11"><p>「越做AI越感受到软件被吞噬速度非常快。通用Agent是主流方向。真正有持久价值的方向，是让AI和物理世界连接。」</p></N>
+        <CG items={[{ic:"👀",t:"看懂世界",d:"摄像头识别碗、洗碗机、障碍物"},{ic:"🧠",t:"理解规划",d:"拆解成十几个子步骤执行"},{ic:"🤲",t:"精准操作",d:"力度恰到好处"},{ic:"🚶",t:"保持平衡",d:"端碗走路不摔倒"}]}/>
+      </div>
+
+      <div id="why" ref={r("why")} style={{marginBottom:50}}>
+        <H2 s="70年研究，最近两年三个决定性变化。">为什么现在火了？</H2>
+        <H3>大模型让机器人「真理解」</H3>
+        <N l="一线感受" s="— Get笔记 · 2026-03-12"><p>「一年前做Agent查股票要录7次才跑通；一年后完全不需要解决了。AI发展是指数级的。」</p></N>
+        <H3>Scaling Law + 学术爆发</H3>
+        <P>VLA论文从ICLR 2024的<strong>1篇</strong>爆发至ICLR 2026的<strong>164篇</strong>。关节电机成本从<strong>5-6万→5-6百</strong>，降了100倍。</P>
+        <N l="我的推演" s="— 与肖同学交流"><p>「VLA中间一层基于大语言模型，就有水涨船高的感觉。」</p></N>
+        <N l="智驾工程师验证" s="— Get笔记 · 23:45"><p>「人形机器人技术和自动驾驶属于演进关系，没有断层。类似2016-17年的自动驾驶。」</p></N>
+        <B c="gold"><strong>💰 资本+政策：</strong>2025融资570亿（+326%）。"十五五"列为六大未来产业。国务院研判2030年4000亿、2035年破万亿。</B>
+      </div>
+
+      <div id="blocks" ref={r("blocks")} style={{marginBottom:50}}>
+        <H2 s="理想美好，但离「机器人保姆」还有距离。">卡点在哪？</H2>
+        <N l="一线研究者" s="— 与肖同学"><p>「训练抓白杯，换颜色变差。换琉璃杯就做不到了。」</p></N>
+        <CG items={[{bc:C.r,t:"🔴 数据稀缺",d:"4块/条，不同本体不能迁移"},{bc:C.r,t:"🔴 泛化不足",d:"实验室95%→真实世界60%"},{bc:C.b,t:"🟡 范式未定",d:"VLA？世界模型？混合？"},{bc:C.b,t:"🟡 Demo≠部署",d:"自主30分钟 vs 工业24h×99.9%"}]}/>
+        <div style={{textAlign:"center",padding:"24px 16px",fontSize:17,fontWeight:600}}>"RobotGPT-1阶段，达GPT-3.5还需约4年。"<div style={{fontSize:12,color:C.l,marginTop:6,fontWeight:400}}>— 高阳，千寻首席科学家</div></div>
+      </div>
+
+      <div id="land" ref={r("land")} style={{marginBottom:50}}>
+        <H2 s="百亿估值不超10家，千寻最年轻。">竞品格局</H2>
+        <div style={{overflowX:"auto"}}><table style={{width:"100%",borderCollapse:"collapse",fontSize:12}}><thead><tr style={{background:C.dk,color:"#fff"}}>{["公司","路线","差异化","2025出货"].map((h,i)=><th key={i} style={{padding:"8px 10px",textAlign:"left"}}>{h}</th>)}</tr></thead><tbody>
+          {[["千寻智能",<Tg c="r">重押大脑</Tg>,"VLA端到端+全栈","~100台"],["宇树科技",<Tg c="b">硬件生态</Tg>,"低价+全栈开源","~4,200台"],["智元机器人",<Tg c="g">开源全栈</Tg>,"灵犀X1开源","~5,000台"],["银河通用",<Tg c="g">场景落地</Tg>,"零售+博世合资","数百台"],["星动纪元",<Tg c="b">模块化</Tg>,"灵巧手拆卖","订单5亿+"]].map((row,i)=><tr key={i}>{row.map((c,j)=><td key={j} style={{padding:"8px 10px",borderBottom:`1px solid ${C.bd}`,fontWeight:j===0?700:400}}>{c}</td>)}</tr>)}
+        </tbody></table></div>
+      </div>
+
+      <div id="qx" ref={r("qx")} style={{marginBottom:50}}>
+        <H2 s="「不做什么」往往比「做什么」更重要。">千寻差异化</H2>
+        <N l="我的观察"><p>「不做双足——轮式+双臂覆盖80%场景。2025年全球55款新品超80%选轮式。省下的双足BOM（占40%）全投入手和大脑。从"如何不摔倒"释放到"如何聪明干活"。」</p></N>
+        <B c="gold"><strong>🧠 大脑至上：</strong>80%资源投大脑。Spirit v1.5在RoboChallenge登顶——首个超Pi0.5的中国模型。</B>
+        <B c="green"><strong>🏭 工业验证：</strong>宁德时代PACK产线：插接99%+、近千块电池零故障、效率较人工提升3倍。</B>
+        <B c="blue"><strong>📊 数据壁垒：</strong>自研UMI数采（第5代）成本传统1/10，可用性30%→95%。目标100万小时。</B>
+      </div>
+
+      <div id="tech" ref={r("tech")} style={{marginBottom:50}}>
+        <H2 s="大脑决定「做什么」，小脑负责「怎么动」。">技术原理</H2>
+        <div style={{background:C.dk,color:"#ddd",borderRadius:12,padding:20,margin:"18px 0",fontSize:12}}>
+          <div style={{color:C.go,fontWeight:700,marginBottom:10}}>🤖 Moz1数据流</div>
+          {["感知层 | 3路相机RGB@30Hz + 37维状态 + 语言指令","▼ 3图+1话+37维 → VLA模型","大脑VLA | Transformer → 50帧@30Hz 每帧23维","▼ 插值50→200帧 | 30→120Hz","小脑运控 | IK→平滑→动力学→PD控制 → 26路@120Hz","▼ CAN总线","执行层 | 26自由度 · 力控0.01N · 负载比1:1"].map((s,i)=>s.startsWith("▼")?<div key={i} style={{textAlign:"center",color:"#666",margin:"2px 0",fontSize:11}}>{s}</div>:<div key={i} style={{background:"rgba(255,255,255,0.05)",padding:"6px 10px",borderRadius:6,marginBottom:4}}>{s}</div>)}
+        </div>
+        <B c="gold"><strong>💡 一句话：</strong>大脑每秒想30次「手往哪」→ 小脑每秒算120次「关节怎么转」→ 电机驱动物理世界。</B>
+      </div>
+
+      <div id="fut" ref={r("fut")} style={{marginBottom:50}}>
+        <H2 s="RobotGPT L0-L5分级。">未来展望</H2>
+        {[{l:"L0",n:"固定",bg:"#95a5a6",t:"传统工业机器人"},{l:"L1",n:"单任务",bg:"#e67e22",t:"学会一个动作"},{l:"L2",n:"多任务",bg:C.b,t:"⭐ 连续多任务",hl:true},{l:"L3",n:"零样本",bg:"#8e44ad",t:"看一遍就会 · 2-3年"},{l:"L4-5",n:"通用",bg:C.r,t:"机器人保姆 · 5-10年"}].map((s,i)=><div key={i} style={{display:"flex",borderRadius:8,overflow:"hidden",marginBottom:2}}><div style={{minWidth:70,padding:10,background:s.bg,color:"#fff",fontWeight:700,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}><div style={{fontSize:15}}>{s.l}</div><div style={{fontSize:9}}>{s.n}</div></div><div style={{flex:1,padding:"10px 14px",background:C.w,border:s.hl?`2px solid ${C.b}`:"none"}}><div style={{fontSize:13,fontWeight:700}}>{s.t} {s.hl&&<Tg c="r">千寻当前</Tg>}</div></div></div>)}
+        <B c="gold"><strong>📊</strong> 高盛2035年380亿美元（6倍上调）。摩根士丹利2050年5万亿美元。</B>
+      </div>
+
+      <div id="jour" ref={r("jour")} style={{marginBottom:50}}>
+        <H2 s="20条录音 · 33小时 · ~20人 · 8天">调研过程</H2>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:8,margin:"16px 0"}}>
+          {[{n:"20",l:"条录音",c:C.r},{n:"33h",l:"时长",c:C.b},{n:"~20",l:"人数",c:C.g},{n:"8",l:"天",c:"#9b59b6"}].map((s,i)=><div key={i} style={{textAlign:"center",padding:12,background:`${s.c}08`,borderRadius:8}}><div style={{fontSize:22,fontWeight:900,color:s.c}}>{s.n}</div><div style={{fontSize:11,color:C.l}}>{s.l}</div></div>)}
+        </div>
+        <P>🏢字节同事 · 🎓清华博士 · 🤖智驾工程师 · 💼HR · 🚀创业者 · 💰投资人 · 👨‍👩‍👧家人</P>
+        <div style={{background:C.w,border:`1px solid ${C.bd}`,borderRadius:10,padding:16,fontSize:12}}>
+          {[{t:"3.11",n:"HR电话12min + AI硬件讨论88min"},{t:"3.12上午",n:"升级Claude Max，行业扫描（8%周额度）"},{t:"3.12中午",n:"清华博士交流85min"},{t:"3.12下午",n:"同事深度调研180min"},{t:"3.12深夜",n:"智驾工程师验证32min"},{t:"3.13",n:"SDK精读+输出成果"}].map((r,i)=><div key={i} style={{padding:"6px 0",borderBottom:i<5?`1px solid ${C.bd}`:"none",display:"flex",gap:8}}><span style={{fontFamily:"'JetBrains Mono'",color:C.r,fontWeight:600,minWidth:70,fontSize:11}}>{r.t}</span><span style={{color:C.l}}>{r.n}</span></div>)}
+        </div>
+      </div>
+
+      <div id="ai" ref={r("ai")} style={{marginBottom:30}}>
+        <H2 s="这份调研本身就是我的第一份作品。">AI Native 是可迁移的超能力</H2>
+        <Ab l="AI Native PM的工作方式">
+          <p>📌 <strong>信息搜集</strong>：Claude扫描十几篇报道交叉比对 · 📌 <strong>技术理解</strong>：不写代码也能画参数架构图 · 📌 <strong>结构化输出</strong>：这个页面由Claude辅助生成 · 📌 <strong>知识沉淀</strong>：录音卡让每场对话成为可检索外脑</p>
+          <p style={{marginTop:6}}>AI做80%体力活，人做20%方向判断。<strong>一个AI Native PM进入新领域的速度快一个数量级。</strong></p>
+        </Ab>
+        <B c="green"><strong>🌟</strong> 十年后10%的人拥有机器人时——<strong>「这个行业起步的时候，我在场。」</strong></B>
+      </div>
+    </div>
+  </div>;
+}
+
+// ===== TAB 2: RED-BLUE =====
+function T2(){return <div style={{maxWidth:740,margin:"0 auto",padding:"20px 0 60px"}}>
+  <H2 s="不是盲目看多，而是做完风险评估后的清醒选择。">红蓝军对抗</H2>
+  <At n="完整红蓝军分析（2万字）" d="赛道+千寻看多/看空 + 职业决策" />
+  <H3>赛道看多</H3>
+  <CG items={[{bc:C.g,t:"资本政策共振",d:"2025融资570亿+326%。'十五五'六大未来产业"},{bc:C.g,t:"技术加速",d:"VLA论文1→164篇。Scaling Law验证"},{bc:C.g,t:"量产元年",d:"智元5000台。2026全球预测5万台（7倍）"},{bc:C.g,t:"成本断崖",d:"关节电机5万→500。R1售价2.99万"}]}/>
+  <H3>赛道看空——没有回避的风险</H3>
+  <CG items={[{bc:C.r,t:"泡沫前鉴",d:"AI四小龙500亿融资→商汤亏损545亿"},{bc:C.r,t:"路线未定",d:"宇树创始人公开质疑VLA"},{bc:C.r,t:"卖越多亏越惨",d:"优必选14亿订单仍亏4.4亿"},{bc:C.r,t:"大厂降维",d:"字节GR-3 + Google Gemini Robotics"}]}/>
+  <H3>千寻看多</H3>
+  <B c="green"><strong>🔬 铁三角最稀缺：</strong>韩峰涛2万台量产（唯一有此记录的百亿CEO）+ 高阳ViLa被Figure采用 + 郑灵茵珞石海外盈利。竞对无完美对标。</B>
+  <B c="blue"><strong>📊 全栈闭环飞轮：</strong>自研硬件→独有数据→更强模型→更精确控制。Moz1力控关节超Optimus 15%，不是炫技，是获取高质量数据的手段。</B>
+  <H3>千寻看空——清楚的挑战</H3>
+  <B c="red"><strong>⚠️ 130人全栈：</strong>同时做VLA+本体+数采+落地。对比智元1000+人。100万小时目标比当前翻5倍。</B>
+  <B c="red"><strong>⚠️ 100台→10万台：</strong>vs智元5000台。单一客户单一场景风险。50-60万客单价在低利润率制造业说服CFO仍是挑战。</B>
+  <N l="我的综合判断"><p>「赛道确定性高但短期泡沫真实。200+家中预计10-20家能活到规模化。千寻在铁三角、VLA和工业验证上有独特优势，但后发和资源瓶颈真实存在。我的选择是做完风险评估后的判断：赛道值得赌，千寻是值得赌的标的之一。」</p></N>
+</div>}
+
+// ===== TAB 3: TECH =====
+function T3(){return <div style={{maxWidth:740,margin:"0 auto",padding:"20px 0 60px"}}>
+  <H2 s="SDK参数级理解。">技术深潜</H2>
+  <H3>大脑入参（37维+3图+1话）</H3>
+  <div style={{background:C.w,border:`1px solid ${C.bd}`,borderRadius:10,padding:16,fontSize:12}}>
+    {[["cam_high/left/right_wrist","[H,W,3]×3 @30Hz"],["prompt","str 自然语言"],["*arm_state_joint_pos","[7]×2 关节角度"],["*arm_state_cart_pos","[6]×2 末端位姿"],["torso_state_joint_pos","[6]"],["*gripper_state_pos","[1]×2"],["base_state_speed","[3] vx,vy,wz"]].map((r,i)=><div key={i} style={{padding:"4px 0",borderBottom:`1px solid ${C.bd}`,color:C.l}}><code style={{color:C.r,background:"#f5f5f5",padding:"1px 4px",borderRadius:3,fontSize:11}}>{r[0]}</code> <span style={{color:C.go}}>{r[1]}</span></div>)}
+  </div>
+  <D i="🔗" t="衔接机制">50帧@30Hz → 插值 → ~200帧@120Hz → 逐帧send_action()。action_horizon=100-200。</D>
+  <D i="⚠️" t="硬约束">频率稳定120Hz · 加速度连续 · 笛卡尔/关节不混用 · 先enable_external_following_mode()</D>
+  <H3>千寻 vs 宇树</H3>
+  <div style={{overflowX:"auto"}}><table style={{width:"100%",borderCollapse:"collapse",fontSize:12}}><thead><tr style={{background:C.dk,color:"#fff"}}>{["维度","千寻","宇树"].map((h,i)=><th key={i} style={{padding:"7px 10px",textAlign:"left"}}>{h}</th>)}</tr></thead><tbody>
+    {[["小脑","封闭","开源RL"],["大脑","Spirit v1.5开源","UnifoLM开源"],["遥操","Quest VR","Vision Pro"],["数据","联系售后","HuggingFace"],["价格","~50万","~9.9万"],["策略","iPhone","安卓"]].map((r,i)=><tr key={i}>{r.map((c,j)=><td key={j} style={{padding:"7px 10px",borderBottom:`1px solid ${C.bd}`,fontWeight:j===0?600:400,color:j===0?C.t:C.l}}>{c}</td>)}</tr>)}
+  </tbody></table></div>
+  <H3>轮式 vs 双足</H3>
+  <CG items={[{t:"省40%成本",d:"双足BOM占近40%"},{t:"能效高10-100倍",d:"续航更长"},{t:"不会摔",d:"天然静态稳定"},{t:"覆盖80%+场景",d:"工厂/办公/商场都是平地"}]}/>
+  <At n="轮式机器人形态分析（1.2万字）" d="Moz1设计哲学 · 全球趋势 · 参数对比表" />
+</div>}
+
+// ===== TAB 4: PROFILE =====
+function T4(){return <div style={{maxWidth:740,margin:"0 auto",padding:"20px 0 60px"}}>
+  <H2 s="26个月 · 6轮 · 估值破百亿">千寻画像</H2>
+  <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:10,margin:"16px 0"}}>
+    {[{n:"韩峰涛",r:"CEO",bg:C.r,d:"前珞石CTO\n2万台交付\n华科博士"},{n:"高阳",r:"科学家",bg:C.b,d:"清华叉院教授\nBerkeley博士\nViLa被Figure采用"},{n:"郑灵茵",r:"COO",bg:C.g,d:"非研发全板块\n珞石海外盈利\n千寻命名者"}].map((p,i)=><div key={i} style={{background:C.w,border:`1px solid ${C.bd}`,borderRadius:10,overflow:"hidden"}}><div style={{background:p.bg,color:"#fff",padding:"10px 14px",fontWeight:700,fontSize:13}}>{p.n} <span style={{fontSize:11,opacity:.7}}>{p.r}</span></div><div style={{padding:"10px 14px",fontSize:11,color:C.l,whiteSpace:"pre-line",lineHeight:1.7}}>{p.d}</div></div>)}
+  </div>
+  <H3>核心信仰</H3>
+  {["🧠 大脑至上 — 80%资源投模型，硬件可标准化","🎯 端到端是终局 — VLA是未来，分层只是妥协","📈 Scaling Law — 数据10倍→精度一个量级","🚫 不做双足 — 轮式覆盖80%，先解决主要矛盾","📊 数据金字塔 — 100亿视频→仿真→1亿遥操"].map((b,i)=><div key={i} style={{padding:"8px 0",borderBottom:`1px solid ${C.bd}`,fontSize:13,color:C.l}}>▸ {b}</div>)}
+  <H3>融资（6轮 · ~33亿）</H3>
+  <div style={{paddingLeft:20,position:"relative"}}>
+    <div style={{position:"absolute",left:4,top:0,bottom:0,width:2,background:`linear-gradient(${C.r},${C.b},${C.g})`}}/>
+    {[{t:"2024H1",n:"种子轮"},{t:"2024.08",n:"天使 近2亿"},{t:"2024底",n:"天使+（宁德系）"},{t:"2025.03",n:"Pre-A 5.28亿"},{t:"2025.07",n:"PreA+ 近6亿（京东）"},{t:"2026.02",n:"新两轮 近20亿 🔥"}].map((r,i)=><div key={i} style={{position:"relative",marginBottom:12}}><div style={{position:"absolute",left:-20,top:3,width:8,height:8,borderRadius:"50%",background:i<2?C.r:i<4?C.b:C.g,border:`2px solid ${C.bg}`}}/><div style={{fontSize:11,fontFamily:"'JetBrains Mono'",color:C.r,fontWeight:600}}>{r.t}</div><div style={{fontSize:13,fontWeight:700}}>{r.n}</div></div>)}
+  </div>
+  <At n="千寻深度认知画像" d="概况·团队·信仰·融资·里程碑" />
+</div>}
+
+// ===== TAB 5: PM =====
+function T5(){return <div style={{maxWidth:740,margin:"0 auto",padding:"20px 0 60px"}}>
+  <H2 s="当产品本身是AI模型时，PM的核心交付物从PRD变成评测体系和数据闭环。">AI PM 方法论</H2>
+  <At n="完整方法论（2.4万字）" d="评测体系·算法协作·决策框架·自动驾驶教训" />
+  <H3>核心转变</H3>
+  <CG items={[{bc:C.b,t:"评测体系(Evals)",d:"Golden Sets+对抗性测试+线上采样。从'功能实现'变为'概率达标'"},{bc:C.b,t:"数据-模型-场景三角",d:"三者任何变化都牵动另外两个"},{bc:C.b,t:"概率化设计",d:"85%→95%不是调参，可能要重新设计交互"}]}/>
+  <H3>算法与商业之间的桥</H3>
+  <D i="🔗" t="三层级交互">白话需求 → 带理由的技术建议 → 引用方案和论文。核心：产品往技术多走几步，算法往业务多走几步。</D>
+  <D i="💡" t="技术封装为商业方案">不把Flash Attention直接暴露给用户，而是打包成解决方案让用户按需选择。</D>
+  <H3>深科技PM的定位</H3>
+  <B c="blue"><strong>🧭 核心任务：</strong>不是功能设计，而是回答「我们靠什么赢」——将技术能力映射为竞争优势。在市场未成熟时创造过渡价值。</B>
+  <B c="gold"><strong>📐 创新阶段：</strong>科学创新→产品创新→流程创新→商业创新。具身智能正进入产品创新临界点——PM开始成为关键差异化因素。</B>
+  <B c="red"><strong>⚠️ Cruise教训：</strong>安全文化缺失导致关停。数据闭环策略是AI PM最重要的长期交付物。</B>
+  <N l="我的思考"><p>「具身智能公司的PM，本质上是在技术不确定性中定义"什么算好"的关键决策者。不是需求翻译器，而是价值发现引擎。」</p></N>
+</div>}
+
+// ===== MAIN =====
+const tabs=[{id:"r",l:"📖 行业研究",c:T1},{id:"rb",l:"🔴🔵 红蓝军",c:T2},{id:"t",l:"⚙️ 技术深潜",c:T3},{id:"p",l:"🏢 千寻画像",c:T4},{id:"pm",l:"🧭 PM方法论",c:T5}];
+
+function App(){
+  const[tab,sT]=useState("r");
+  const AC=tabs.find(t=>t.id===tab).c;
+  return <div style={{background:C.bg,minHeight:"100vh",fontFamily:"'Noto Sans SC',sans-serif",color:C.t}}>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+    <div style={{background:`linear-gradient(160deg,${C.dk},#2c1810 40%,#1a2030)`,color:"#fff",padding:"32px 20px 14px",textAlign:"center"}}>
+      <div style={{fontSize:11,letterSpacing:5,color:C.go,marginBottom:8}}>AI NATIVE PM · 行业研究 · 2026.03</div>
+      <h1 style={{fontSize:"clamp(18px,4vw,30px)",fontWeight:900,fontFamily:"'Noto Serif SC',serif"}}>具身智能<span style={{color:C.go}}>行业研究</span></h1>
+      <p style={{fontSize:12,color:"rgba(255,255,255,0.4)",marginTop:6}}>两天 · AI+录音卡+近20人交叉验证</p>
+    </div>
+    <div style={{position:"sticky",top:0,zIndex:100,background:C.bg,borderBottom:`1px solid ${C.bd}`}}>
+      <div style={{maxWidth:920,margin:"0 auto",display:"flex",padding:"0 10px",overflowX:"auto"}}>
+        {tabs.map(t=><button key={t.id} onClick={()=>sT(t.id)} style={{padding:"9px 14px",border:"none",cursor:"pointer",borderBottom:tab===t.id?`3px solid ${C.r}`:"3px solid transparent",background:"transparent",fontSize:12,fontWeight:tab===t.id?700:400,color:tab===t.id?C.r:C.l,fontFamily:"inherit",whiteSpace:"nowrap"}}>{t.l}</button>)}
+      </div>
+    </div>
+    <div style={{maxWidth:920,margin:"0 auto",padding:"0 14px"}}><AC/></div>
+    <div style={{background:C.dk,color:"rgba(255,255,255,0.35)",textAlign:"center",padding:"24px 16px",fontSize:11}}>
+      <strong style={{color:C.go}}>AI Native PM</strong> · 字节跳动 · 2026年3月
+      <div style={{marginTop:4}}>Claude Max · Get笔记 · 20条/33h · ~20人验证</div>
+      <div style={{marginTop:4,color:"rgba(255,255,255,0.18)"}}>「旧世界的地图找不到新大陆。」</div>
+    </div>
+  </div>;
+}
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+  </script>
+</body>
+</html>
