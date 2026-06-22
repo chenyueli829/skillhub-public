@@ -1,0 +1,72 @@
+{
+  "template_type": "architecture",
+  "style": 1,
+  "width": 1120,
+  "height": 820,
+  "style_overrides": {
+    "title_align": "center"
+  },
+  "title": "Cursor 核心产品功能架构",
+  "subtitle": "基于官方文档与多源调研 | 2026-06-17",
+  "containers": [
+    { "x": 40, "y": 108, "width": 1040, "height": 118, "label": "", "side_label": "用户交互层", "side_label_x": 24, "side_label_anchor": "start", "subtitle": "", "stroke": "#dbe5f1", "fill": "none" },
+    { "x": 40, "y": 252, "width": 1040, "height": 148, "label": "", "side_label": "Agent 核心", "side_label_x": 24, "side_label_anchor": "start", "subtitle": "", "stroke": "#dbe5f1", "fill": "none" },
+    { "x": 40, "y": 426, "width": 1040, "height": 148, "label": "", "side_label": "工具层", "side_label_x": 24, "side_label_anchor": "start", "subtitle": "", "stroke": "#dbe5f1", "fill": "none" },
+    { "x": 40, "y": 600, "width": 1040, "height": 118, "label": "", "side_label": "上下文与扩展", "side_label_x": 24, "side_label_anchor": "start", "subtitle": "", "stroke": "#dbe5f1", "fill": "none" }
+  ],
+  "nodes": [
+    { "id": "tab", "kind": "rect", "x": 72, "y": 136, "width": 148, "height": 52, "label": "Tab 补全", "type_label": "AUTOCOMPLETE", "fill": "#eff6ff", "stroke": "#bfdbfe", "flat": true },
+    { "id": "inline", "kind": "rect", "x": 248, "y": 136, "width": 148, "height": 52, "label": "Inline Edit", "type_label": "CMD+K", "fill": "#eff6ff", "stroke": "#bfdbfe", "flat": true },
+    { "id": "agent", "kind": "double_rect", "x": 424, "y": 128, "width": 196, "height": 68, "label": "Agent 面板", "type_label": "CMD+I", "fill": "#faf5ff", "stroke": "#7c3aed" },
+    { "id": "modes", "kind": "rect", "x": 648, "y": 136, "width": 200, "height": 52, "label": "Ask / Plan / Debug", "type_label": "MODES", "fill": "#faf5ff", "stroke": "#c4b5fd", "flat": true },
+    { "id": "composer", "kind": "rect", "x": 872, "y": 136, "width": 168, "height": 52, "label": "Composer", "type_label": "MULTI-FILE", "fill": "#eff6ff", "stroke": "#bfdbfe", "flat": true },
+    { "id": "model", "kind": "double_rect", "x": 120, "y": 286, "width": 200, "height": 68, "label": "多模型运行时", "type_label": "LLM", "fill": "#faf5ff", "stroke": "#7c3aed" },
+    { "id": "instructions", "kind": "rect", "x": 380, "y": 294, "width": 188, "height": 52, "label": "Instructions", "type_label": "RULES+SKILLS", "fill": "#fff7ed", "stroke": "#fed7aa", "flat": true },
+    { "id": "orchestrator", "kind": "rect", "x": 620, "y": 286, "width": 200, "height": 68, "label": "工具编排引擎", "type_label": "ORCHESTRATION", "fill": "#f0fdf4", "stroke": "#86efac", "flat": true },
+    { "id": "subagents", "kind": "rect", "x": 872, "y": 294, "width": 168, "height": 52, "label": "Subagents", "type_label": "PARALLEL", "fill": "#f0fdf4", "stroke": "#86efac", "flat": true },
+    { "id": "search", "kind": "rect", "x": 72, "y": 468, "width": 148, "height": 52, "label": "代码库搜索", "type_label": "SEMANTIC", "fill": "#eff6ff", "stroke": "#bfdbfe", "flat": true },
+    { "id": "edit", "kind": "rect", "x": 248, "y": 468, "width": 148, "height": 52, "label": "文件编辑", "type_label": "DIFF", "fill": "#eff6ff", "stroke": "#bfdbfe", "flat": true },
+    { "id": "terminal", "kind": "rect", "x": 424, "y": 468, "width": 148, "height": 52, "label": "终端执行", "type_label": "SHELL", "fill": "#fef2f2", "stroke": "#fecaca", "flat": true },
+    { "id": "browser", "kind": "rect", "x": 600, "y": 468, "width": 148, "height": 52, "label": "Browser", "type_label": "TEST", "fill": "#fef2f2", "stroke": "#fecaca", "flat": true },
+    { "id": "mcp", "kind": "hexagon", "x": 776, "y": 458, "width": 168, "height": 72, "label": "MCP 工具", "type_label": "EXTERNAL", "fill": "#f0fdfa", "stroke": "#5eead4" },
+    { "id": "rules", "kind": "rect", "x": 72, "y": 642, "width": 148, "height": 52, "label": "Rules", "type_label": "PERSISTENT", "fill": "#fff7ed", "stroke": "#fed7aa", "flat": true },
+    { "id": "skills", "kind": "rect", "x": 248, "y": 642, "width": 148, "height": 52, "label": "Skills", "type_label": "WORKFLOWS", "fill": "#fff7ed", "stroke": "#fed7aa", "flat": true },
+    { "id": "index", "kind": "cylinder", "x": 424, "y": 628, "width": 148, "height": 72, "label": "代码索引", "sublabel": "semantic index", "fill": "#e5e8df", "stroke": "#7b8b5c" },
+    { "id": "cloud", "kind": "double_rect", "x": 620, "y": 634, "width": 168, "height": 68, "label": "Cloud Agents", "type_label": "CLOUD", "fill": "#faf5ff", "stroke": "#7c3aed" },
+    { "id": "bugbot", "kind": "rect", "x": 820, "y": 642, "width": 148, "height": 52, "label": "Bugbot", "type_label": "PR REVIEW", "fill": "#fef2f2", "stroke": "#fecaca", "flat": true },
+    { "id": "integrations", "kind": "rect", "x": 996, "y": 642, "width": 44, "height": 52, "label": "GitHub", "type_label": "", "fill": "#f9fafb", "stroke": "#d1d5db", "flat": true }
+  ],
+  "arrows": [
+    { "source": "tab", "target": "model", "source_port": "bottom", "target_port": "top", "flow": "read", "label": "predict" },
+    { "source": "inline", "target": "model", "source_port": "bottom", "target_port": "top", "flow": "read" },
+    { "source": "agent", "target": "orchestrator", "source_port": "bottom", "target_port": "top", "flow": "control", "label": "task" },
+    { "source": "modes", "target": "orchestrator", "source_port": "bottom", "target_port": "top", "flow": "control" },
+    { "source": "composer", "target": "orchestrator", "source_port": "bottom", "target_port": "top", "flow": "control" },
+    { "source": "instructions", "target": "model", "source_port": "left", "target_port": "right", "flow": "data", "label": "context" },
+    { "source": "orchestrator", "target": "model", "source_port": "left", "target_port": "right", "flow": "feedback" },
+    { "source": "orchestrator", "target": "subagents", "source_port": "right", "target_port": "left", "flow": "async", "label": "delegate" },
+    { "source": "orchestrator", "target": "search", "source_port": "bottom", "target_port": "top", "flow": "read" },
+    { "source": "orchestrator", "target": "edit", "source_port": "bottom", "target_port": "top", "flow": "write" },
+    { "source": "orchestrator", "target": "terminal", "source_port": "bottom", "target_port": "top", "flow": "control" },
+    { "source": "orchestrator", "target": "browser", "source_port": "bottom", "target_port": "top", "flow": "control" },
+    { "source": "orchestrator", "target": "mcp", "source_port": "bottom", "target_port": "top", "flow": "data" },
+    { "source": "rules", "target": "instructions", "source_port": "top", "target_port": "bottom", "flow": "data", "route_points": [[146,600], [146,380], [474,380]] },
+    { "source": "skills", "target": "instructions", "source_port": "top", "target_port": "bottom", "flow": "data", "route_points": [[322,600], [322,380], [474,380]] },
+    { "source": "search", "target": "index", "source_port": "bottom", "target_port": "top", "flow": "read" },
+    { "source": "cloud", "target": "orchestrator", "source_port": "top", "target_port": "bottom", "flow": "async", "label": "remote", "route_points": [[704,628], [704,410], [720,410]] },
+    { "source": "bugbot", "target": "cloud", "source_port": "left", "target_port": "right", "flow": "control", "label": "autofix" },
+    { "source": "mcp", "target": "integrations", "source_port": "bottom", "target_port": "top", "flow": "data", "route_points": [[860,530], [1018,530], [1018,642]] }
+  ],
+  "legend": [
+    { "flow": "read", "label": "查询 / 补全" },
+    { "flow": "control", "label": "任务调度" },
+    { "flow": "write", "label": "代码变更" },
+    { "flow": "data", "label": "上下文 / 外部数据" },
+    { "flow": "async", "label": "云端 / 并行" },
+    { "flow": "feedback", "label": "推理反馈" }
+  ],
+  "legend_position": "bottom-left",
+  "legend_box": true,
+  "legend_y": 748,
+  "footer": "Sources: cursor.com/docs | Agent, Tab, Rules, Skills, MCP, Cloud Agents, Bugbot"
+}

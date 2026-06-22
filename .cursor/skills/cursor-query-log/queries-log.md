@@ -4,6 +4,20 @@
 
 ---
 
+### 2026-06-02 15:40:27
+
+**问：**
+翻译一下System Prompt
+
+---
+
+### 2026-06-02 15:39:49
+
+**问：**
+ "role": "system",这个是系统提示词么
+
+---
+
 ### 2026-03-27 17:20:25
 
 **问：**
@@ -421,5 +435,358 @@ skill的描述是否可以简化一下
 
 **问：**
 全部推送到git
+
+---
+
+### 2026-05-25 17:48:03
+
+**问：**
+帮我新建一个我自己的、展示 AI 生成的 HTML 项目的文档，然后帮我部署到 fat 平台上。
+
+---
+
+### 2026-05-25 17:58:49
+
+**问：**
+https://lylianchen-ai-html-gallery.app.fat.woa.com/projects/lylianchen-portfolio.html 只保留这个，其他都取消
+
+---
+
+### 2026-05-25 18:01:32
+
+**问：**
+重新部署
+
+---
+
+### 2026-05-25 18:02:53
+
+**问：**
+请你把页面改成一个 Hello World，然后重新部署
+
+---
+
+### 2026-06-02 11:43:08
+
+**问：**
+@prompts/format.1780371243836.json 请问这是几轮对话
+
+---
+
+### 2026-06-02 11:45:27
+
+**问：**
+龙虎榜/大宗交易/融资融券：仅支持沪深（sh/sz）\n- 筹码成本：仅支持沪深京A股（sh/sz/bj）\n- 股东结构：仅支持A股和港股\n- 港股/美股货币单位：展示时必须标注正确货币单位，禁止使用人民币符号\n- `search`/`minute`：不支持批量查
+
+这些事啥玩意？
+
+---
+
+### 2026-06-02 14:34:58
+
+**问：**
+为什么会有这么长的介绍
+
+---
+
+### 2026-06-02 14:35:31
+
+**问：**
+这是description么
+
+---
+
+### 2026-06-02 16:27:00
+
+**问：**
+@prompts/Workbuddy对话记录.json 请你根据这份对话，帮我整理下我输入一句话，workbuddy都经过了什么处理，然后发给LLM的请求都包含哪些？
+
+---
+
+### 2026-06-02 16:32:00
+
+**问：**
+这里的请求和回复，最耗token的是什么？是tools么
+
+---
+
+### 2026-06-02 16:36:00
+
+**问：**
+tools中都包含了哪些？多少个，分别是什么
+
+---
+
+### 2026-06-02 16:39:00
+
+**问：**
+这里的tools和skill的区别在哪里？skill
+
+---
+
+### 2026-06-02 16:41:00
+
+**问：**
+技能的声明在哪里
+
+---
+
+### 2026-06-02 15:42:18
+
+**问：**
+翻译成中文，这里讲了什么@prompts/Workbuddy对话记录.json:6-7
+
+---
+
+### 2026-06-15 12:00:00
+
+**问：**
+帮我新建skill.用于Skill评测。流程如下：
+1. 翻译。阅读skill.md，如是英文，则新建一个md文件，并翻译成中文。名称为skill-zh.md
+2. 新增 Eval-技能名称-年月日.md:
+包含：1. 介绍 2. 触发条件 3. 外部依赖（API、服务、不在skill项目文件夹下的路径文件等）
+
+---
+
+### 2026-06-15 12:10:00
+
+**问：**
+更新流程，eval输出文档中， 在 ## ## 2. 触发条件后，3. 新增提问示例，用户可以复制后进行提问的方式。必须要包含3个以上。
+
+---
+
+### 2026-06-15 14:30:00
+
+**问：**
+@brainstorming 帮我评测一下这个skill
+
+---
+
+### 2026-06-15 15:00:00
+
+**问：**
+@brainstorming 我想做一个「专家.skill」的功能，先别写代码，帮我把需求和设计方案对齐清楚。
+
+---
+
+### 2026-06-15 15:10:00
+
+**问：**
+C
+
+---
+
+### 2026-06-15 15:18:00
+
+**问：**
+B
+
+---
+
+### 2026-06-15 15:25:00
+
+**问：**
+B
+
+---
+
+### 2026-06-15 15:32:00
+
+**问：**
+A
+
+---
+
+### 2026-06-15 15:40:00
+
+**问：**
+C
+
+---
+
+### 2026-06-15 16:00:00
+
+**问：**
+好，先跑一下看看。我现在想输入AI+企业办公协同领域。例如Workbuddy。
+
+---
+
+### 2026-06-16 10:00:00
+
+**问：**
+@skills/fintech-workspace-product-manager-0909/fintech-thinking-partner/SKILL.md 帮我评测这个skill
+
+---
+
+### 2026-06-16 14:30:00
+
+**问：**
+@skills/fintech-workspace-product-manager-0909/fintech-thought-mining/SKILL.md 帮我评测这个skill
+
+---
+
+### 2026-06-17 10:54:06
+
+**问：**
+@skills/精选10个Skill/fireworks-tech-graph-main/SKILL.md 帮我评测一下这个skill
+
+---
+
+### 2026-06-17 11:12:16
+
+**问：**
+使用 @skills/精选10个Skill/ecc-deep-research/ 研究下Workbuddy的产品功能，并用 @skills/创作类/画图类/fireworks-tech-graph-main/SKILL.md 可视化绘制
+
+---
+
+### 2026-06-17 11:35:13
+
+**问：**
+为什么图片的中文有乱码
+
+---
+
+### 2026-06-17 11:45:48
+
+**问：**
+为什么感觉样式怪怪的
+
+---
+
+### 2026-06-17 12:00:00
+
+**问：**
+ 帮我用 @skills/精选10个Skill/ecc-deep-research/SKILL.md 研究一下Curor的核心产品功能，并用 @skills/精选10个Skill/fireworks-tech-graph-main/ 绘制成图
+
+---
+
+### 2026-06-17 12:15:00
+
+**问：**
+你还有哪些风格可以选择？
+
+---
+
+### 2026-06-17 14:30:00
+
+**问：**
+@plugins/meituan-living-assistant/ 我想买呗咖啡、深圳前海湾地铁站附近
+
+---
+
+### 2026-06-17 14:35:00
+
+**问：**
+1. 🏪 门店：BeanStar比星咖啡（深圳前海梦工场北区店）
+🍽️ 套餐：BeanStar比星咖啡|【不喝咖啡】比星清爽果茶（2选1）|320店通用
+
+
+这个
+
+---
+
+### 2026-06-17 14:40:00
+
+**问：**
+确认下单
+
+---
+
+### 2026-06-22 15:46:31
+
+**问：**
+@skills/精选10个Skill/taste-skill-main/ 帮我评测这个skill
+
+---
+
+### 2026-06-22 17:20:15
+
+**问：**
+我觉得你评测的skill生成的报告太过于复杂，请你再简化下。先总结，类似readme，内容包含的不变
+
+---
+
+### 2026-06-22 18:24:27
+
+**问：**
+请你把命名规则变成 技能名称-评测-日期.md
+
+---
+
+### 2026-06-22 18:26:11
+
+**问：**
+更新名称为 技能评测-技能名称-日期
+
+---
+
+### 2026-06-22 10:00:00
+
+**问：**
+@skills/精选10个Skill/writing-plans/SKILL.md 帮我评测这个skill
+
+---
+
+### 2026-06-22 10:15:00
+
+**问：**
+Translate the English SKILL.md at `/Users/chenyueli/obsidian-lylian/workspace-lylian/06-技能/05-skillhub-public/skills/精选10个Skill/taste-skill-main/skills/taste-skill/SKILL.md` into Chinese.
+
+Write the output to `/Users/chenyueli/obsidian-lylian/workspace-lylian/06-技能/05-skillhub-public/skills/精选10个Skill/taste-skill-main/skills/taste-skill/SKILL-zh.md`
+
+Requirements from skill-evaluator:
+- Keep frontmatter structure; translate description to Chinese; name can stay `design-taste-frontend`
+- Preserve ALL Markdown structure, tables, code blocks, links, variable names (DESIGN_VARIANCE etc.)
+- Translate all instructional prose to Chinese
+- Technical terms may keep English with Chinese in parentheses
+- Do NOT delete or change execution logic/constraints
+- Code blocks stay as-is (English code)
+- Complete translation of all sections 0-14 and appendices
+
+Read the full source file first, then write SKILL-zh.md.
+
+Return: confirmation file was written and line count.
+
+---
+
+### 2026-06-22 18:05:00
+
+**问：**
+@大厂设计参考 https://github.com/VoltAgent/awesome-design-md 帮我安装这个技能
+
+---
+
+### 2026-06-22 18:30:00
+
+**问：**
+@张咋啦-漂亮的html模板 帮我总结下这个项目是干嘛的
+
+---
+
+### 2026-06-22 18:35:00
+
+**问：**
+保存这个总结
+
+---
+
+### 2026-06-22 19:00:00
+
+**问：**
+@baoyu-comic 帮我评测下这个skill
+
+---
+
+### 2026-06-22 19:15:00
+
+**问：**
+@algorithmic-art 帮我评测这个skill
+
+---
+
+### 2026-06-22 20:10:00
+
+**问：**
+@浏览器操作 请你横向对比下这三款开源工具，哪个场景用哪个
 
 ---
