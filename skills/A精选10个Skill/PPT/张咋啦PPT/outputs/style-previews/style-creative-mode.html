@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkillHub Public — Creative Mode</title>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=JetBrains+Mono:wght@400&family=Space+Grotesk:wght@400;500&family=Noto+Sans+SC:wght@500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #EFE9D9;
+      --cream-2: #E4DCC4;
+      --ink: #0F0F0F;
+      --green: #1F8A4C;
+      --pink: #F06CA8;
+      --orange: #E85A1F;
+      --yellow: #F5C518;
+      --stage-bg: #0a0a0a;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: var(--stage-bg); }
+    .deck-viewport { position: fixed; inset: 0; overflow: hidden; }
+    .deck-stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; background: var(--cream); }
+    .slide { position: absolute; inset: 0; width: 1920px; height: 1080px; overflow: hidden; background: var(--cream); padding: 64px; display: grid; grid-template-columns: 1fr 480px; grid-template-rows: auto 1fr auto; gap: 0; }
+
+    /* === TOP BAR === */
+    .top-bar { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid var(--ink); padding-bottom: 24px; margin-bottom: 48px; }
+    .kicker { font-family: 'JetBrains Mono', monospace; font-size: 20px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); }
+    .page-tag { font-family: 'JetBrains Mono', monospace; font-size: 20px; background: var(--ink); color: var(--cream); padding: 8px 16px; border: 4px solid var(--ink); }
+
+    /* === MAIN TITLE BLOCK === */
+    .hero { grid-column: 1; align-self: end; padding-bottom: 48px; }
+    .hero h1 {
+      font-family: 'Archivo Black', 'Noto Sans SC', sans-serif;
+      font-size: 140px;
+      line-height: 0.92;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+    .hero h1 .accent { color: var(--orange); display: block; }
+    .hero p {
+      font-family: 'Space Grotesk', 'Noto Sans SC', sans-serif;
+      font-size: 28px;
+      line-height: 1.45;
+      color: var(--ink);
+      max-width: 900px;
+      margin-top: 32px;
+    }
+
+    /* === RIGHT PANEL === */
+    .side-panel {
+      grid-column: 2;
+      grid-row: 2 / 4;
+      border: 4px solid var(--ink);
+      background: var(--pink);
+      box-shadow: 24px 24px 0 var(--yellow), 24px 24px 0 4px var(--ink);
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .side-panel .stat {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 96px;
+      line-height: 0.9;
+      color: var(--ink);
+    }
+    .side-panel .stat-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 18px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 8px;
+    }
+    .side-panel .divider { height: 4px; background: var(--ink); margin: 32px 0; }
+
+    /* === BOTTOM TAGS === */
+    .tags { grid-column: 1; display: flex; gap: 16px; flex-wrap: wrap; align-self: start; }
+    .tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 18px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 12px 20px;
+      border: 4px solid var(--ink);
+      background: var(--cream-2);
+    }
+    .tag--green { background: var(--green); color: var(--cream); }
+    .tag--yellow { background: var(--yellow); }
+
+    .reveal { opacity: 0; transform: translateY(16px); animation: rise 0.6s var(--ease) forwards; }
+    .reveal:nth-child(2) { animation-delay: 0.1s; }
+    .reveal:nth-child(3) { animation-delay: 0.2s; }
+    .reveal:nth-child(4) { animation-delay: 0.3s; }
+    @keyframes rise { to { opacity: 1; transform: translateY(0); } }
+    @media (prefers-reduced-motion: reduce) { .reveal { animation: none; opacity: 1; transform: none; } }
+  </style>
+</head>
+<body>
+  <div class="deck-viewport">
+    <main class="deck-stage" id="stage">
+      <section class="slide">
+        <header class="top-bar reveal">
+          <span class="kicker">Internal Sharing · 2026</span>
+          <span class="page-tag">01 / 16</span>
+        </header>
+
+        <div class="hero reveal">
+          <h1>SkillHub<span class="accent">Public</span></h1>
+          <p>AI Agent Skill 精选与验证仓库 — 让 Cursor / Claude Code / OpenClaw 按 SOP 办事</p>
+        </div>
+
+        <aside class="side-panel reveal">
+          <div>
+            <div class="stat">200+</div>
+            <div class="stat-label">Skills</div>
+            <div class="divider"></div>
+            <div class="stat">63</div>
+            <div class="stat-label">Curated</div>
+          </div>
+          <div class="stat-label">github.com/chenyueli829/skillhub-public</div>
+        </aside>
+
+        <div class="tags reveal">
+          <span class="tag tag--green">精选</span>
+          <span class="tag">归档</span>
+          <span class="tag tag--yellow">验证</span>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script>
+    const s = document.getElementById('stage');
+    const scale = () => {
+      const f = Math.min(innerWidth / 1920, innerHeight / 1080);
+      s.style.transform = `translate(${(innerWidth - 1920 * f) / 2}px, ${(innerHeight - 1080 * f) / 2}px) scale(${f})`;
+    };
+    scale();
+    addEventListener('resize', scale);
+  </script>
+</body>
+</html>

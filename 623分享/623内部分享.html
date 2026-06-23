@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>623 内部分享 — 一个产品经理的 AI Native 实战</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    /* === THEME: Keynote === */
+    :root {
+      --bg: #FBFBFD;
+      --bg-2: #F5F5F7;
+      --ink: #1D1D1F;
+      --ink-2: #6E6E73;
+      --ink-3: #86868B;
+      --line: #E3E3E6;
+      --white: #FFFFFF;
+      --blue: #0A84FF;
+      --indigo: #5E5CE6;
+      --purple: #BF5AF2;
+      --pink: #FF375F;
+      --orange: #FF9F0A;
+      --teal: #30D5C8;
+      --green: #34C759;
+      --g-brand: linear-gradient(120deg, #0A84FF 0%, #5E5CE6 50%, #BF5AF2 100%);
+      --g-warm: linear-gradient(120deg, #FF9F0A 0%, #FF375F 100%);
+      --g-cool: linear-gradient(120deg, #0A84FF 0%, #30D5C8 100%);
+      --tint-blue: linear-gradient(160deg, #EEF5FF, #F3F0FF);
+      --tint-purple: linear-gradient(160deg, #F5EFFF, #FDF0FA);
+      --tint-warm: linear-gradient(160deg, #FFF4E8, #FFEFF2);
+      --tint-cool: linear-gradient(160deg, #EBFBF8, #EEF6FF);
+      --tint-gray: linear-gradient(160deg, #F7F7F9, #FFFFFF);
+      --shadow-card: 0 18px 60px rgba(28,28,30,0.08);
+      --shadow-soft: 0 8px 30px rgba(28,28,30,0.06);
+      --radius: 28px;
+      --radius-sm: 18px;
+      --font: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      --duration: 0.7s;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: #000; }
+    .deck-viewport { position: fixed; inset: 0; overflow: hidden; background: #000; }
+    .deck-stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: hidden; transform-origin: 0 0; background: var(--bg); }
+    .slide {
+      position: absolute; inset: 0; width: 1920px; height: 1080px; overflow: hidden;
+      display: block; visibility: hidden; opacity: 0; pointer-events: none;
+      background: var(--bg); color: var(--ink);
+      font-family: var(--font);
+    }
+    .slide.active, .slide.visible { visibility: visible; opacity: 1; pointer-events: auto; z-index: 1; }
+    img, video, canvas, svg { max-width: 100%; max-height: 100%; }
+    @media print {
+      html, body { width: 1920px; height: auto; overflow: visible; background: #fff; }
+      .deck-viewport { position: static; overflow: visible; background: #fff; }
+      .deck-stage { position: static; width: auto; height: auto; transform: none !important; }
+      .slide { position: relative; display: block !important; visibility: visible !important; opacity: 1 !important; width: 1920px; height: 1080px; break-after: page; page-break-after: always; }
+      .progress-bar, .deck-controls, .edit-hotzone, .edit-toggle { display: none !important; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.2s !important; }
+    }
+
+    /* === FRAME === */
+    .slide-frame { position: relative; width: 100%; height: 100%; padding: 96px 130px 80px; display: flex; flex-direction: column; z-index: 2; }
+    .slide-frame--center { justify-content: center; align-items: center; text-align: center; }
+    .topbar { display: flex; justify-content: space-between; align-items: center; font-size: 19px; font-weight: 500; letter-spacing: 0.02em; color: var(--ink-3); margin-bottom: 56px; flex-shrink: 0; }
+    .topbar .dotmark { width: 12px; height: 12px; border-radius: 50%; background: var(--g-brand); display: inline-block; margin-right: 12px; vertical-align: middle; }
+    .content { flex: 1; display: flex; flex-direction: column; justify-content: center; min-height: 0; }
+    .meta { display: flex; justify-content: space-between; align-items: center; font-size: 17px; font-weight: 500; letter-spacing: 0.03em; color: var(--ink-3); margin-top: auto; padding-top: 36px; flex-shrink: 0; }
+
+    /* === DECOR (soft gradient blobs) === */
+    .blob { position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.5; z-index: 0; pointer-events: none; }
+    .blob--a { width: 720px; height: 720px; background: radial-gradient(circle, rgba(94,92,230,0.45), transparent 70%); top: -240px; right: -180px; }
+    .blob--b { width: 640px; height: 640px; background: radial-gradient(circle, rgba(10,132,255,0.35), transparent 70%); bottom: -260px; left: -160px; }
+    .blob--warm { background: radial-gradient(circle, rgba(255,159,10,0.4), transparent 70%); }
+    .blob--pink { background: radial-gradient(circle, rgba(255,55,95,0.35), transparent 70%); }
+
+    /* === TYPOGRAPHY === */
+    .eyebrow { display: inline-block; font-size: 22px; font-weight: 600; letter-spacing: 0.04em; background: var(--g-brand); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 28px; }
+    .title-hero { font-size: 150px; font-weight: 800; line-height: 0.98; letter-spacing: -0.03em; }
+    .title-xl { font-size: 104px; font-weight: 700; line-height: 1.02; letter-spacing: -0.025em; }
+    .title-lg { font-size: 78px; font-weight: 700; line-height: 1.04; letter-spacing: -0.02em; }
+    .title-md { font-size: 60px; font-weight: 700; line-height: 1.06; letter-spacing: -0.02em; margin-bottom: 40px; }
+    .grad { background: var(--g-brand); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+    .grad-warm { background: var(--g-warm); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+    .lead { font-size: 30px; font-weight: 400; line-height: 1.5; color: var(--ink-2); max-width: 1180px; }
+    .lead strong { color: var(--ink); font-weight: 600; }
+    .statement { font-size: 76px; font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; max-width: 1480px; }
+    .statement-sub { font-size: 34px; font-weight: 400; line-height: 1.5; color: var(--ink-2); max-width: 1200px; margin-top: 44px; }
+    .statement-sub strong { color: var(--ink); font-weight: 600; }
+
+    /* === CARDS === */
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 26px; }
+    .card { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); padding: 40px 42px; box-shadow: var(--shadow-soft); }
+    .card--blue { background: var(--tint-blue); border-color: transparent; }
+    .card--purple { background: var(--tint-purple); border-color: transparent; }
+    .card--warm { background: var(--tint-warm); border-color: transparent; }
+    .card--cool { background: var(--tint-cool); border-color: transparent; }
+    .card--gray { background: var(--tint-gray); }
+    .card-dot { width: 52px; height: 52px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 700; color: #fff; margin-bottom: 22px; }
+    .dot-blue { background: linear-gradient(135deg,#0A84FF,#5E5CE6); }
+    .dot-purple { background: linear-gradient(135deg,#5E5CE6,#BF5AF2); }
+    .dot-warm { background: linear-gradient(135deg,#FF9F0A,#FF375F); }
+    .dot-cool { background: linear-gradient(135deg,#0A84FF,#30D5C8); }
+    .dot-green { background: linear-gradient(135deg,#34C759,#30D5C8); }
+    .card-title { font-size: 32px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 12px; }
+    .card p { font-size: 22px; font-weight: 400; line-height: 1.5; color: var(--ink-2); }
+    .stat-num { font-size: 108px; font-weight: 800; line-height: 1; letter-spacing: -0.03em; }
+    .stat-label { font-size: 24px; font-weight: 500; color: var(--ink-2); margin-top: 14px; }
+
+    /* === BULLETS === */
+    .bullets { list-style: none; }
+    .bullets li { font-size: 30px; font-weight: 400; line-height: 1.45; color: var(--ink); padding: 22px 0 22px 46px; border-bottom: 1px solid var(--line); position: relative; }
+    .bullets li:last-child { border-bottom: none; }
+    .bullets li::before { content: ''; position: absolute; left: 0; top: 32px; width: 16px; height: 16px; border-radius: 50%; background: var(--g-brand); }
+    .bullets li strong { font-weight: 600; }
+
+    /* === TABLE === */
+    .ktable { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 24px; background: var(--white); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-soft); border: 1px solid var(--line); }
+    .ktable th { text-align: left; font-size: 22px; font-weight: 600; color: var(--ink-2); padding: 28px 36px; background: var(--bg-2); border-bottom: 1px solid var(--line); }
+    .ktable td { padding: 30px 36px; border-bottom: 1px solid var(--line); vertical-align: middle; color: var(--ink); }
+    .ktable tr:last-child td { border-bottom: none; }
+    .ktable td:first-child { font-weight: 700; }
+    .ktable .stage { display: inline-block; font-size: 18px; font-weight: 600; color: #fff; background: var(--g-brand); padding: 6px 16px; border-radius: 999px; }
+
+    /* === FLOW === */
+    .flow { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+    .flow-step { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 26px 34px; font-size: 26px; font-weight: 600; box-shadow: var(--shadow-soft); }
+    .flow-step--g { background: var(--g-brand); color: #fff; border-color: transparent; }
+    .flow-step--tint { background: var(--tint-blue); border-color: transparent; }
+    .flow-arrow { font-size: 30px; font-weight: 600; color: var(--ink-3); }
+
+    /* === FEATURE STATEMENT BAR === */
+    .feature-bar { border-radius: var(--radius); padding: 44px 52px; background: var(--g-brand); color: #fff; box-shadow: var(--shadow-card); }
+    .feature-bar .feature-text { font-size: 40px; font-weight: 700; line-height: 1.2; letter-spacing: -0.01em; }
+    .feature-bar--warm { background: var(--g-warm); }
+
+    /* === MEDIA === */
+    .split { display: grid; grid-template-columns: 1.08fr 0.92fr; gap: 56px; align-items: center; }
+    .split--qr { grid-template-columns: 1.3fr 0.7fr; }
+    .shot { width: 100%; height: auto; display: block; border-radius: var(--radius); box-shadow: var(--shadow-card); border: 1px solid var(--line); }
+    .shot-cap { font-size: 19px; font-weight: 500; color: var(--ink-3); margin-top: 18px; }
+    .qr-card { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow-card); padding: 34px; text-align: center; }
+    .qr-card img { width: 100%; max-width: 380px; height: auto; display: block; margin: 0 auto; border-radius: 12px; }
+
+    /* === HERO SIDE === */
+    .hero-layout { display: grid; grid-template-columns: 1fr 440px; gap: 64px; align-items: center; width: 100%; }
+    .hero-stats { display: flex; flex-direction: column; gap: 24px; }
+    .hero-stat { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); padding: 34px 40px; box-shadow: var(--shadow-soft); }
+    .hero-stat .stat-num { font-size: 76px; }
+    .hero-stat .stat-label { font-size: 20px; margin-top: 6px; }
+
+    /* === CLOSING (dark) === */
+    .slide--closing { background: #0B0B12; color: #fff; }
+    .slide--closing .deck-stage { background: #0B0B12; }
+    .slide--closing .topbar, .slide--closing .meta { color: rgba(255,255,255,0.5); }
+    .slide--closing .blob { opacity: 0.55; }
+    .slide--closing .bullets li { color: #fff; border-color: rgba(255,255,255,0.14); font-size: 38px; padding: 26px 0 26px 52px; }
+    .slide--closing .bullets li::before { top: 38px; }
+    .slide--closing .lead { color: rgba(255,255,255,0.7); }
+
+    /* === ANIMATION === */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity var(--duration) var(--ease), transform var(--duration) var(--ease); }
+    .slide.visible .reveal { opacity: 1; transform: translateY(0); }
+    .reveal:nth-child(1) { transition-delay: 0.05s; }
+    .reveal:nth-child(2) { transition-delay: 0.14s; }
+    .reveal:nth-child(3) { transition-delay: 0.23s; }
+    .reveal:nth-child(4) { transition-delay: 0.32s; }
+    .reveal:nth-child(5) { transition-delay: 0.41s; }
+
+    /* === EXTERNAL CHROME === */
+    .progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: var(--g-brand); z-index: 2000; transition: width 0.3s ease; }
+    .deck-controls { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%); z-index: 1000; font-size: 13px; font-weight: 500; letter-spacing: 0.03em; color: rgba(255,255,255,0.85); background: rgba(20,20,24,0.72); backdrop-filter: blur(12px); padding: 11px 22px; border-radius: 999px; }
+    .edit-hotzone { position: fixed; top: 0; left: 0; width: 80px; height: 80px; z-index: 10000; cursor: pointer; }
+    .edit-toggle { position: fixed; top: 16px; left: 16px; z-index: 10001; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; background: var(--ink); color: #fff; border: none; border-radius: 999px; padding: 9px 18px; font-size: 14px; font-weight: 500; cursor: pointer; }
+    .edit-toggle.show, .edit-toggle.active { opacity: 1; pointer-events: auto; }
+    [contenteditable="true"] { outline: 2px dashed var(--indigo); outline-offset: 4px; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <div class="progress-bar" id="progressBar"></div>
+  <div class="edit-hotzone" id="editHotzone"></div>
+  <button class="edit-toggle" id="editToggle" title="编辑模式 (E)">✏️ 编辑</button>
+
+  <div class="deck-viewport">
+    <main class="deck-stage" id="deckStage">
+
+      <!-- 01 TITLE -->
+      <section class="slide active">
+        <div class="blob blob--a"></div>
+        <div class="blob blob--b"></div>
+        <div class="slide-frame">
+          <header class="topbar reveal"><span><span class="dotmark"></span>Internal Share · 2026.06.23</span><span>01 / 14</span></header>
+          <div class="content">
+            <div class="hero-layout">
+              <div class="reveal">
+                <span class="eyebrow">AI NATIVE 实战</span>
+                <h1 class="title-hero">从小白到<span class="grad">养虾大户</span></h1>
+                <p class="lead" style="margin-top:36px">一个产品经理的 AI Native 实战 —— 我如何把 AI 用成一个产品军团</p>
+              </div>
+              <aside class="hero-stats reveal">
+                <div class="hero-stat"><div class="stat-num grad">3</div><div class="stat-label">养虾阶段</div></div>
+                <div class="hero-stat"><div class="stat-num grad-warm">3</div><div class="stat-label">即抄干货</div></div>
+                <div class="hero-stat"><div class="stat-label" style="margin:0">Lylian · Product Manager</div></div>
+              </aside>
+            </div>
+          </div>
+          <footer class="meta reveal"><span>Keynote Deck</span><span>01 — 14</span></footer>
+        </div>
+      </section>
+
+      <!-- 02 OPENING -->
+      <section class="slide">
+        <div class="blob blob--a"></div>
+        <div class="slide-frame slide-frame--center">
+          <div class="content" style="align-items:center">
+            <p class="statement reveal">AI Native 不是会聊天，<br>而是能把<span class="grad">工作流产品化</span></p>
+            <p class="statement-sub reveal">今天给你 3 个能立刻抄走的干货：<br><strong>免翻墙资讯源 · Skill 评测法 · ProductLab 判断卡</strong></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 03 养虾历程 -->
+      <section class="slide">
+        <div class="blob blob--b"></div>
+        <div class="slide-frame">
+          <header class="topbar reveal"><span><span class="dotmark"></span>Journey</span><span>03 / 14</span></header>
+          <div class="content">
+            <h2 class="title-md reveal">养虾历程：从小白到大户</h2>
+            <table class="ktable reveal">
+              <thead><tr><th style="width:170px">阶段</th><th>关键工具</th><th>当时在解决什么</th></tr></thead>
+              <tbody>
+                <tr><td><span class="stage">阶段一</span></td><td>Openclaw（内网）· Lighthouse · 飞书养虾</td><td>第一次让 AI 干活，跑通流程</td></tr>
+                <tr><td><span class="stage">阶段二</span></td><td>内网 Hermes · 本地 Hermes</td><td>把能力搬到手边，提速</td></tr>
+                <tr><td><span class="stage">阶段三</span></td><td>Workbuddy · Claude Code · Cowork · Design</td><td>多 Agent 协作，进入「军团」模式</td></tr>
+              </tbody>
+            </table>
+            <p class="lead reveal" style="margin-top:36px"><strong>换工具是表象，真正变的是我把任务拆成流程的能力。</strong></p>
+          </div>
+          <footer class="meta reveal"><span>Token 喂大的产品经理</span><span>03 — 14</span></footer>
+        </div>
+      </section>
+
+      <!-- 04 AI NATIVE 工作模式 -->
+      <section class="slide">
+        <div class="slide-frame">
+          <header class="topbar reveal"><span><span class="dotmark"></span>Work Mode</span><span>04 / 14</span></header>
+          <div class="content">
+            <span class="eyebrow reveal">一个人 = 一个团队</span>
+            <h2 class="title-md reveal" style="margin-bottom:32px">我的 AI Native 工作模式</h2>
+            <div class="split reveal">
+              <div style="display:flex;flex-direction:column;gap:22px">
+                <div class="card card--blue"><div class="card-title">产品军团</div><p>产品 / 运营 / 架构师，各司其职</p></div>
+                <div class="card card--purple"><div class="card-title">小团队快跑</div><p>想法 → Demo → 落地（例：支付 Agent2Agent）</p></div>
+                <div class="card card--cool"><div class="card-title">正在养的兵</div><p>金融资金业务助理：Q3 自用，Q4 接客</p></div>
+              </div>
+              <div>
+                <img class="shot" src="assets/marvis-work-mode.png" alt="Marvis 与 File Agent 协作工作台">
+                <div class="shot-cap">Marvis + File Agent 协作中 · 19K Token 实拍</div>
+              </div>
+            </div>
+          </div>
+          <footer class="meta reveal"><span>Lylian 产品军团</span><span>04 — 14</span></footer>
+        </div>
+      </section>
+
+      <!-- 05 好用清单 -->
+      <section class="slide">
+        <div class="slide-frame">
+          <header class="topbar reveal"><span><span class="dotmark"></span>Toolbelt</span><span>05 / 14</span></header>
+          <div class="content">
+            <h2 class="title-md reveal">当前留下的「好用清单」</h2>
+            <p class="lead reveal" style="margin-bottom:36px">用过很多，活下来的才是真好用。</p>
+            <div class="grid-2 reveal">
+              <div class="card card--gray"><div class="card-dot dot-blue">W</div><div class="card-title">Workbuddy / Cowork / Codex</div><p>协作干活的主力</p></div>
+              <div class="card card--gray"><div class="card-dot dot-purple">C</div><div class="card-title">Cursor</div><p>写代码 + 改文档的工作台</p></div>
+              <div class="card card--gray"><div class="card-dot dot-warm">D</div><div class="card-title">Claude Design</div><p>设计 IP，统一风格</p></div>
+              <div class="card card--gray"><div class="card-dot dot-green">L</div><div class="card-title">Lovable</div><p>快速出好看的 Demo</p></div>
+            </div>
+          </div>
+          <footer class="meta reveal"><span>Survivors</span><span>05 — 14</span></footer>
+        </div>
+      </section>
+
+      <!-- 06 干货① 资讯源 -->
+      <section class="slide">
+        <div class="blob blob--b blob--warm"></div>
+        <div class="slide-frame">
+          <header class="topbar reveal"><span><span class="dotmark"></span>干货 ① · Intel</span><span>06 / 14</span></header>
+          <div class="content">
+            <h2 class="title-md reveal">不用翻墙的 AI 资讯源</h2>
+            <div class="split split--qr reveal">
+              <div>
+                <ul class="bullets">
+                  <li>26 位全球从业者 Twitter 动态，自动聚合推送</li>
+                  <li>AI 播客 / 资讯自动推送（创业者视角：MiniMax、智谱）</li>
+                  <li>跟进姿势：Follow Builders / AIHot · 听博客 · 关注大 V</li>
+                </ul>
+                <div class="feature-bar feature-bar--warm" style="margin-top:34px">
+                  <p class="feature-text">保持跟进不靠刷，<br>靠让信息自己流到你面前。</p>
+                </div>
+              </div>
+              <div class="qr-card">
+                <img src="assets/follow-builders-qr.png" alt="Follow Builders 群二维码">
+                <div class="shot-cap" style="margin-top:16px">扫码加入 Follow Builders · 6/30 前有效</div>
+              </div>
+            </div>
+          </div>
+          <footer class="meta reveal"><span>截图这一页</span><span>06 — 14</span></footer>
+        </div>
+      </section>
+
+      <!-- 07 干货② Skill 评测法 -->
+      <section class="slide">
+        <div class="slide-frame">
+          <header class="topbar reveal"><span><span class="dotmark"></span>干货 ② · Skill Eval</span><span>07 / 14</span></header>
+          <div class="content">
+            <h2 class="title-md reveal">Skill 评测法：哪些夯、哪些拉</h2>
+            <div class="grid-3 reveal">
+              <div class="card card--blue"><div class="card-title">调研</div><p>DeepSearch 多维度 · Codebuddy 深度研究</p></div>
+              <div class="card card--purple"><div class="card-title">设计</div><p>Claude Design · Figma Make · Lovable 出 Demo</p></div>
+              <div class="card card--cool"><div class="card-title">信息 / 模拟</div><p>YouTube · NotebookLM · Marvis / Agent-Browser</p></div>
+            </div>
+            <div class="grid-2 reveal" style="margin-top:28px">
+              <div class="card card--cool"><div class="card-title" style="color:var(--green)">夯 ✓</div><p>输出稳定 · 有数据结构 · 能复用</p></div>
+              <div class="card card--warm"><div class="card-title" style="color:var(--pink)">拉 ✗</div><p>结果飘 · 靠运气 · 无质量红线</p></div>
+            </div>
+          </div>
+          <footer class="meta reveal"><span>送你的判断框架</span><span>07 — 14</span></footer>
+        </div>
+      </section>
+
+      <!-- 08 干货③ 知识库 -->
+      <section class="slide">
+        <div class="blob blob--a"></div>
+        <div class="slide-frame slide-frame--center">
+          <div class="content" style="align-items:center">
+            <span class="eyebrow reveal">干货 ③ · Knowledge</span>
+            <h2 class="title-lg reveal" style="margin-bottom:48px">知识库 = Obsidian + Agent + Sync</h2>
+            <div class="flow reveal" style="justify-content:center">
+              <div class="flow-step flow-step--tint">本地 Obsidian 沉淀</div>
+              <span class="flow-arrow">+</span>
+              <div class="flow-step flow-step--tint">Agent 调用</div>
+              <span class="flow-arrow">+</span>
+              <div class="flow-step flow-step--g">多端 Sync</div>
+            </div>
+            <p class="lead reveal" style="margin-top:48px;text-align:center">价值：知识不是存起来，而是<strong>能被 AI 随时调用</strong>。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 09 ProductLab 痛点 -->
+      <section class="slide">
+        <div class="blob blob--a blob--pink"></div>
+        <div class="slide-frame slide-frame--center">
+          <div class="content" style="align-items:center">
+            <span class="eyebrow reveal">重头案例 · ProductLab</span>
+            <p class="statement reveal">早期做产品，不缺想法，<br>缺的是<span class="grad-warm">判断</span></p>
+            <p class="statement-sub reveal">是真痛点吗？有替代方案吗？竞品到哪了？用户真抱怨吗？最大风险是什么？</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 10 判断卡 -->
+      <section class="slide">
+        <div class="slide-frame">
+          <header class="topbar reveal"><span><span class="dotmark"></span>ProductLab · 判断卡</span><span>10 / 14</span></header>
+          <div class="content">
+            <h2 class="title-md reveal" style="margin-bottom:16px">核心创新 = 判断卡</h2>
+            <p class="lead reveal" style="margin-bottom:34px">把分散信息压成一张卡：不写长报告、不打 100 分。</p>
+            <div class="grid-3 reveal">
+              <div class="card card--blue" style="text-align:center"><div class="stat-num grad">3</div><div class="stat-label">关键假设</div></div>
+              <div class="card card--warm" style="text-align:center"><div class="stat-num grad-warm">1</div><div class="stat-label">最大风险</div></div>
+              <div class="card card--cool" style="text-align:center"><div class="stat-num grad">1–3</div><div class="stat-label">低成本验证动作</div></div>
+            </div>
+            <div class="flow reveal" style="margin-top:34px">
+              <div class="flow-step flow-step--tint">领域情报</div><span class="flow-arrow">→</span>
+              <div class="flow-step flow-step--tint">机会雷达</div><span class="flow-arrow">→</span>
+              <div class="flow-step">竞品分析</div><span class="flow-arrow">→</span>
+              <div class="flow-step">反馈雷达</div><span class="flow-arrow">→</span>
+              <div class="flow-step flow-step--g">判断台</div>
+            </div>
+          </div>
+          <footer class="meta reveal"><span>现场 Demo</span><span>10 — 14</span></footer>
+        </div>
+      </section>
+
+      <!-- 11 AI Native 体现 -->
+      <section class="slide">
+        <div class="slide-frame">
+          <header class="topbar reveal"><span><span class="dotmark"></span>ProductLab · AI Native</span><span>11 / 14</span></header>
+          <div class="content">
+            <h2 class="title-md reveal">这是怎样的 AI Native</h2>
+            <div class="grid-4 reveal">
+              <div class="card card--blue"><div class="card-title">流程引擎</div><p>把 AI 当流程引擎，不是文本助手</p></div>
+              <div class="card card--purple"><div class="card-title">压缩</div><p>把模糊问题压成可判断结构</p></div>
+              <div class="card card--cool"><div class="card-title">证据分级</div><p>缺证据就标「待验证」，不伪装确定性</p></div>
+              <div class="card card--warm"><div class="card-title">可复用</div><p>一次性产出沉淀成可复用 Skill</p></div>
+            </div>
+            <div class="feature-bar reveal" style="margin-top:34px">
+              <p class="feature-text">关键不是生成更多，而是压缩更准。</p>
+            </div>
+          </div>
+          <footer class="meta reveal"><span>Methodology</span><span>11 — 14</span></footer>
+        </div>
+      </section>
+
+      <!-- 12 产品经理用 AI 做什么 -->
+      <section class="slide">
+        <div class="slide-frame">
+          <header class="topbar reveal"><span><span class="dotmark"></span>Capability Map</span><span>12 / 14</span></header>
+          <div class="content">
+            <h2 class="title-md reveal">产品经理用 AI 做什么</h2>
+            <div class="grid-3 reveal">
+              <div class="card card--cool"><div class="card-title">提认知</div><p>市场研究 · 竞品分析 · 行业趋势</p></div>
+              <div class="card card--purple"><div class="card-title">做判断</div><p>正方反方、多维度思考（→ ProductLab）</p></div>
+              <div class="card card--blue"><div class="card-title">去行动</div><p>用户调研 · 机会洞察 · PRD · Vibe Coding</p></div>
+              <div class="card card--warm"><div class="card-title">找合作</div><p>架构师 Agent 协同落地</p></div>
+              <div class="card card--gray"><div class="card-title">做运营</div><p>自动化运营</p></div>
+              <div class="card card--gray"><div class="card-title">懂用户</div><p>模拟小白用户跑测</p></div>
+            </div>
+          </div>
+          <footer class="meta reveal"><span>带走的框架</span><span>12 — 14</span></footer>
+        </div>
+      </section>
+
+      <!-- 13 产品预告 -->
+      <section class="slide">
+        <div class="blob blob--b"></div>
+        <div class="slide-frame slide-frame--center">
+          <div class="content" style="align-items:center">
+            <span class="eyebrow reveal">Roadmap</span>
+            <h2 class="title-lg reveal" style="margin-bottom:48px">产品预告：ProductLab 下一步</h2>
+            <div class="flow reveal" style="justify-content:center">
+              <div class="flow-step flow-step--tint">判断台产品化</div>
+              <span class="flow-arrow">→</span>
+              <div class="flow-step flow-step--tint">真实数据源接入</div>
+              <span class="flow-arrow">→</span>
+              <div class="flow-step flow-step--g">判断卡传播机制</div>
+            </div>
+            <p class="lead reveal" style="margin-top:48px;text-align:center">从「大而全的资料库」，走向「帮你更快做判断的 AI Native 工作台」。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 14 CLOSING (dark) -->
+      <section class="slide slide--closing">
+        <div class="blob blob--a"></div>
+        <div class="blob blob--b"></div>
+        <div class="slide-frame slide-frame--center">
+          <div class="content" style="align-items:center">
+            <span class="eyebrow reveal">三句话带走</span>
+            <ul class="bullets reveal" style="max-width:1280px;width:100%;text-align:left">
+              <li>换工具是表象，升认知是本质</li>
+              <li>一个人可以靠 AI 扩展成一个团队</li>
+              <li><strong>把经验写成 Skill，让 AI 替你重复执行</strong></li>
+            </ul>
+            <p class="lead reveal" style="margin-top:48px;text-align:center">仓库 / 资讯源 / Skill 评测法 —— 欢迎来抄、来共建。</p>
+          </div>
+          <footer class="meta reveal"><span>Thank You</span><span>14 — 14</span></footer>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <div class="deck-controls" id="deckControls">← → 翻页 · Space 下一页 · E 编辑</div>
+
+  <script>
+    class SlidePresentation {
+      constructor() {
+        this.slides = Array.from(document.querySelectorAll('.slide'));
+        this.currentSlide = 0;
+        this.stage = document.getElementById('deckStage');
+        this.progressBar = document.getElementById('progressBar');
+        this.controls = document.getElementById('deckControls');
+        this.touchStartX = 0;
+        this.setupStageScale();
+        this.setupKeyboardNav();
+        this.setupTouchNav();
+        this.setupWheelNav();
+        this.showSlide(0);
+      }
+      setupStageScale() {
+        const scale = () => {
+          const f = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+          this.stage.style.transform = `translate(${(window.innerWidth - 1920 * f) / 2}px, ${(window.innerHeight - 1080 * f) / 2}px) scale(${f})`;
+        };
+        scale();
+        window.addEventListener('resize', scale);
+      }
+      showSlide(index) {
+        this.currentSlide = Math.max(0, Math.min(index, this.slides.length - 1));
+        this.slides.forEach((s, i) => {
+          const on = i === this.currentSlide;
+          s.classList.toggle('active', on);
+          s.classList.toggle('visible', on);
+        });
+        document.body.style.background = this.slides[this.currentSlide].classList.contains('slide--closing') ? '#0B0B12' : '#000';
+        this.progressBar.style.width = ((this.currentSlide + 1) / this.slides.length * 100) + '%';
+        this.controls.textContent = `${this.currentSlide + 1} / ${this.slides.length} · ← → · Space · E 编辑`;
+      }
+      next() { this.showSlide(this.currentSlide + 1); }
+      prev() { this.showSlide(this.currentSlide - 1); }
+      setupKeyboardNav() {
+        document.addEventListener('keydown', (e) => {
+          if (e.target.getAttribute('contenteditable') === 'true') return;
+          if (['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)) { e.preventDefault(); this.next(); }
+          else if (['ArrowLeft','ArrowUp','PageUp'].includes(e.key)) { e.preventDefault(); this.prev(); }
+          else if (e.key === 'Home') this.showSlide(0);
+          else if (e.key === 'End') this.showSlide(this.slides.length - 1);
+        });
+      }
+      setupTouchNav() {
+        document.addEventListener('touchstart', (e) => { this.touchStartX = e.changedTouches[0].screenX; }, { passive: true });
+        document.addEventListener('touchend', (e) => {
+          const d = e.changedTouches[0].screenX - this.touchStartX;
+          if (Math.abs(d) > 50) d < 0 ? this.next() : this.prev();
+        }, { passive: true });
+      }
+      setupWheelNav() {
+        let t;
+        document.addEventListener('wheel', (e) => {
+          clearTimeout(t);
+          t = setTimeout(() => { if (e.deltaY > 30) this.next(); else if (e.deltaY < -30) this.prev(); }, 50);
+        }, { passive: true });
+      }
+    }
+
+    class InlineEditor {
+      constructor() {
+        this.isActive = false;
+        this.toggle = document.getElementById('editToggle');
+        this.hotzone = document.getElementById('editHotzone');
+        this.hideTimeout = null;
+        this.setup();
+      }
+      setup() {
+        this.toggle.addEventListener('click', () => this.toggleEditMode());
+        this.hotzone.addEventListener('click', () => this.toggleEditMode());
+        this.hotzone.addEventListener('mouseenter', () => { clearTimeout(this.hideTimeout); this.toggle.classList.add('show'); });
+        this.hotzone.addEventListener('mouseleave', () => { this.hideTimeout = setTimeout(() => { if (!this.isActive) this.toggle.classList.remove('show'); }, 400); });
+        this.toggle.addEventListener('mouseenter', () => clearTimeout(this.hideTimeout));
+        this.toggle.addEventListener('mouseleave', () => { this.hideTimeout = setTimeout(() => { if (!this.isActive) this.toggle.classList.remove('show'); }, 400); });
+        document.addEventListener('keydown', (e) => {
+          if ((e.key === 'e' || e.key === 'E') && e.target.getAttribute('contenteditable') !== 'true') this.toggleEditMode();
+          if (e.key === 's' && (e.ctrlKey || e.metaKey) && this.isActive) { e.preventDefault(); this.save(); alert('已保存到 localStorage'); }
+        });
+      }
+      toggleEditMode() {
+        this.isActive = !this.isActive;
+        this.toggle.classList.toggle('active', this.isActive);
+        this.toggle.textContent = this.isActive ? '✅ 完成' : '✏️ 编辑';
+        document.querySelectorAll('.slide h1,.slide h2,.slide h3,.slide p,.slide li,.slide td,.slide .stat-num,.slide .flow-step,.slide .statement,.slide .feature-text').forEach(el => {
+          el.contentEditable = this.isActive ? 'true' : 'false';
+        });
+      }
+      save() {
+        const data = {};
+        document.querySelectorAll('.slide').forEach((s, i) => { data[i] = s.innerHTML; });
+        localStorage.setItem('share-623-deck-keynote-edits', JSON.stringify(data));
+      }
+    }
+
+    new SlidePresentation();
+    new InlineEditor();
+  </script>
+</body>
+</html>

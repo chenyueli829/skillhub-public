@@ -1,4 +1,4 @@
-[English](README.md) | **中文**
+[English](06-技能/05-skillhub-public/skills/A精选10个Skill/信息源/从业者/follow-builders-main/README.md) | **中文**
 
 # 追踪建造者，而非网红
 

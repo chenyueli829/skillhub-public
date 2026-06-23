@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkillHub Public — Creative Mode</title>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500&family=Noto+Sans+SC:wght@500;700;900&display=swap" rel="stylesheet">
+  <style>
+    /* === THEME: Creative Mode === */
+    :root {
+      --cream: #EFE9D9;
+      --cream-2: #E4DCC4;
+      --ink: #0F0F0F;
+      --ink-2: #2A2A2A;
+      --green: #1F8A4C;
+      --pink: #F06CA8;
+      --orange: #E85A1F;
+      --yellow: #F5C518;
+      --stage-bg: #0a0a0a;
+      --font-display: 'Archivo Black', 'Noto Sans SC', sans-serif;
+      --font-body: 'Space Grotesk', 'Noto Sans SC', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --border: 4px solid var(--ink);
+      --shadow-pink: 24px 24px 0 var(--yellow), 24px 24px 0 4px var(--ink);
+      --shadow-orange: 24px 24px 0 var(--orange), 24px 24px 0 4px var(--ink);
+      --shadow-ink: 18px 18px 0 var(--ink);
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+      --duration: 0.6s;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* === VIEWPORT-BASE.CSS (FULL) === */
+    html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: var(--stage-bg); }
+    .deck-viewport { position: fixed; inset: 0; overflow: hidden; background: var(--stage-bg); }
+    .deck-stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: hidden; transform-origin: 0 0; background: var(--cream); }
+    .slide {
+      position: absolute; inset: 0; width: 1920px; height: 1080px; overflow: hidden;
+      display: block; visibility: hidden; opacity: 0; pointer-events: none;
+      background: var(--cream); color: var(--ink);
+    }
+    .slide.active, .slide.visible { visibility: visible; opacity: 1; pointer-events: auto; z-index: 1; }
+    .slide--closing { background: var(--green); color: var(--cream); }
+    img, video, canvas, svg { max-width: 100%; max-height: 100%; }
+    @media print {
+      html, body { width: 1920px; height: auto; overflow: visible; background: #fff; }
+      .deck-viewport { position: static; overflow: visible; background: #fff; }
+      .deck-stage { position: static; width: auto; height: auto; transform: none !important; }
+      .slide { position: relative; display: block !important; visibility: visible !important; opacity: 1 !important; width: 1920px; height: 1080px; break-after: page; page-break-after: always; }
+      .progress-bar, .deck-controls, .edit-hotzone, .edit-toggle { display: none !important; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.2s !important; }
+    }
+
+    /* === SLIDE CHROME === */
+    .slide-frame { position: relative; width: 100%; height: 100%; padding: 48px 64px 40px; display: flex; flex-direction: column; }
+    .topbar { display: flex; justify-content: space-between; align-items: center; font-family: var(--font-mono); font-size: 20px; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 32px; flex-shrink: 0; }
+    .topbar-pill { border: 2px solid var(--ink); padding: 6px 14px; border-radius: 999px; background: var(--cream); }
+    .slide--closing .topbar-pill { border-color: var(--cream); background: transparent; color: var(--cream); }
+    .content { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
+    .meta { display: flex; justify-content: space-between; align-items: center; font-family: var(--font-mono); font-size: 18px; letter-spacing: 0.06em; text-transform: uppercase; margin-top: auto; padding-top: 24px; flex-shrink: 0; }
+    .meta-dot { width: 10px; height: 10px; background: var(--ink); border-radius: 50%; display: inline-block; margin: 0 12px; }
+    .slide--closing .meta, .slide--closing .topbar { color: var(--cream); }
+    .slide--closing .meta-dot { background: var(--cream); }
+
+    /* === TYPOGRAPHY === */
+    .kicker-block { display: inline-block; background: var(--ink); color: var(--cream); font-family: var(--font-mono); font-size: 18px; letter-spacing: 0.14em; text-transform: uppercase; padding: 8px 16px; margin-bottom: 24px; width: fit-content; }
+    .slide--closing .kicker-block { background: var(--cream); color: var(--green); }
+    .h-display { font-family: var(--font-display); font-size: 120px; line-height: 0.92; letter-spacing: -0.01em; text-transform: uppercase; }
+    .h-display .cn { text-transform: none; display: block; font-size: 72px; margin-top: 8px; }
+    .h1 { font-family: var(--font-display); font-size: 72px; line-height: 0.95; letter-spacing: -0.01em; margin-bottom: 24px; }
+    .h2 { font-family: var(--font-display); font-size: 56px; line-height: 0.95; margin-bottom: 32px; }
+    .lead { font-family: var(--font-body); font-size: 26px; line-height: 1.45; color: var(--ink-2); max-width: 1200px; }
+    .quote { font-family: var(--font-display); font-size: 52px; line-height: 1.15; max-width: 1300px; }
+    .body { font-family: var(--font-body); font-size: 22px; line-height: 1.55; }
+
+    /* === COMPONENTS === */
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; }
+    .cell { border: var(--border); padding: 28px 32px; }
+    .cell--pink { background: var(--pink); }
+    .cell--yellow { background: var(--yellow); }
+    .cell--green { background: var(--green); color: var(--cream); }
+    .cell--orange { background: var(--orange); color: var(--cream); }
+    .cell--cream { background: var(--cream); }
+    .cell-num { font-family: var(--font-display); font-size: 72px; line-height: 0.9; }
+    .cell-label { font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 8px; }
+    .cell-title { font-family: var(--font-display); font-size: 28px; line-height: 1.1; margin-bottom: 12px; text-transform: uppercase; }
+    .cell p { font-size: 18px; line-height: 1.45; }
+    .cell--green p, .cell--orange p { color: rgba(239,233,217,0.9); }
+    .featured { border: var(--border); box-shadow: var(--shadow-pink); padding: 40px 48px; background: var(--pink); max-width: 1400px; }
+    .featured--orange { background: var(--orange); color: var(--cream); box-shadow: var(--shadow-ink); }
+    .code-block { border: var(--border); background: var(--cream-2); padding: 32px 40px; font-family: var(--font-mono); font-size: 20px; line-height: 1.7; box-shadow: var(--shadow-ink); max-width: 1500px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 12px; margin: 24px 0; }
+    .tag { font-family: var(--font-mono); font-size: 16px; letter-spacing: 0.06em; padding: 10px 18px; border: var(--border); background: var(--cream-2); }
+    .tag--green { background: var(--green); color: var(--cream); }
+    .tag--yellow { background: var(--yellow); }
+    .bullets { list-style: none; margin-top: 16px; }
+    .bullets li { font-family: var(--font-body); font-size: 22px; line-height: 1.5; padding: 12px 0 12px 32px; border-bottom: 3px solid var(--ink); position: relative; }
+    .bullets li::before { content: '▸'; position: absolute; left: 0; font-family: var(--font-mono); }
+    .slide--closing .bullets li { border-color: rgba(239,233,217,0.35); }
+    .cmp-table { width: 100%; border: var(--border); border-collapse: collapse; background: var(--cream-2); font-size: 20px; }
+    .cmp-table th { font-family: var(--font-display); font-size: 22px; text-transform: uppercase; background: var(--ink); color: var(--cream); padding: 18px 26px; border: 3px solid var(--cream); text-align: left; }
+    .cmp-table td { padding: 18px 26px; border: 3px solid var(--ink); vertical-align: top; }
+    .cmp-table td:first-child { font-family: var(--font-mono); font-size: 16px; letter-spacing: 0.06em; text-transform: uppercase; width: 160px; background: var(--yellow); }
+    .flow { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
+    .flow-step { border: var(--border); padding: 20px 28px; font-family: var(--font-body); font-size: 20px; background: var(--cream); box-shadow: var(--shadow-ink); }
+    .flow-step--pink { background: var(--pink); }
+    .flow-step--yellow { background: var(--yellow); }
+    .flow-step--green { background: var(--green); color: var(--cream); }
+    .flow-arrow { font-family: var(--font-mono); font-size: 28px; font-weight: 700; }
+    .title-layout { display: grid; grid-template-columns: 1fr 420px; gap: 48px; height: 100%; align-items: end; }
+    .side-stack { border: var(--border); background: var(--pink); box-shadow: var(--shadow-pink); padding: 36px; display: flex; flex-direction: column; justify-content: space-between; height: 480px; }
+    .side-stack .cell-num { font-size: 88px; }
+
+    /* === ANIMATIONS === */
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity var(--duration) var(--ease), transform var(--duration) var(--ease); }
+    .slide.visible .reveal { opacity: 1; transform: translateY(0); }
+    .reveal:nth-child(1) { transition-delay: 0.05s; }
+    .reveal:nth-child(2) { transition-delay: 0.12s; }
+    .reveal:nth-child(3) { transition-delay: 0.19s; }
+    .reveal:nth-child(4) { transition-delay: 0.26s; }
+    .reveal:nth-child(5) { transition-delay: 0.33s; }
+
+    /* === EXTERNAL CHROME === */
+    .progress-bar { position: fixed; top: 0; left: 0; height: 4px; background: var(--orange); z-index: 2000; transition: width 0.3s ease; }
+    .deck-controls { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%); z-index: 1000; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; color: rgba(239,233,217,0.7); background: var(--ink); padding: 10px 20px; border: 2px solid var(--orange); }
+    .edit-hotzone { position: fixed; top: 0; left: 0; width: 80px; height: 80px; z-index: 10000; cursor: pointer; }
+    .edit-toggle { position: fixed; top: 16px; left: 16px; z-index: 10001; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; background: var(--ink); color: var(--yellow); border: 2px solid var(--yellow); padding: 8px 14px; font-size: 14px; cursor: pointer; font-family: var(--font-mono); }
+    .edit-toggle.show, .edit-toggle.active { opacity: 1; pointer-events: auto; }
+    [contenteditable="true"] { outline: 2px dashed var(--orange); outline-offset: 4px; }
+  </style>
+</head>
+<body>
+  <div class="progress-bar" id="progressBar"></div>
+  <div class="edit-hotzone" id="editHotzone"></div>
+  <button class="edit-toggle" id="editToggle" title="编辑模式 (E)">✏️ 编辑</button>
+
+  <div class="deck-viewport">
+    <main class="deck-stage" id="deckStage">
+
+      <!-- 01 TITLE -->
+      <section class="slide active">
+        <div class="slide-frame">
+          <header class="topbar reveal"><span>SkillHub · Internal 2026</span><span class="topbar-pill">01 / 16</span></header>
+          <div class="content title-layout">
+            <div class="reveal">
+              <span class="kicker-block">Curated Skills</span>
+              <h1 class="h-display">SKILLHUB<span class="cn">Public 精选库</span></h1>
+              <p class="lead">AI Agent Skill 精选与验证仓库 — 200+ 能力包 · 按场景分类 · 开箱即用</p>
+            </div>
+            <aside class="side-stack reveal">
+              <div><div class="cell-num">200+</div><div class="cell-label">Skills</div></div>
+              <div><div class="cell-num">63</div><div class="cell-label">Curated</div></div>
+              <div class="cell-label">chenyueli829 / skillhub-public</div>
+            </aside>
+          </div>
+          <footer class="meta reveal"><span>Neo-Brutalist Deck</span><span>01<span class="meta-dot"></span>16</span></footer>
+        </div>
+      </section>
+
+      <!-- 02 OPENING -->
+      <section class="slide">
+        <div class="slide-frame">
+          <header class="topbar reveal"><span>Opening</span><span class="topbar-pill">02 / 16</span></header>
+          <div class="content" style="justify-content:center">
+            <div class="featured reveal">
+              <p class="quote">不是 Prompt 合集，而是让 Agent 按流程办事的能力包</p>
+            </div>
+            <p class="lead reveal" style="margin-top:40px">Cursor · Claude Code · OpenClaw · Hermes — 一个 GitHub 链接，Agent 自己安装</p>
+          </div>
+          <footer class="meta reveal"><span>One Idea</span><span>02<span class="meta-dot"></span>16</span></footer>
+        </div>
+      </section>
+
+      <!-- 03 CONCEPT -->
+      <section class="slide">
+        <div class="slide-frame">
+          <header class="topbar reveal"><span>Concept</span><span class="topbar-pill">03 / 16</span></header>
+          <div class="content">
+            <span class="kicker-block reveal">What Is Skill</span>
+            <h2 class="h1 reveal">什么是 Skill？</h2>
+            <p class="lead reveal">给 AI 写的 SOP — 标准作业程序</p>
+            <ul class="bullets reveal">
+              <li>持久化的 SKILL.md 文件，不是一次性对话</li>
+              <li>Agent 根据 description 自动匹配，或 @ 显式调用</li>
+              <li>完整工作流：步骤、约束、输出格式、脚本、参考文档</li>
+            </ul>
+          </div>
+          <footer class="meta reveal"><span>Definition</span><span>03<span class="meta-dot"></span>16</span></footer>
+        </div>
+      </section>
+
+      <!-- 04 COMPARE -->
+      <section class="slide">
+        <div class="slide-frame">
+          <header class="topbar reveal"><span>Compare</span><span class="topbar-pill">04 / 16</span></header>
+          <div class="content">
+            <h2 class="h2 reveal">Prompt vs Skill</h2>
+            <table class="cmp-table reveal">
+              <thead><tr><th>维度</th><th>普通 Prompt</th><th>Skill</th></tr></thead>
+              <tbody>
+                <tr><td>形态</td><td>一次性对话</td><td>持久化 SKILL.md</td></tr>
+                <tr><td>触发</td><td>每次手动粘贴</td><td>自动匹配 / @ 调用</td></tr>
+                <tr><td>内容</td><td>几句话</td><td>完整 SOP + 脚本</td></tr>
+                <tr><td>复用</td><td>难</td><td>GitHub 链接一键安装</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <footer class="meta reveal"><span>Comparison</span><span>04<span class="meta-dot"></span>16</span></footer>
+        </div>
+      </section>
+
+      <!-- 05 WHY -->
+      <section class="slide">
+        <div class="slide-frame">
+          <header class="topbar reveal"><span>Problem</span><span class="topbar-pill">05 / 16</span></header>
+          <div class="content">
+            <h2 class="h2 reveal">为什么做这个仓库？</h2>
+            <div class="grid-3 reveal">
+              <div class="cell cell--pink"><div class="cell-title">01 散落</div><p>GitHub、大 V 分享、官方仓库 — 找起来费时</p></div>
+              <div class="cell cell--yellow"><div class="cell-title">02 质量</div><p>有的缺中文，有的根本没跑通过</p></div>
+              <div class="cell cell--green"><div class="cell-title">03 安装</div><p>不同 Agent 路径不同，容易装错</p></div>
+            </div>
+            <p class="lead reveal" style="margin-top:32px"><strong>定位：</strong>精选 + 归档 + 验证 — 我筛过、用过、愿意推荐的清单</p>
+          </div>
+          <footer class="meta reveal"><span>Mission</span><span>05<span class="meta-dot"></span>16</span></footer>
+        </div>
+      </section>
+
+      <!-- 06 STATS -->
+      <section class="slide">
+        <div class="slide-frame">
+          <header class="topbar reveal"><span>Scale</span><span class="topbar-pill">06 / 16</span></header>
+          <div class="content" style="justify-content:center">
+            <div class="grid-4 reveal">
+              <div class="cell cell--orange" style="text-align:center"><div class="cell-num">200+</div><div class="cell-label">Skill 入口</div></div>
+              <div class="cell cell--pink" style="text-align:center"><div class="cell-num">63</div><div class="cell-label">A 精选</div></div>
+              <div class="cell cell--yellow" style="text-align:center"><div class="cell-num">10+</div><div class="cell-label">场景分类</div></div>
+              <div class="cell cell--green" style="text-align:center"><div class="cell-num">7</div><div class="cell-label">来源合集</div></div>
+            </div>
+          </div>
+          <footer class="meta reveal"><span>Numbers</span><span>06<span class="meta-dot"></span>16</span></footer>
+        </div>
+      </section>
+
+      <!-- 07 STRUCTURE -->
+      <section class="slide">
+        <div class="slide-frame">
+          <header class="topbar reveal"><span>Structure</span><span class="topbar-pill">07 / 16</span></header>
+          <div class="content">
+            <h2 class="h2 reveal">仓库结构</h2>
+            <div class="grid-2 reveal">
+              <div class="cell cell--cream"><div class="cell-title">A精选10个Skill</div><p>按场景：PRD、研究、写作、绘图、PPT、设计…</p></div>
+              <div class="cell cell--pink"><div class="cell-title">baoyu同款 · 22</div><p>公众号、小红书、漫画、信息图全流程</p></div>
+              <div class="cell cell--yellow"><div class="cell-title">hermes官方 · 71</div><p>开发、创意、研究、生产力、MLOps</p></div>
+              <div class="cell cell--green"><div class="cell-title">卡兹克 · 三万 · Anthropic</div><p>大 V 实战 + 官方标准 + 历史存档</p></div>
+            </div>
+          </div>
+          <footer class="meta reveal"><span>Catalog</span><span>07<span class="meta-dot"></span>16</span></footer>
+        </div>
+      </section>
+
+      <!-- 08 PRD -->
+      <section class="slide">
+        <div class="slide-frame">
+          <header class="topbar reveal"><span>A精选 · Product</span><span class="topbar-pill">08 / 16</span></header>
+          <div class="content">
+            <h2 class="h2 reveal">PRD / 产品场景</h2>
+            <div class="tags reveal">
+              <span class="tag tag--green">brainstorming</span>
+              <span class="tag">idea-validator</span>
+              <span class="tag tag--yellow">writing-plans</span>
+              <span class="tag">ai-painpoint-kb</span>
+            </div>
+            <ul class="bullets reveal">
+              <li>头脑风暴 → 需求验证 → 写计划 → 挖 HN 痛点</li>
+              <li>brainstorming 有 HARD-GATE：没批准设计前禁止写代码</li>
+            </ul>
+          </div>
+          <footer class="meta reveal"><span>Product</span><span>08<span class="meta-dot"></span>16</span></footer>
+        </div>
+      </section>
+
+      <!-- 09 RESEARCH -->
+      <section class="slide">
+        <div class="slide-frame">
+          <header class="topbar reveal"><span>A精选 · Research</span><span class="topbar-pill">09 / 16</span></header>
+          <div class="content">
+            <h2 class="h2 reveal">研究 · 写作 · 信息源</h2>
+            <div class="grid-3 reveal">
+              <div class="cell cell--green"><div class="cell-title">研究</div><p>ecc-deep-research、产品体验报告、hv-analysis</p></div>
+              <div class="cell cell--pink"><div class="cell-title">写作</div><p>小红书爆款研究+撰写、humanizer 去 AI 味</p></div>
+              <div class="cell cell--yellow"><div class="cell-title">信息源</div><p>last30days 多平台话题、newsletter 周报</p></div>
+            </div>
+          </div>
+          <footer class="meta reveal"><span>Research</span><span>09<span class="meta-dot"></span>16</span></footer>
+        </div>
+      </section>
+
+      <!-- 10 VISUAL -->
+      <section class="slide">
+        <div class="slide-frame">
+          <header class="topbar reveal"><span>A精选 · Visual</span><span class="topbar-pill">10 / 16</span></header>
+          <div class="content">
+            <h2 class="h2 reveal">绘图 · 设计 · 浏览器</h2>
+            <div class="grid-3 reveal">
+              <div class="cell cell--orange"><div class="cell-title">绘图</div><p>21 种信息图、漫画、架构图、配图</p></div>
+              <div class="cell cell--yellow"><div class="cell-title">PPT / 视频</div><p>HTML 演示稿、PPT 生成、短视频</p></div>
+              <div class="cell cell--pink"><div class="cell-title">浏览器</div><p>Playwright、Page Agent — 含买机票实测</p></div>
+            </div>
+          </div>
+          <footer class="meta reveal"><span>Visual</span><span>10<span class="meta-dot"></span>16</span></footer>
+        </div>
+      </section>
+
+      <!-- 11 COLLECTIONS -->
+      <section class="slide">
+        <div class="slide-frame">
+          <header class="topbar reveal"><span>Collections</span><span class="topbar-pill">11 / 16</span></header>
+          <div class="content">
+            <h2 class="h2 reveal">其他精选合集</h2>
+            <ul class="bullets reveal">
+              <li><strong>宝玉同款</strong> — 公众号全流程，按需安装勿全装</li>
+              <li><strong>卡兹克</strong> — 磁盘清理、AI HOT、横纵分析、写作</li>
+              <li><strong>Hermes 官方</strong> — 71 个全品类能力库</li>
+              <li><strong>三万同款</strong> — programmatic-seo、对抗式评审</li>
+            </ul>
+          </div>
+          <footer class="meta reveal"><span>More</span><span>11<span class="meta-dot"></span>16</span></footer>
+        </div>
+      </section>
+
+      <!-- 12 USAGE -->
+      <section class="slide">
+        <div class="slide-frame">
+          <header class="topbar reveal"><span>Usage</span><span class="topbar-pill">12 / 16</span></header>
+          <div class="content" style="justify-content:center">
+            <h2 class="h2 reveal">怎么用？</h2>
+            <div class="code-block reveal">帮我安装这个 skill：<br>github.com/chenyueli829/skillhub-public/.../SKILL.md</div>
+            <p class="lead reveal" style="margin-top:32px">或 @skill-name 直接调用 · @skill-evaluator 生成评测文档</p>
+          </div>
+          <footer class="meta reveal"><span>Install</span><span>12<span class="meta-dot"></span>16</span></footer>
+        </div>
+      </section>
+
+      <!-- 13 PHILOSOPHY -->
+      <section class="slide">
+        <div class="slide-frame">
+          <header class="topbar reveal"><span>Philosophy</span><span class="topbar-pill">13 / 16</span></header>
+          <div class="content">
+            <h2 class="h2 reveal">使用哲学</h2>
+            <div class="grid-3 reveal">
+              <div class="cell cell--pink"><div class="cell-title">SOP</div><p>Skill 是 SOP，不是万能 Prompt，要有硬约束</p></div>
+              <div class="cell cell--yellow"><div class="cell-title">Less</div><p>只装真正会用的，上下文是稀缺资源</p></div>
+              <div class="cell cell--green"><div class="cell-title">Eval</div><p>先评测再入库，补齐中文 + 评测文档</p></div>
+            </div>
+          </div>
+          <footer class="meta reveal"><span>Principles</span><span>13<span class="meta-dot"></span>16</span></footer>
+        </div>
+      </section>
+
+      <!-- 14 WORKFLOW -->
+      <section class="slide">
+        <div class="slide-frame">
+          <header class="topbar reveal"><span>Workflow</span><span class="topbar-pill">14 / 16</span></header>
+          <div class="content" style="justify-content:center">
+            <h2 class="h2 reveal">入库工作流</h2>
+            <div class="flow reveal">
+              <div class="flow-step flow-step--pink">发现好 Skill</div>
+              <span class="flow-arrow">→</span>
+              <div class="flow-step flow-step--yellow">安装验证</div>
+              <span class="flow-arrow">→</span>
+              <div class="flow-step">skill-evaluator</div>
+              <span class="flow-arrow">→</span>
+              <div class="flow-step flow-step--green">入库分享</div>
+            </div>
+          </div>
+          <footer class="meta reveal"><span>Pipeline</span><span>14<span class="meta-dot"></span>16</span></footer>
+        </div>
+      </section>
+
+      <!-- 15 STARTER -->
+      <section class="slide">
+        <div class="slide-frame">
+          <header class="topbar reveal"><span>Starter Pack</span><span class="topbar-pill">15 / 16</span></header>
+          <div class="content">
+            <h2 class="h2 reveal">入门三件套</h2>
+            <div class="grid-2 reveal">
+              <div class="cell cell--cream"><div class="cell-title">产品经理</div><p>brainstorming + idea-validator + claim-verifier</p></div>
+              <div class="cell cell--pink"><div class="cell-title">内容创作者</div><p>baoyu-post-to-wechat + humanizer + baoyu-comic</p></div>
+              <div class="cell cell--yellow"><div class="cell-title">开发者</div><p>brainstorming + writing-plans + systematic-debugging</p></div>
+              <div class="cell cell--green"><div class="cell-title">研究者</div><p>ecc-deep-research + last30days + hv-analysis</p></div>
+            </div>
+          </div>
+          <footer class="meta reveal"><span>By Role</span><span>15<span class="meta-dot"></span>16</span></footer>
+        </div>
+      </section>
+
+      <!-- 16 CLOSING (green) -->
+      <section class="slide slide--closing">
+        <div class="slide-frame">
+          <header class="topbar reveal"><span>Closing</span><span class="topbar-pill">16 / 16</span></header>
+          <div class="content" style="justify-content:center">
+            <span class="kicker-block reveal">Thank You</span>
+            <p class="quote reveal" style="color:var(--cream);font-size:64px">会选 Skill，比会写 Prompt 更重要</p>
+            <p class="lead reveal" style="margin-top:40px;color:rgba(239,233,217,0.85);font-family:var(--font-mono);font-size:22px">github.com/chenyueli829/skillhub-public</p>
+            <p class="body reveal" style="margin-top:16px;color:rgba(239,233,217,0.7)">欢迎 Star · PR · Issues 推荐好 Skill</p>
+          </div>
+          <footer class="meta reveal"><span>End</span><span>16<span class="meta-dot"></span>16</span></footer>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <div class="deck-controls" id="deckControls">← → 翻页 · Space 下一页 · E 编辑</div>
+
+  <script>
+    class SlidePresentation {
+      constructor() {
+        this.slides = Array.from(document.querySelectorAll('.slide'));
+        this.currentSlide = 0;
+        this.stage = document.getElementById('deckStage');
+        this.progressBar = document.getElementById('progressBar');
+        this.controls = document.getElementById('deckControls');
+        this.touchStartX = 0;
+        this.setupStageScale();
+        this.setupKeyboardNav();
+        this.setupTouchNav();
+        this.setupWheelNav();
+        this.showSlide(0);
+      }
+      setupStageScale() {
+        const scale = () => {
+          const f = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+          this.stage.style.transform = `translate(${(window.innerWidth - 1920 * f) / 2}px, ${(window.innerHeight - 1080 * f) / 2}px) scale(${f})`;
+        };
+        scale();
+        window.addEventListener('resize', scale);
+      }
+      showSlide(index) {
+        this.currentSlide = Math.max(0, Math.min(index, this.slides.length - 1));
+        this.slides.forEach((s, i) => {
+          const on = i === this.currentSlide;
+          s.classList.toggle('active', on);
+          s.classList.toggle('visible', on);
+        });
+        this.progressBar.style.width = ((this.currentSlide + 1) / this.slides.length * 100) + '%';
+        this.controls.textContent = `${this.currentSlide + 1} / ${this.slides.length} · ← → · Space · E 编辑`;
+      }
+      next() { this.showSlide(this.currentSlide + 1); }
+      prev() { this.showSlide(this.currentSlide - 1); }
+      setupKeyboardNav() {
+        document.addEventListener('keydown', (e) => {
+          if (e.target.getAttribute('contenteditable') === 'true') return;
+          if (['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)) { e.preventDefault(); this.next(); }
+          else if (['ArrowLeft','ArrowUp','PageUp'].includes(e.key)) { e.preventDefault(); this.prev(); }
+          else if (e.key === 'Home') this.showSlide(0);
+          else if (e.key === 'End') this.showSlide(this.slides.length - 1);
+        });
+      }
+      setupTouchNav() {
+        document.addEventListener('touchstart', (e) => { this.touchStartX = e.changedTouches[0].screenX; }, { passive: true });
+        document.addEventListener('touchend', (e) => {
+          const d = e.changedTouches[0].screenX - this.touchStartX;
+          if (Math.abs(d) > 50) d < 0 ? this.next() : this.prev();
+        }, { passive: true });
+      }
+      setupWheelNav() {
+        let t;
+        document.addEventListener('wheel', (e) => {
+          clearTimeout(t);
+          t = setTimeout(() => { if (e.deltaY > 30) this.next(); else if (e.deltaY < -30) this.prev(); }, 50);
+        }, { passive: true });
+      }
+    }
+
+    class InlineEditor {
+      constructor() {
+        this.isActive = false;
+        this.toggle = document.getElementById('editToggle');
+        this.hotzone = document.getElementById('editHotzone');
+        this.hideTimeout = null;
+        this.setup();
+      }
+      setup() {
+        this.toggle.addEventListener('click', () => this.toggleEditMode());
+        this.hotzone.addEventListener('click', () => this.toggleEditMode());
+        this.hotzone.addEventListener('mouseenter', () => { clearTimeout(this.hideTimeout); this.toggle.classList.add('show'); });
+        this.hotzone.addEventListener('mouseleave', () => { this.hideTimeout = setTimeout(() => { if (!this.isActive) this.toggle.classList.remove('show'); }, 400); });
+        this.toggle.addEventListener('mouseenter', () => clearTimeout(this.hideTimeout));
+        this.toggle.addEventListener('mouseleave', () => { this.hideTimeout = setTimeout(() => { if (!this.isActive) this.toggle.classList.remove('show'); }, 400); });
+        document.addEventListener('keydown', (e) => {
+          if ((e.key === 'e' || e.key === 'E') && e.target.getAttribute('contenteditable') !== 'true') this.toggleEditMode();
+          if (e.key === 's' && (e.ctrlKey || e.metaKey) && this.isActive) { e.preventDefault(); this.save(); alert('已保存到 localStorage'); }
+        });
+      }
+      toggleEditMode() {
+        this.isActive = !this.isActive;
+        this.toggle.classList.toggle('active', this.isActive);
+        this.toggle.textContent = this.isActive ? '✅ 完成' : '✏️ 编辑';
+        document.querySelectorAll('.slide h1,.slide h2,.slide h3,.slide p,.slide li,.slide td,.slide .cell-num,.slide .tag,.slide .flow-step,.slide .quote').forEach(el => {
+          el.contentEditable = this.isActive ? 'true' : 'false';
+        });
+      }
+      save() {
+        const data = {};
+        document.querySelectorAll('.slide').forEach((s, i) => { data[i] = s.innerHTML; });
+        localStorage.setItem('skillhub-deck-creative-mode-edits', JSON.stringify(data));
+      }
+    }
+
+    new SlidePresentation();
+    new InlineEditor();
+  </script>
+</body>
+</html>

@@ -1,0 +1,260 @@
+---
+title: 从龙虾到爱马仕：我为什么不自己写 Skill 了
+author: 
+cover: /Users/chenyueli/obsidian-lylian/workspace-lylian/06-技能/05-skillhub-public/skills/test/合格/covers/cover_hermes-vs-openclaw.jpg
+summary: 用了两周 Hermes 后，我发现 AI Agent 的胜负手不在模型，而在「谁来维护 Skill」——从手动蒸馏到自动进化，可能是下一个分水岭。
+---
+
+# 从龙虾到爱马仕：我为什么不自己写 Skill 了
+
+2026 年 4 月，一匹黑马冲进 AI 圈。
+
+Nous Research 开源的 **Hermes Agent**（爱马仕），46 天 GitHub Stars 破 10 万——史上第二快。朋友圈又炸了。
+
+但我真正想问的，其实就一句话：
+
+**它和龙虾（OpenClaw）到底差在哪？我是继续养虾，还是换马？**
+
+用了两周，我有一些不太一样的答案。
+
+---
+
+## 一、Hermes 切中了什么？
+
+我每天用龙虾做产品调研、出方案、写文档。好处不用多说。
+
+但有一个痛点，一直卡着我——
+
+**Skill 维护，太费人了。**
+
+想让 AI 干复杂的事，得自己写 Skill。写完调试，调试完维护。好不容易打磨出一个顺手的，换场景又不好使。有时候花在写 Skill 上的时间，比我自己动手还长。
+
+Hermes 推了一个 **AutoSkill 自进化技能**：对话过程中，自动把经验总结成 Skill。
+
+我当时想：这不就是我想要的吗？
+
+直接上手试了。
+
+---
+
+## 二、两周试用，四个 Aha 时刻
+
+### 1. 不是「超市选 Skill」，是「私人定制」
+
+Hermes 自带一批预装的高质量 Skill，按需启用，开箱即用。
+
+龙虾的 ClawHub 有上万个社区 Skill，生态确实更大。但 Hermes 的思路完全不同——**不是让你去找 Skill，而是帮你自动创建 Skill**。
+
+一个是超市模式，一个是私人定制模式。
+
+![超市模式 vs 私人定制：ClawHub 海量 Skill 与 Hermes 自动创建 Skill 的对比概念图](/Users/chenyueli/obsidian-lylian/workspace-lylian/06-技能/05-skillhub-public/skills/test/合格/images/img_001_supermarket-vs-custom.jpg)
+
+### 2. 聊着聊着，它自己建了好几个 Skill
+
+装好后正常聊天、让它干活，没做任何特殊操作。
+
+过了一段时间去看 Skill 目录——它自己把对话总结成了好几个可复用的技能。
+
+过程大概是这样：
+
+- **第 1 次**：让它写爬虫 → 写了，能用，就是普通脚本
+- **第 3 次**：又写了一个类似爬虫 → 它发现规律，自动创建了「写爬虫」的 Skill
+- **第 10 次**：我只说「爬一下 XX」→ 秒懂，知道我喜欢 httpx、日志写文件、异常处理用我习惯的方式
+
+**从「我维护 Skill」，变成了「它帮我维护 Skill」。**
+
+当然不完美——自动创建的 Skill 会有重复，需要定期整理。但这个方向，我觉得是对的。
+
+我去研究了它为什么能做到，系统指令里有一段设计很有意思：
+
+> `5+ tool calls` — 简单任务不建 Skill，5 步以上的复杂流程才创建  
+> `fixing a tricky error` — 踩过的坑最有价值，难搞的 bug 解决了会自动记下来  
+> `don't wait to be asked` — 不需要用户主动要求，Agent 自主判断  
+> `Skills that aren't maintained become liabilities` — 过时的 Skill 比没有更危险，所以不只创建，还在使用中持续改进
+
+这不是一条规则，是一套**知识管理哲学**，被编码进了 Agent 的行为准则。
+
+![AutoSkill 进化过程：从普通脚本到可复用 Skill 的三阶段示意图](/Users/chenyueli/obsidian-lylian/workspace-lylian/06-技能/05-skillhub-public/skills/test/合格/images/img_002_autoskill-evolution.jpg)
+
+### 3. 我没说「请记住」，它自己就记了
+
+你可能会说：记忆这事，Claude、ChatGPT 也能做。
+
+对。但关键区别是：**我从头到尾没说过「请记住这个」。**
+
+用了一周后随口说「帮我写个产品文档」，它直接用简洁风格输出。因为上周我顺嘴提了一句「我喜欢简洁风格，不要废话」。
+
+```
+第 1 次：我随口说「我是产品经理，喜欢简洁风格，不要废话」（没说「请记住」）
+
+一周后：我说「帮我写个产品文档」→ 直接简洁风格输出
+
+一个月后：我说「周报」→ 自动知道格式、内容、发给谁
+```
+
+龙虾需要你主动维护 MEMORY.md，或明确说「记住这个」才会存。Hermes **默认开着自动记忆**——大约每 15 轮对话主动做一次「反思」，把有价值的信息提炼写入持久记忆。
+
+**它自己判断什么值得记，不需要你提醒。**
+
+### 4. 说到一半能补充——嘴瓢星人的福音
+
+跟 AI 聊到一半想补充内容，龙虾不支持。Hermes 可以——补充的部分会自动合并进上下文，不会打断对话流，也不会丢失已有信息。
+
+经常嘴瓢、想法来回跳的人，这个功能出乎意料地好用。
+
+---
+
+## 三、本质：这些工具在解决什么问题？
+
+### Harness 架构：一张图看懂 AI Agent
+
+这个概念由 Terraform 创造者 Mitchell Hashimoto 提出：**AI 的瓶颈不是模型本身，而是模型周围的环境。** 同一个模型，只调整「Harness」配置，任务成绩从 52.8% 涨到 66.5%。
+
+**模型是马，但马跑多快，不只取决于马本身。**
+
+这套「缰绳」拆成五层：
+
+| 层级 | 作用 | 代表技术 |
+|------|------|----------|
+| **指令层** | 告诉 AI「做什么、怎么做」 | Skill / SOUL.md / CLAUDE.md |
+| **记忆层** | 让 AI「记得住」 | MEMORY.md / 会话记忆 / 知识库 |
+| **约束层** | 给 AI「画红线」 | sandbox / hooks / 权限控制 |
+| **反馈层** | 让 AI「会反思」 | 学习循环 / 人工审查 / 评估 |
+| **编排层** | 让 AI「能协作」 | Multi-Agent / Sub-Agent / cron |
+
+![AI Agent Harness 五层架构：指令、记忆、约束、反馈、编排](/Users/chenyueli/obsidian-lylian/workspace-lylian/06-技能/05-skillhub-public/skills/test/合格/images/img_003_harness-five-layers.jpg)
+
+### 不同工具，侧重不同的层
+
+| Harness 层 | OpenClaw 🦞 | Hermes 🐴 | Claude Code |
+|-----------|------------|-----------|-------------|
+| **指令层** | 人工写 SOUL.md / Skill | **自动创建 + 自改进** ✨ | 人工写 CLAUDE.md |
+| **记忆层** | MEMORY.md（人工维护为主） | **三层记忆 + 自动固化** ✨ | 项目级记忆（跟项目走） |
+| **约束层** | 配置透明，明文可审计 | sandbox + 工具权限 | hooks + linter |
+| **反馈层** | Dreaming（实验性，默认关） | **闭环学习循环（默认开）** ✨ | 人工审查 |
+| **编排层** | Multi-Agent + Sub-Agent | Sub-Agent（能力有限） | Sub-Agent 交互 |
+
+**Hermes 的核心差异化在指令层和记忆层**——自动创建 Skill、自动记忆固化、闭环学习循环。
+
+OpenClaw 在**约束层和编排层**更成熟——配置透明可审计、Multi-Agent 体系完整。
+
+Claude Code 专注**实时交互编码**，记忆跟项目走，换个项目就不认识你了。
+
+> 它们不是三条平行线，是同一栋房子里分工不同的三个角色。
+
+![OpenClaw、Hermes、Claude Code 在同一栋「Agent 房子」里分工不同](/Users/chenyueli/obsidian-lylian/workspace-lylian/06-技能/05-skillhub-public/skills/test/合格/images/img_004_three-agents-house.jpg)
+
+### Skill 和记忆，本质上都是知识
+
+- **记忆**是你告诉 AI 的原始信息（「我喜欢简洁风格」）
+- **Skill**是从记忆中蒸馏出来的可复用知识（「写文档时默认简洁风格」）
+- **知识 = 记忆 + 技能**
+
+Hermes 把**从记忆到知识的蒸馏过程自动化了**。
+
+龙虾需要你自己蒸馏——手写 Skill、手动维护 MEMORY.md。Hermes 帮你蒸馏——Auto Skill + 自动记忆。
+
+**核心区别不是谁更强，而是「蒸馏由谁完成」。** 手动的好处是透明可控，自动的好处是省心省力。
+
+---
+
+## 四、冷静看优缺点
+
+### Hermes 的优点
+
+| 优势 | 用户价值 |
+|------|---------|
+| **自动创建 + 改进 Skill** | 从「我维护」变成「它维护」 |
+| **默认自动记忆** | 不用手动写 MEMORY.md，约 15 轮对话自动反思一次 |
+| **成本低** | $5 VPS + API 费，月成本 < $10 |
+| **本地存储 + MIT 开源** | 数据在自己服务器，代码完全开放 |
+| **24/7 后台运行** | 定时任务、自动监控，不用开着对话 |
+| **轻量** | 内存 < 500MB，只有龙虾的 1/10 ~ 1/20 |
+
+### Hermes 的缺点
+
+| 局限 | 影响 |
+|------|------|
+| **自动 Skill 有重复和噪声** | 需要定期整理，不然目录越来越乱 |
+| **生态没龙虾成熟** | 社区 Skill 少，ClawHub 有上万个 |
+| **Multi-Agent 能力有限** | 只有 Sub-Agent，没有龙虾的 Multi-Agent 体系 |
+| **记忆系统稍黑盒** | 不如龙虾 MEMORY.md 明文可见 |
+| **安全性仍在追赶** | 建议装在远程或独立机器上，不要装在主力工作机 |
+
+---
+
+## 五、没有完美工具，只有合适选择
+
+**不要把它们当互斥的选择题。** 不同场景选不同工具：
+
+**适合 Hermes：**
+
+- 希望 AI 自动进化、不想手动维护 Skill
+- 需要长期个人助理，记住你的习惯和偏好
+- 任务多变复杂，需要灵活应变
+- 需要 24/7 后台自动化
+
+**适合 OpenClaw：**
+
+- 团队协作、需要可控可审计
+- 对外服务（如客服场景），面向人多难管控
+- 需要稳定执行、不希望「突然学会新东西」
+
+专注编码 → Claude Code；日常轻量 → Gemini / ChatGPT / DeepSeek，用顺手的就行。
+
+**关键：多用。** AI 工具迭代很快，今天的短板明天可能补上。龙虾的 Dreaming 功能也在陆续上线，大家都在追赶。
+
+选工具不用纠结「最好的」，选一个上手、用起来、让它帮你干活。
+
+---
+
+## 六、快速入门
+
+### 三步安装
+
+准备一台笔记本或服务器。之前养虾的设备可以一键养马，不冲突。
+
+```bash
+# 第 1 步：安装（5 分钟）
+curl -sSL https://hermes-agent.com/install.sh | bash
+
+# 第 2 步：配置 API Key（1 分钟）
+nano ~/.hermes/config.yaml
+# 支持 Claude、GPT-4、Gemini、DeepSeek 等多种模型
+
+# 第 3 步：开始对话
+hermes
+```
+
+> 不需要编程基础，全程复制粘贴 + 自然语言对话。
+
+### 实用建议
+
+1. **第一次对话**：跟它自我介绍——你是做什么的、工作风格偏好，它会自动记住
+2. **先用简单任务试水**：写文档、总结文章，感受记忆和 Skill 创建机制
+3. **定期整理 Skill**：每周 5 分钟看一下 `~/.hermes/skills/`，删重复、合并类似的
+4. **多平台接入**：配置 Telegram / Discord，手机上也能随时聊
+
+### 推荐资源
+
+| 类别 | 链接 |
+|------|------|
+| 📖 官方文档 | https://hermes-agent.nousresearch.com/docs |
+| 🐙 GitHub 仓库 | https://github.com/nous-research/hermes-agent |
+| 🔰 腾讯云部署教程（小白首选） | https://cloud.tencent.com/developer/article/2653159 |
+| 🧠 技术原理解读 | https://cloud.tencent.com/developer/article/2655271 |
+| 💬 社区 Discord | https://discord.gg/hermes-agent |
+
+---
+
+**FAQ**
+
+| 问题 | 回答 |
+|------|------|
+| 需要编程基础吗？ | 不需要。安装复制粘贴，使用自然语言对话 |
+| 数据安全吗？ | 本地运行，记忆存在 `~/.hermes/`。API 调用会传模型提供商，建议装远程机器 |
+| 和龙虾冲突吗？ | 不冲突，同一台机器可以同时跑 |
+| Skill 太多怎么管？ | 每周整理一次：删重复、合并类似、优化有问题的 |
+| 现在入还是等龙虾补齐？ | 最痛手动维护 Skill → 试 Hermes；看重稳定生态 → 继续用龙虾，打开 Dreaming |
+| 可以离线用吗？ | 不可以，需要 LLM API。可配本地模型（Ollama），费用为 0，需 16GB+ 内存 |
+| 两个能一起用吗？ | 完全可以。OpenClaw 处理标准化任务，Hermes 处理个性化任务 |

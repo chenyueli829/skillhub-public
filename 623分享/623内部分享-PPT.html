@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>从 AI 小白到「养虾大户」— 内部分享</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #1a1a2e;
+  --surface: #16213e;
+  --accent: #e85a1f;
+  --accent2: #f39c12;
+  --text: #eaeaea;
+  --text2: #a0a0b0;
+  --white: #ffffff;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+  width: 100%; height: 100%;
+  font-family: 'Noto Sans SC', 'Inter', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow: hidden;
+}
+
+/* === Slide Container === */
+.slides {
+  width: 100vw; height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+.slide {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  padding: 60px 80px;
+  opacity: 0;
+  transform: translateX(60px);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  z-index: 1;
+}
+.slide.active {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+  z-index: 10;
+}
+.slide.prev {
+  opacity: 0;
+  transform: translateX(-60px);
+  z-index: 5;
+}
+
+/* === Slide Types === */
+
+/* Cover */
+.slide.cover { text-align: center; }
+.slide .tag {
+  font-family: 'Inter', monospace;
+  font-size: 14px; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 24px;
+  display: inline-block;
+}
+.slide .title {
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 900; line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+}
+.slide .subtitle {
+  font-size: clamp(18px, 2.5vw, 26px);
+  color: var(--text2);
+  line-height: 1.5;
+  max-width: 640px;
+  margin-bottom: 32px;
+}
+.slide .meta {
+  display: flex; gap: 24px;
+  justify-content: center;
+  color: var(--text2);
+  font-size: 15px;
+}
+.slide .meta span { opacity: 0.7; }
+
+/* Content slide */
+.slide.content h2 {
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 900; line-height: 1.2;
+  letter-spacing: -0.01em;
+  margin-bottom: 8px;
+}
+.slide .label {
+  font-family: 'Inter', monospace;
+  font-size: 12px; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+.slide .desc {
+  font-size: 20px;
+  color: var(--text2);
+  max-width: 720px;
+  line-height: 1.7;
+  margin-bottom: 32px;
+}
+
+/* Quote */
+.quote {
+  font-size: clamp(22px, 3vw, 34px);
+  font-weight: 700;
+  line-height: 1.45;
+  max-width: 800px;
+  text-align: center;
+  padding: 32px 40px;
+  border-left: 4px solid var(--accent);
+  border-radius: 0 16px 16px 0;
+  background: linear-gradient(90deg, rgba(232,90,31,0.08) 0%, transparent 100%);
+  color: var(--white);
+}
+.quote .attr {
+  display: block;
+  font-size: 16px; font-weight: 500;
+  color: var(--accent); margin-top: 16px;
+  opacity: 0.8;
+}
+
+/* Cards grid */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  max-width: 900px;
+  width: 100%;
+  margin-top: 24px;
+}
+.card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 24px;
+  transition: all 0.3s ease;
+}
+.card:hover { background: rgba(255,255,255,0.08); transform: translateY(-4px); }
+.card-icon { font-size: 32px; margin-bottom: 12px; }
+.card h4 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+.card p { font-size: 14px; color: var(--text2); line-height: 1.55; }
+
+/* Timeline / Steps */
+.steps {
+  display: flex;
+  gap: 24px;
+  align-items: stretch;
+  max-width: 960px;
+  width: 100%;
+  margin-top: 32px;
+}
+.step {
+  flex: 1;
+  background: rgba(255,255,255,0.04);
+  border-radius: 16px;
+  padding: 28px 24px;
+  position: relative;
+  border-top: 3px solid var(--accent);
+}
+.step-num {
+  position: absolute; top: -16px; left: 24px;
+  width: 30px; height: 30px;
+  background: var(--accent);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 800; color: #fff;
+}
+.step h4 { font-size: 16px; font-weight: 700; margin-top: 12px; margin-bottom: 8px; }
+.step p { font-size: 13px; color: var(--text2); line-height: 1.5; }
+
+/* Image slide */
+.slide-img {
+  max-width: 70%;
+  max-height: 50vh;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  object-fit: contain;
+}
+.img-caption {
+  margin-top: 16px;
+  font-size: 14px;
+  color: var(--text2);
+  text-align: center;
+}
+
+/* Table */
+.table-wrap {
+  max-width: 800px; width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 24px;
+}
+table { width: 100%; border-collapse: collapse; font-size: 15px; }
+thead th {
+  background: var(--accent); color: #fff;
+  font-weight: 700; padding: 12px 20px;
+  text-align: left; font-size: 13px;
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+tbody td {
+  padding: 12px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  color: var(--text2); font-size: 14px;
+}
+tbody tr:last-child td { border-bottom: none; }
+
+/* Tags row */
+.tags-row {
+  display: flex; gap: 10px; flex-wrap: wrap;
+  justify-content: center;
+  max-width: 800px; margin-top: 24px;
+}
+.tag-pill {
+  font-size: 13px; padding: 8px 18px;
+  border-radius: 24px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.04);
+  color: var(--text2);
+  white-space: nowrap;
+}
+.tag-pill.blue { background: rgba(59,130,246,0.15); border-color: rgba(59,130,246,0.3); color: #93c5fd; }
+.tag-pill.green { background: rgba(22,163,74,0.15); border-color: rgba(22,163,74,0.3); color: #86efac; }
+.tag-pill.yellow { background: rgba(234,179,8,0.15); border-color: rgba(234,179,8,0.3); color: #fde68a; }
+.tag-pill.accent { background: rgba(232,90,31,0.15); border-color: rgba(232,90,31,0.3); color: #fdba74; }
+
+/* CTA / Ending */
+.cta-slide { text-align: center; }
+.cta-lines { font-size: clamp(22px, 3vw, 32px); font-weight: 700; line-height: 1.8; }
+.cta-lines strong { color: var(--accent); }
+.cta-footer {
+  margin-top: 40px; font-size: 15px; color: var(--text2);
+  opacity: 0.6;
+}
+
+/* Number highlight */
+.big-num {
+  font-size: 56px; font-weight: 900; color: var(--accent);
+  line-height: 1;
+}
+
+/* Two-col layout */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  max-width: 960px;
+  width: 100%; align-items: start;
+}
+.two-col h4 { font-size: 18px; font-weight: 700; margin-bottom: 12px; color: var(--white); }
+.two-col ul { list-style: none; }
+.two-col li {
+  padding: 6px 0; padding-left: 20px;
+  position: relative; font-size: 15px; color: var(--text2);
+}
+.two-col li::before { content: '›'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+
+/* === Navigation === */
+.nav-hint {
+  position: fixed; bottom: 24px; left: 50%;
+  transform: translateX(-50%);
+  display: flex; gap: 8px; z-index: 100;
+}
+.dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  cursor: pointer; transition: all 0.3s;
+}
+.dot.active { background: var(--accent); width: 24px; border-radius: 4px; }
+.arrow-hint {
+  position: fixed; bottom: 24px; right: 32px;
+  font-size: 13px; color: rgba(255,255,255,0.25);
+  font-family: 'Inter', monospace; z-index: 100;
+}
+.page-num {
+  position: fixed; bottom: 24px; left: 32px;
+  font-size: 13px; color: rgba(255,255,255,0.25);
+  font-family: 'Inter', monospace; z-index: 100;
+}
+
+/* Progress bar */
+.progress-bar {
+  position: fixed; top: 0; left: 0; height: 3px;
+  background: var(--accent);
+  z-index: 200; transition: width 0.3s;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .slide { padding: 40px 28px; }
+  .steps { flex-direction: column; gap: 16px; }
+  .two-col { grid-template-columns: 1fr; }
+  .slide-img { max-width: 95%; max-height: 35vh; }
+  .cards { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+
+<div class="slides">
+
+<!-- ===== SLIDE 1: COVER ===== -->
+<div class="slide cover active">
+  <div class="tag">AI Native · Internal Sharing · 2026.06</div>
+  <h1 class="title">从 AI 小白<br>到「养虾大户」</h1>
+  <p class="subtitle">一个产品经理的 AI Native 实战<br>如何把 AI 用成一个产品军团</p>
+  <div class="meta">
+    <span>📅 2026.06.23</span>
+    <span>⏱️ ~15 分钟</span>
+    <span>✍️ 莉莉安 (lylianchen)</span>
+  </div>
+</div>
+
+
+
+<!-- ===== SLIDE 3: EVOLUTION ===== -->
+<div class="slide content">
+  <div class="label">Part 01 · 工具演进</div>
+  <h2>2026 是 Agent 爆发元年</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h4>跑通流程</h4>
+      <p>OpenClaw · Lighthouse · 飞书养虾<br><strong style="color:var(--accent)">「能跑了！」</strong></p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h4>提速</h4>
+      <p>Hermes 内网/本地<br><strong style="color:var(--accent)">「快了，但单线」</strong></p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h4>军团模式</h4>
+      <p>WorkBuddy · Claude Code/Cowork/Design<br><strong style="color:var(--accent)">「一个人 = 一个团队」</strong></p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ===== SLIDE 4: WHAT I DID ===== -->
+<div class="slide content">
+  <div class="label">Part 02 · 我做了什么</div>
+  <h2>两条主线：能力扩展 + 知识沉淀</h2>
+  <div class="cards">
+    <div class="card">
+      <div class="card-icon">🤖</div>
+      <h4>制作分身军团</h4>
+      <p>产品、运营、架构师各司其职。SOUL.md 定义人设 + Skill 扩展能力</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🧩</div>
+      <h4>Skill 评测 &amp; 精选库</h4>
+      <p>大量使用评测 → 筛出好用的 → SkillHub Public 精选仓库</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📚</div>
+      <h4>知识库 Obsidian</h4>
+      <p>本地管理 + Agent 可调用 + 多端 Sync</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🚀</div>
+      <h4>AI 原生新项目</h4>
+      <p>想法→Demo→落地快跑：支付 Agent2Agent、ProductLab 等</p>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- ===== SLIDE 6: AHA CASES ===== -->
+<div class="slide content">
+  <div class="label">Part 03 · Aha Moment</div>
+  <h2>当分身真的开始干活</h2>
+  <div class="cards" style="grid-template-columns: repeat(3, 1fr);">
+    <div class="card">
+      <div class="card-icon">📝</div>
+      <h4>AI 运营团队</h4>
+      <p>24 小时不休息<br>每天自动产出小红书文章</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔬</div>
+      <h4>滚动行业研究</h4>
+      <p>每 15 分钟汇报一次<br>自动同步 iWiki</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🏗️</div>
+      <h4>ToB 方案架构师</h4>
+      <p>快速定制角色<br>输出完整解决方案</p>
+    </div>
+  </div>
+  <div class="quote" style="margin-top: 32px;">
+    一次性的分身配置，可长期复用。<br>
+    <span class="attr">核心认知：做能产生复利的事</span>
+  </div>
+</div>
+
+
+<!-- ===== SLIDE 7: CASE SCREENSHOT 1 ===== -->
+<div class="slide content">
+  <div class="label">案例实况 · ①</div>
+  <h2>AI 运营 — 小红书全自动发布</h2>
+  <img src="images/case-xiaohongshu.png" alt="小红书截图" class="slide-img">
+  <p class="img-caption">选题→文案→标签→发布确认，全自动流水线</p>
+</div>
+
+
+<!-- ===== SLIDE 8: CASE SCREENSHOT 2 ===== -->
+<div class="slide content">
+  <div class="label">案例实况 · ②</div>
+  <h2>Lovable 产品体验报告</h2>
+  <img src="images/aha-operation.png" alt="Lovable报告" class="slide-img">
+  <p class="img-caption">结构化研究框架 + 竞品分析 + 定价模型，完整覆盖</p>
+</div>
+
+
+<!-- ===== SLIDE 9: CASE SCREENSHOT 3 ===== -->
+<div class="slide content">
+  <div class="label">案例实况 · ③</div>
+  <h2>23 轮 AI 支付竞品分析</h2>
+  <img src="images/case-research-list.png" alt="研究列表" class="slide-img">
+  <p class="img-caption">覆盖 Stripe、Apple Pay、银联等全球主流方案</p>
+</div>
+
+
+<!-- ===== SLIDE 10: SKILL CONCEPT ===== -->
+<div class="slide content">
+  <div class="label">干货① · Skill 评测法</div>
+  <h2>什么是 Skill？</h2>
+  <div class="quote">
+    Skill = 给 AI 写的 SOP（标准作业程序）<br>不是一次性 Prompt，是持久化的 SKILL.md 文件
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>维度</th><th>普通 Prompt</th><th>Skill</th></tr></thead>
+      <tbody>
+        <tr><td>形态</td><td>一次性对话</td><td>持久化 SKILL.md 文件</td></tr>
+        <tr><td>触发</td><td>每次手动粘贴</td><td>自动匹配 / @调用</td></tr>
+        <tr><td>内容</td><td>几句话</td><td>完整 SOP + 脚本 + 规则</td></tr>
+        <tr><td>复用</td><td>难，每次重写</td><td>GitHub 一键安装</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<!-- ===== SLIDE 11: SKILL HUB STATS ===== -->
+<div class="slide content">
+  <div class="label">干货① · SkillHub Public</div>
+  <h2>我筛过、用过、愿意推荐的清单</h2>
+  <div class="cards" style="grid-template-columns: repeat(3, 1fr); max-width: 600px;">
+    <div class="card" style="text-align: center; border-top: 3px solid var(--accent);">
+      <div class="big-num">63</div>
+      <p style="margin-top: 6px; font-size: 14px;">个精选 Skill</p>
+    </div>
+    <div class="card" style="text-align: center; border-top: 3px solid #60a5fa;">
+      <div class="big-num" style="color: #60a5fa;">11</div>
+      <p style="margin-top: 6px; font-size: 14px;">个场景分类</p>
+    </div>
+    <div class="card" style="text-align: center; border-top: 3px solid #22c55e;">
+      <div class="big-num" style="color: #22c55e;">6</div>
+      <p style="margin-top: 6px; font-size: 14px;">个角色推荐</p>
+    </div>
+  </div>
+  <p style="margin-top: 24px; text-align: center; color: var(--text2); font-size: 16px;">
+    定位：精选 + 归档 + 验证<br>
+    <strong style="color: var(--white);">不盲目安装，只装真正会用的</strong>
+  </p>
+</div>
+
+
+<!-- ===== SLIDE 12: SKILL HUB MAP ===== -->
+<div class="slide content">
+  <div class="label">干货① · SkillHub 精选库</div>
+  <h2>63 个精选 Skill · 11 个来源 · 6 大场景</h2>
+  <img src="images/skillhub-map.jpg" alt="SkillHub Public精选库地图" class="slide-img" style="max-width: 80%; max-height: 58vh;">
+  <p class="img-caption">按场景分类 + 按角色推荐 —— 只装真正会用上的</p>
+</div>
+
+
+<!-- ===== SLIDE 13: CATALOG BY SCENARIO ===== -->
+<div class="slide content">
+  <div class="label">干货① · 按场景取用</div>
+  <h2>我有哪些 Skill</h2>
+  <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; max-width: 960px; width: 100%; margin-top: 20px;">
+    <div class="card" style="padding: 14px 16px; background: rgba(240,108,168,0.12); border-color: rgba(240,108,168,0.25);">
+      <h4 style="font-size: 15px;">📋 PRD/产品 ×4</h4>
+      <p style="font-size: 12px;">brainstorming · idea-validator · writing-plans · ai-painpoint-kb</p>
+    </div>
+    <div class="card" style="padding: 14px 16px; background: rgba(31,138,76,0.12); border-color: rgba(31,138,76,0.25);">
+      <h4 style="font-size: 15px;">🔬 研究 ×3</h4>
+      <p style="font-size: 12px;">ecc-deep-research · 产品体验报告 · hv-analysis</p>
+    </div>
+    <div class="card" style="padding: 14px 16px; background: rgba(245,197,24,0.12); border-color: rgba(245,197,24,0.25);">
+      <h4 style="font-size: 15px;">✍️ 写作 ×4</h4>
+      <p style="font-size: 12px;">公众号 · 小红书 · humanizer · 对抗式评审</p>
+    </div>
+    <div class="card" style="padding: 14px 16px; background: rgba(232,90,31,0.12); border-color: rgba(232,90,31,0.25);">
+      <h4 style="font-size: 15px;">🎨 绘图 ×4</h4>
+      <p style="font-size: 12px;">21种信息图 · 漫画 · 文章配图 · 架构图</p>
+    </div>
+    <div class="card" style="padding: 14px 16px; background: rgba(45,108,223,0.12); border-color: rgba(45,108,223,0.25);">
+      <h4 style="font-size: 15px;">📊 PPT ×3</h4>
+      <p style="font-size: 12px;">deerflow-ppt · frontend-slides · HTML模板</p>
+    </div>
+    <div class="card" style="padding: 14px 16px;">
+      <h4 style="font-size: 15px;">🖥️ 设计 ×3</h4>
+      <p style="font-size: 12px;">frontend-design · taste-skill · web-artifacts</p>
+    </div>
+    <div class="card" style="padding: 14px 16px;">
+      <h4 style="font-size: 15px;">🌐 浏览器 ×3</h4>
+      <p style="font-size: 12px;">agent-browser · playwright · page-agent</p>
+    </div>
+    <div class="card" style="padding: 14px 16px;">
+      <h4 style="font-size: 15px;">📡 信息源 ×4</h4>
+      <p style="font-size: 12px;">last30days · newsletter · follow-builders · aihot</p>
+    </div>
+    <div class="card" style="padding: 14px 16px;">
+      <h4 style="font-size: 15px;">📚 知识/笔记 ×3</h4>
+      <p style="font-size: 12px;">getnote · iwiki-organizer · notebooklm</p>
+    </div>
+    <div class="card" style="padding: 14px 16px; background: rgba(240,108,168,0.12); border-color: rgba(240,108,168,0.25);">
+      <h4 style="font-size: 15px;">🎬 视频 ×1</h4>
+      <p style="font-size: 12px;">deerflow-video 短视频</p>
+    </div>
+    <div class="card" style="padding: 14px 16px; background: rgba(31,138,76,0.12); border-color: rgba(31,138,76,0.25);">
+      <h4 style="font-size: 15px;">🛡️ 幻觉消除 ×1</h4>
+      <p style="font-size: 12px;">claim-verifier 事实核查</p>
+    </div>
+    <div class="card" style="padding: 14px 16px; background: rgba(245,197,24,0.12); border-color: rgba(245,197,24,0.25);">
+      <h4 style="font-size: 15px;">⚡ 怎么用</h4>
+      <p style="font-size: 12px;">贴 SKILL.md 链接安装 · @skill-name 调用</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ===== SLIDE 14: ROLE MAP ===== -->
+<div class="slide content">
+  <div class="label">干货① · 按角色取用</div>
+  <h2>哪些角色适合用哪些 Skill</h2>
+  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; max-width: 960px; width: 100%; margin-top: 20px;">
+    <div class="card" style="padding: 16px 18px; border-top: 3px solid #f06ca8;">
+      <h4 style="font-size: 16px;">🧭 产品经理</h4>
+      <p style="font-size: 13px; line-height: 1.6;">brainstorming · idea-validator · claim-verifier · 产品体验报告</p>
+    </div>
+    <div class="card" style="padding: 16px 18px; border-top: 3px solid #1f8a4c;">
+      <h4 style="font-size: 16px;">🔬 研究员/分析师</h4>
+      <p style="font-size: 13px; line-height: 1.6;">ecc-deep-research · hv-analysis · last30days · notebooklm</p>
+    </div>
+    <div class="card" style="padding: 16px 18px; border-top: 3px solid #f5c518;">
+      <h4 style="font-size: 16px;">✍️ 内容创作者</h4>
+      <p style="font-size: 13px; line-height: 1.6;">公众号 · 小红书 · humanizer · baoyu-comic</p>
+    </div>
+    <div class="card" style="padding: 16px 18px; border-top: 3px solid #e85a1f;">
+      <h4 style="font-size: 16px;">🎨 设计师/前端</h4>
+      <p style="font-size: 13px; line-height: 1.6;">frontend-design · taste-skill · web-artifacts · 架构图</p>
+    </div>
+    <div class="card" style="padding: 16px 18px; border-top: 3px solid #2d6cdf;">
+      <h4 style="font-size: 16px;">📈 运营/增长</h4>
+      <p style="font-size: 13px; line-height: 1.6;">follow-builders · aihot · newsletter · last30days</p>
+    </div>
+    <div class="card" style="padding: 16px 18px; border-top: 3px solid #a0a0b0;">
+      <h4 style="font-size: 16px;">💻 开发者</h4>
+      <p style="font-size: 13px; line-height: 1.6;">writing-plans · playwright · agent-browser · claim-verifier</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ===== SLIDE 15: PHILOSOPHY ===== -->
+<div class="slide content">
+  <div class="label">干货① · 使用哲学</div>
+  <h2>会选 Skill，比会写 Prompt 更重要</h2>
+  <div class="quote" style="margin-top: 24px;">
+    只装真正会用的 —— 上下文是稀缺资源。<br>
+    贴 SKILL.md 链接安装，@skill-name 直接调用。
+  </div>
+  <div class="cards" style="grid-template-columns: repeat(3, 1fr); max-width: 700px; margin-top: 32px;">
+    <div class="card" style="text-align: center;"><h4>📋 SOP 思维</h4><p>硬约束 + 质量红线</p></div>
+    <div class="card" style="text-align: center;"><h4>✂️ Less is More</h4><p>装多了互相干扰</p></div>
+    <div class="card" style="text-align: center;"><h4>🧪 先评后入</h4><p>评测 → 入库 → 复用</p></div>
+  </div>
+  <p style="margin-top: 28px; text-align: center; font-family: 'Inter', monospace; font-size: 14px; color: var(--accent); opacity: 0.7;">
+    github.com/chenyueli829/skillhub-public
+  </p>
+</div>
+
+
+<!-- ===== SLIDE 16: KNOWLEDGE BASE ===== -->
+<div class="slide content">
+  <div class="label">干货② · 知识库</div>
+  <h2>Obsidian + Agent + Sync</h2>
+  <div class="quote">
+    本地 Obsidian 沉淀 → Agent 可随时调用 → 多端 Sync
+    <span class="attr">知识不是仓库，是 AI 的外挂大脑</span>
+  </div>
+  <p class="desc" style="margin-top: 24px; text-align: center; font-size: 17px;">
+    存了能用，才是真存了。<br>
+    当我启动一个新项目时，Agent 能直接调取相关背景。
+  </p>
+</div>
+
+
+<!-- ===== SLIDE 17: INFO SOURCES ===== -->
+<div class="slide content">
+  <div class="label">干货③ · 资讯源</div>
+  <h2>不用翻墙的 AI 资讯源</h2>
+  <div class="cards" style="grid-template-columns: repeat(3, 1fr);">
+    <div class="card">
+      <div class="card-icon">🌊</div>
+      <h4>Follow Builders</h4>
+      <p>信息流式被动接收<br>26 位从业者动态聚合推送</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🎙️</div>
+      <h4>听播客</h4>
+      <p>MiniMax、智谱等从业者<br>一手思考深度对谈</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">⭐</div>
+      <h4>关注头部大 V</h4>
+      <p>张咋啦、baoyu 等<br>有人帮你做预筛选</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ===== SLIDE 18: FOLLOW QR ===== -->
+<div class="slide content">
+  <div class="label">干货③ · 福利时间</div>
+  <h2>扫码进群 👆</h2>
+  <img src="images/follow-builders.png" alt="Follow Builders二维码" class="slide-img" style="max-width: 240px; max-height: 36vh;">
+  <p class="img-caption">Follow Builders — 企业内部群，全球 AI 从业者动态聚合</p>
+</div>
+
+
+<!-- ===== SLIDE 19: PRODUCTLAB INTRO ===== -->
+<div class="slide content">
+  <div class="label">产品预告 · ProductLab</div>
+  <h2>产品决策实验室</h2>
+  <p class="desc">面向独立开发者和早期探索者的 AI Native 工具</p>
+  <div class="quote">
+    早期探索缺的不是想法，<br>是判断。
+    <span class="attr"></span>
+  </div>
+</div>
+
+
+<!-- ===== SLIDE 20: PRODUCTLAB PIPELINE ===== -->
+<div class="slide content">
+  <div class="label">产品预告 · 工作流</div>
+  <h2>从想法到判断卡</h2>
+  <div class="tags-row">
+    <span class="tag-pill blue">领域情报</span>
+    <span style="color:var(--text2);font-size:20px;align-self:center;">→</span>
+    <span class="tag-pill green">机会雷达</span>
+    <span style="color:var(--text2);font-size:20px;align-self:center;">→</span>
+    <span class="tag-pill yellow">竞品分析</span>
+    <span style="color:var(--text2);font-size:20px;align-self:center;">→</span>
+    <span class="tag-pill accent">反馈雷达</span>
+    <span style="color:var(--text2);font-size:20px;align-self:center;">→</span>
+    <span class="tag-pill" style="background:rgba(255,255,255,0.15);color:var(--white);">产品判断台</span>
+  </div>
+</div>
+
+
+<!-- ===== SLIDE 21: JUDGEMENT CARD ===== -->
+<div class="slide content">
+  <div class="label">产品预告 · 核心创新</div>
+  <h2>判断卡：不写长报告</h2>
+  <div class="cards" style="grid-template-columns: repeat(3, 1fr);">
+    <div class="card" style="text-align: center;">
+      <div class="big-num">3</div>
+      <p style="margin-top: 8px; font-size: 14px;">个关键假设</p>
+    </div>
+    <div class="card" style="text-align: center;">
+      <div class="big-num" style="color: #60a5fa;">1</div>
+      <p style="margin-top: 8px; font-size: 14px;">个最大风险</p>
+    </div>
+    <div class="card" style="text-align: center;">
+      <div class="big-num" style="color: #22c55e;">1–3</div>
+      <p style="margin-top: 8px; font-size: 14px;">个低成本验证动作</p>
+    </div>
+  </div>
+  <p style="margin-top: 24px; text-align: center; color: var(--text2); font-size: 16px;">
+    早期产品探索需要的<strong style="color:var(--white);">不是长，而是清楚</strong>
+  </p>
+</div>
+
+
+<!-- ===== SLIDE 22: AI NATIVE 4 POINTS ===== -->
+<div class="slide content">
+  <div class="label">产品预告 · AI Native 四体现</div>
+  <h2>ProductLab 的四个设计原则</h2>
+  <div class="cards" style="grid-template-columns: repeat(2, 1fr);">
+    <div class="card">
+      <h4>🔄 流程引擎</h4>
+      <p>AI 参与完整工作流：检索→归纳→结构化→生成→提炼</p>
+    </div>
+    <div class="card">
+      <h4>📦 压缩能力</h4>
+      <p>模糊问题压缩成可判断结构，强制收敛到行动粒度</p>
+    </div>
+    <div class="card">
+      <h4>🏷️ 证据分级</h4>
+      <p>不伪装确定性。缺证据就标出来，不编数据</p>
+    </div>
+    <div class="card">
+      <h4>♻️ 系统沉淀</h4>
+      <p>个人经验封装成可复用 Skill，标准模板+质量红线+验证清单</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ===== SLIDE 23: CAPABILITY MAP ===== -->
+<div class="slide content">
+  <div class="label">方法论收束</div>
+  <h2>产品经理用 AI 能做什么？</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>能力维度</th><th>AI 具体在做什么</th></tr></thead>
+      <tbody>
+        <tr><td><strong>提认知</strong></td><td>市场研究 · 竞品分析 · 行业趋势扫描</td></tr>
+        <tr><td><strong>做判断</strong></td><td>正方反方、多维度思考 → 判断卡</td></tr>
+        <tr><td><strong>去行动</strong></td><td>用户调研 · PRD · Vibe Coding · 设计 Demo</td></tr>
+        <tr><td><strong>找合作</strong></td><td>架构师 Agent — 技术可行性评估</td></tr>
+        <tr><td><strong>做运营</strong></td><td>自动化运营 — 内容生产到发布全链路</td></tr>
+        <tr><td><strong>懂用户</strong></td><td>模拟小白用户 — Agent-Browser 跑反馈和痛点</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<!-- ===== SLIDE 24: ENDING ===== -->
+<div class="slide cta-slide">
+  <div class="tag">The End</div>
+  <h1 class="title" style="font-size: clamp(32px, 4.5vw, 52px);">金线三连 🎯</h1>
+  <div class="cta-lines" style="margin-top: 32px;">
+    1. 换工具是表象，<strong>升认知是本质</strong><br>
+    2. 一个人可以靠 AI <strong>扩展成一个团队</strong><br>
+    3. 把经验写成 Skill，<strong>让 AI 替你重复执行</strong>
+  </div>
+  <p class="cta-footer">
+    github.com/chenyueli829/skillhub-public<br>
+    欢迎 🔥 来抄 · 来共建 · 来拍砖
+  </p>
+</div>
+
+</div><!-- /.slides -->
+
+
+<!-- Navigation -->
+<nav class="nav-hint" id="dots"></nav>
+<span class="page-num" id="pageNum">1 / 24</span>
+<span class="arrow-hint">← → 或点击圆点切换</span>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const dotsEl = document.getElementById('dots');
+const pageNum = document.getElementById('pageNum');
+const progress = document.getElementById('progress');
+let current = 0;
+const total = slides.length;
+
+// Build dots
+for (let i = 0; i < total; i++) {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i === 0 ? ' active' : '');
+  d.onclick = () => goTo(i);
+  dotsEl.appendChild(d);
+}
+const dots = document.querySelectorAll('.dot');
+
+function update() {
+  slides.forEach((s, i) => {
+    s.classList.remove('active', 'prev');
+    if (i === current) s.classList.add('active');
+    else if (i < current) s.classList.add('prev');
+  });
+  dots.forEach((d, i) => d.className = 'dot' + (i === current ? ' active' : ''));
+  pageNum.textContent = (current + 1) + ' / ' + total;
+  progress.style.width = ((current + 1) / total * 100) + '%';
+}
+
+function go(dir) {
+  current = Math.max(0, Math.min(total - 1, current + dir));
+  update();
+}
+
+function goTo(idx) {
+  current = idx;
+  update();
+}
+
+// Keyboard nav
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') go(1);
+  else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') go(-1);
+});
+
+// Touch/swipe
+let touchStartX = 0;
+document.addEventListener('touchstart', e => touchStartX = e.touches[0].clientX);
+document.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  if (Math.abs(dx) > 50) go(dx > 0 ? -1 : 1);
+});
+</script>
+
+</body>
+</html>

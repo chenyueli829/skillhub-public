@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>阶段四 · 小步快跑、动手和落地能力</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-0:#0a0c12; --bg-1:#11141c; --line:#23283a;
+    --ink:#f4f6fb; --sub:#9aa3b8; --muted:#6b7488;
+    --accent:#5b8cff; --accent-2:#8a7bff; --glow:rgba(91,140,255,.35);
+    --mono:'JetBrains Mono',monospace;
+    --cn:'Noto Sans SC',sans-serif;
+    --body:'Space Grotesk','Noto Sans SC',sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:#000;display:flex;justify-content:center;align-items:center;font-family:var(--body);}
+
+  .slide{
+    position:relative; width:1920px; height:1080px; overflow:hidden;
+    background:
+      radial-gradient(1200px 700px at 78% -10%, rgba(91,140,255,.16), transparent 60%),
+      radial-gradient(900px 600px at 8% 110%, rgba(138,123,255,.12), transparent 55%),
+      linear-gradient(160deg,#0b0e15 0%, #0a0c12 55%, #070810 100%);
+    color:var(--ink);
+    padding:96px 150px 80px;
+    display:flex; flex-direction:column;
+  }
+  /* subtle grid texture */
+  .slide::before{
+    content:''; position:absolute; inset:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+    background-size:64px 64px;
+    mask-image:radial-gradient(1400px 900px at 70% 20%,#000 30%,transparent 80%);
+    pointer-events:none;
+  }
+  .slide > *{position:relative;z-index:1;}
+
+  /* ===== HEADER ===== */
+  .kicker{display:flex;align-items:center;gap:18px;margin-bottom:34px;}
+  .kicker .badge{
+    font-family:var(--mono);font-weight:700;font-size:20px;letter-spacing:.12em;
+    color:#cfe0ff;background:linear-gradient(135deg,rgba(91,140,255,.22),rgba(138,123,255,.18));
+    border:1px solid rgba(120,150,255,.4);border-radius:999px;padding:11px 22px;
+    box-shadow:0 0 30px var(--glow);
+  }
+  .kicker .en{font-family:var(--mono);font-size:18px;letter-spacing:.34em;color:var(--muted);text-transform:uppercase;}
+
+  .title{
+    font-family:var(--cn);font-weight:900;font-size:104px;line-height:1.05;letter-spacing:.01em;
+    background:linear-gradient(92deg,#ffffff 30%,#bcd0ff 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .subline{margin-top:24px;font-family:var(--cn);font-weight:400;font-size:30px;color:var(--sub);letter-spacing:.02em;}
+  .rule{margin-top:40px;height:1px;width:100%;
+    background:linear-gradient(90deg,rgba(120,150,255,.55),rgba(120,150,255,.05) 70%,transparent);}
+
+  /* ===== PROJECTS ===== */
+  .projects{margin-top:56px;display:flex;flex-direction:column;gap:28px;flex:1;justify-content:center;}
+  .proj{
+    display:flex;align-items:center;gap:42px;
+    background:linear-gradient(100deg,rgba(255,255,255,.045),rgba(255,255,255,.015));
+    border:1px solid var(--line);border-left:4px solid var(--accent);
+    border-radius:20px;padding:34px 52px;
+    box-shadow:0 24px 60px -30px rgba(0,0,0,.8);
+  }
+  .proj:nth-child(2){border-left-color:var(--accent-2);}
+  .proj:nth-child(3){border-left-color:#48d6a8;}
+  .proj .no{
+    font-family:var(--mono);font-weight:700;font-size:34px;color:#cfe0ff;
+    width:120px;flex-shrink:0;display:flex;align-items:baseline;gap:6px;
+  }
+  .proj .no b{font-size:80px;line-height:.8;color:#fff;font-weight:700;}
+  .proj:nth-child(1) .no b{color:#8fb2ff;}
+  .proj:nth-child(2) .no b{color:#b3a6ff;}
+  .proj:nth-child(3) .no b{color:#6fe3bd;}
+  .proj .meta{flex:1;}
+  .proj .tag{
+    display:inline-block;font-family:var(--mono);font-size:18px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:12px;
+  }
+  .proj .name{font-family:var(--cn);font-weight:700;font-size:48px;line-height:1.15;color:var(--ink);}
+  .proj .name .em{color:#9fc0ff;}
+  .proj:nth-child(2) .name .em{color:#bbacff;}
+  .proj:nth-child(3) .name .em{color:#7fe9c6;}
+  .proj .note{font-family:var(--cn);font-size:26px;color:var(--sub);font-weight:400;}
+
+  /* ===== FOOTER ===== */
+  .foot{display:flex;justify-content:space-between;align-items:center;margin-top:48px;
+    font-family:var(--mono);font-size:18px;letter-spacing:.1em;color:var(--muted);}
+  .foot .dot{color:var(--accent);}
+</style>
+</head>
+<body>
+<div class="slide">
+
+  <div class="kicker">
+    <span class="badge">阶段四 / STAGE 04</span>
+    <span class="en">Ship Fast · Hands-on</span>
+  </div>
+
+  <h1 class="title">小步快跑、动手和落地能力</h1>
+  <p class="subline">从想法到上线 —— 在真实场景里反复验证、持续交付</p>
+  <div class="rule"></div>
+
+  <div class="projects">
+    <div class="proj">
+      <div class="no">P<b>1</b></div>
+      <div class="meta">
+        <span class="tag">Finance · 金融领域</span>
+        <div class="name">智能问答</div>
+      </div>
+    </div>
+
+    <div class="proj">
+      <div class="no">P<b>2</b></div>
+      <div class="meta">
+        <span class="tag">Finance · 金融领域</span>
+        <div class="name">资金中台 <span class="em">产品分身</span></div>
+      </div>
+    </div>
+
+    <div class="proj">
+      <div class="no">P<b>3</b></div>
+      <div class="meta">
+        <span class="tag">Product Lab</span>
+        <div class="name">Product Lab <span class="note">（效果最大化）</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <span>从 0 到 1 <span class="dot">·</span> 小步快跑 <span class="dot">·</span> 持续落地</span>
+    <span>04 / 04</span>
+  </div>
+
+</div>
+</body>
+</html>

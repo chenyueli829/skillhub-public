@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkillHub Public — Bold Signal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;600&family=Noto+Sans+SC:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --stage-bg: #111; --ease: cubic-bezier(0.16,1,0.3,1); }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html,body { width:100%; height:100%; overflow:hidden; background:var(--stage-bg); }
+    .deck-viewport { position:fixed; inset:0; overflow:hidden; }
+    .deck-stage { position:absolute; left:0; top:0; width:1920px; height:1080px; transform-origin:0 0; }
+    .slide { position:absolute; inset:0; width:1920px; height:1080px; overflow:hidden; background:linear-gradient(135deg,#1a1a1a 0%,#2d2d2d 50%,#1a1a1a 100%); }
+    .num { position:absolute; top:72px; left:72px; font-family:'Space Grotesk',sans-serif; font-size:120px; font-weight:600; color:rgba(255,255,255,0.08); line-height:1; }
+    .nav { position:absolute; top:80px; right:72px; display:flex; gap:32px; font-family:'Space Grotesk',sans-serif; font-size:14px; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.35); }
+    .nav span.active { color:#fff; }
+    .card { position:absolute; left:72px; bottom:72px; width:920px; height:520px; background:#FF5722; padding:56px 64px; display:flex; flex-direction:column; justify-content:flex-end; }
+    .card h1 { font-family:'Archivo Black','Noto Sans SC',sans-serif; font-size:88px; line-height:0.95; color:#1a1a1a; letter-spacing:-0.02em; }
+    .card p { font-family:'Space Grotesk','Noto Sans SC',sans-serif; font-size:24px; color:rgba(26,26,26,0.75); margin-top:24px; max-width:720px; line-height:1.5; }
+    .meta { position:absolute; right:72px; bottom:96px; text-align:right; font-family:'Space Grotesk',sans-serif; font-size:16px; color:rgba(255,255,255,0.45); letter-spacing:0.08em; }
+    .reveal { opacity:0; transform:translateY(24px); animation:rise 0.7s var(--ease) forwards; }
+    .reveal:nth-child(2){animation-delay:.12s} .reveal:nth-child(3){animation-delay:.24s}
+    @keyframes rise { to { opacity:1; transform:translateY(0); } }
+    @media (prefers-reduced-motion:reduce){ .reveal{animation:none;opacity:1;transform:none} }
+  </style>
+</head>
+<body>
+  <div class="deck-viewport"><main class="deck-stage" id="stage">
+    <section class="slide">
+      <div class="num reveal">01</div>
+      <nav class="nav reveal"><span class="active">Intro</span><span>Catalog</span><span>Usage</span></nav>
+      <div class="card reveal">
+        <h1>SkillHub<br>Public</h1>
+        <p>AI Agent Skill 精选与验证仓库 — 200+ 能力包，按场景分类，开箱即用</p>
+      </div>
+      <div class="meta reveal">2026 · Internal Sharing</div>
+    </section>
+  </main></div>
+  <script>
+    const s=document.getElementById('stage');
+    const scale=()=>{const f=Math.min(innerWidth/1920,innerHeight/1080);s.style.transform=`translate(${(innerWidth-1920*f)/2}px,${(innerHeight-1080*f)/2}px) scale(${f})`;};
+    scale(); addEventListener('resize',scale);
+  </script>
+</body>
+</html>

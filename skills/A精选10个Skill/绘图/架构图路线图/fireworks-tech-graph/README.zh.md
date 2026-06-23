@@ -1,4 +1,4 @@
-[English](README.md) | [中文](README.zh.md)
+[English](06-技能/05-skillhub-public/skills/A精选10个Skill/绘图/架构图路线图/fireworks-tech-graph/README.md) | [中文](README.zh.md)
 
 # fireworks-tech-graph
 

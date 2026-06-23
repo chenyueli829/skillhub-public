@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <style>
+@page {
+    size: A4;
+    margin: 25mm 20mm 20mm 20mm;
+
+    @top-center {
+        content: "Codex 与 Claude Cowork：AI Agent 时代的两条进化路径  |  横纵分析法深度研究报告";
+        font-family: "Droid Sans Fallback", Helvetica, Arial, sans-serif;
+        font-size: 8pt;
+        color: #95a5a6;
+        border-bottom: 0.5pt solid #ecf0f1;
+        padding-bottom: 3mm;
+    }
+
+    @bottom-center {
+        content: "第 " counter(page) " 页";
+        font-family: "Droid Sans Fallback", Helvetica, Arial, sans-serif;
+        font-size: 8pt;
+        color: #95a5a6;
+        border-top: 0.8pt solid #1a5276;
+        padding-top: 2mm;
+    }
+}
+
+@page :first {
+    @top-center { content: none; }
+    @bottom-center { content: none; }
+}
+
+body {
+    font-family: "Droid Sans Fallback", Helvetica, Arial, sans-serif;
+    font-size: 10.5pt;
+    line-height: 1.75;
+    color: #2c3e50;
+    text-align: justify;
+}
+
+/* 封面 */
+.cover {
+    page-break-after: always;
+    text-align: center;
+    padding-top: 45%;
+}
+.cover h1 {
+    font-size: 28pt;
+    color: #1a5276;
+    margin-bottom: 8mm;
+    font-weight: bold;
+    letter-spacing: 2pt;
+}
+.cover .subtitle {
+    font-size: 14pt;
+    color: #95a5a6;
+    margin-bottom: 6mm;
+}
+.cover .meta {
+    font-size: 11pt;
+    color: #95a5a6;
+    margin-bottom: 4mm;
+}
+.cover .divider {
+    width: 60%;
+    margin: 8mm auto;
+    border: none;
+    border-top: 1.5pt solid #1a5276;
+}
+
+/* 一级标题 */
+h1 {
+    font-size: 20pt;
+    color: #1a5276;
+    margin-top: 16mm;
+    margin-bottom: 6mm;
+    padding-bottom: 3mm;
+    border-bottom: 2pt solid #1a5276;
+    page-break-before: always;
+    font-weight: bold;
+}
+
+/* 二级标题 */
+h2 {
+    font-size: 14pt;
+    color: #1e8449;
+    margin-top: 10mm;
+    margin-bottom: 5mm;
+    font-weight: bold;
+}
+
+/* 三级标题 */
+h3 {
+    font-size: 12pt;
+    color: #2e86c1;
+    margin-top: 6mm;
+    margin-bottom: 3mm;
+    font-weight: bold;
+}
+
+h4 {
+    font-size: 11pt;
+    color: #5b2c6f;
+    margin-top: 5mm;
+    margin-bottom: 2mm;
+    font-weight: bold;
+}
+
+/* 段落 */
+p {
+    margin-top: 1.5mm;
+    margin-bottom: 1.5mm;
+    orphans: 3;
+    widows: 3;
+}
+
+/* 引用块 */
+blockquote {
+    margin: 4mm 0;
+    padding: 4mm 4mm 4mm 10mm;
+    background: #f8f9fa;
+    border-left: 3pt solid #1a5276;
+    color: #5d6d7e;
+    font-size: 10pt;
+}
+blockquote p {
+    margin: 1mm 0;
+}
+
+/* 粗体 */
+strong, b {
+    font-weight: bold;
+    color: #1a252f;
+}
+
+/* 行内代码 */
+code {
+    font-family: "Courier New", Courier, monospace;
+    background: #fdf2e9;
+    color: #c0392b;
+    padding: 0.5mm 1.5mm;
+    border-radius: 2pt;
+    font-size: 9.5pt;
+}
+
+/* 表格 */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 4mm 0;
+    font-size: 9.5pt;
+}
+thead th {
+    background: #1a5276;
+    color: white;
+    padding: 3mm;
+    text-align: left;
+    font-weight: bold;
+}
+tbody td {
+    padding: 2.5mm 3mm;
+    border-bottom: 0.5pt solid #bdc3c7;
+}
+tbody tr:nth-child(even) {
+    background: #f8f9fa;
+}
+
+/* 分隔线 */
+hr {
+    border: none;
+    border-top: 0.5pt solid #bdc3c7;
+    margin: 4mm 0;
+}
+
+/* 列表 */
+ul, ol {
+    margin: 2mm 0;
+    padding-left: 8mm;
+}
+li {
+    margin-bottom: 1mm;
+}
+
+/* 链接 */
+a {
+    color: #2e86c1;
+    text-decoration: none;
+}
+</style>
+</head>
+<body>
+
+    <div class="cover">
+        <h1 style="page-break-before: avoid; border: none;">Codex 与 Claude Cowork：AI Agent 时代的两条进化路径</h1>
+        <div class="subtitle">横纵分析法深度研究报告</div>
+        <div class='meta'>研究时间：2026年6月23日 | 所属领域：AI Agent / 软件工程自动化 / 知识工作自动化 | 研究对象类型：产品（双对象对比研究）</div>
+        <hr class="divider">
+        <div class="meta">作者: 数字生命卡兹克</div>
+    </div>
+    
+
+<blockquote>
+<p>研究时间：2026年6月23日 | 所属领域：AI Agent / 软件工程自动化 / 知识工作自动化 | 研究对象类型：产品（双对象对比研究）</p>
+</blockquote>
+<hr>
+<h2>一、一句话定义</h2>
+<p><strong>OpenAI Codex</strong>（2025–2026 语境）是绑定 ChatGPT 订阅的全栈「软件工程 Agent 平台」——从开源 CLI 到桌面 App、IDE 插件、云端沙箱，让开发者把编码任务「委派」给 AI，在本地或云端跑完交 PR。</p>
+<p><strong>Anthropic Claude Cowork</strong> 是 Claude Desktop 内的「知识工作 Agent 工作区」——同一套 Agent 架构，去掉终端，在本地 VM 沙箱里读写文件夹、调用 Connectors/Skills，面向非开发者的文档整理、数据分析、报告撰写等日常任务。</p>
+<p>两者表面都在做「Agent」，但一个锚定 <strong>代码与工程</strong>，一个锚定 <strong>文件与知识劳动</strong>；一个从 2021 年的「补全模型」复活为 2025 年的「委派平台」，一个从 2024 年的 Computer Use 实验下沉为 2026 年的 Desktop 产品。这是 OpenAI 与 Anthropic 在 Agent 时代各自选的一条路。</p>
+<hr>
+<h2>二、纵向分析：从诞生到当下</h2>
+<h3>2.1 OpenAI Codex——一个名字，两段生命</h3>
+<h4>起源：GPT-3 发现自己会写代码</h4>
+<p>2020 年 GPT-3 发布时，OpenAI 团队注意到一个现象：模型不仅能生成自然语言，还能产出可运行的 Python 程序。Mark Chen 牵头，在 GitHub 公开代码（论文称约 159GB Python、5400 万仓库）上对 GPT-3 做 fine-tune，训练出专精代码的模型，并引入 <strong>HumanEval</strong> 基准——这后来成为整个 AI 编程赛道的事实标准。</p>
+<p>2019 年 Microsoft 已向 OpenAI 投资 10 亿美元。当代码能力被验证后，GitHub（2018 年被 Microsoft 收购）自然成为第一个商业化出口。</p>
+<p><strong>2021 年 6 月 29 日</strong>，GitHub Copilot Technical Preview 发布，由 OpenAI Codex 驱动。GitHub 博客称它比 GPT-3 的代码能力「显著更强」。12 天后，<strong>2021 年 7 月 7 日</strong>，Mark Chen 为第一作者的论文 <em>Evaluating Large Language Models Trained on Code</em> 公开。再过一个月，<strong>2021 年 8 月 10 日</strong>，OpenAI 官方宣布 Codex API 进入私有 beta、免费使用。Greg Brockman 称其为「GPT-3 的后裔」。</p>
+<p>OpenAI 做 Codex 的逻辑很清晰：GPT-3 只能「影响读者心智」，Codex 能<strong>产出可执行代码</strong>，通过 API 直接驱动作业软件。公开代码数据丰富，专精模型在代码映射任务上更高效。与 Microsoft/GitHub 合作，Copilot 作为首个大规模商业化出口——OpenAI 做模型，GitHub 做编辑器集成与分发。</p>
+<h4>第一代黄金期：Copilot 定义品类，Codex 做引擎</h4>
+<p>2022 年是 Copilot 从 preview 走向 GA 的一年。<strong>2022 年 6 月 21 日</strong> Copilot 对个人开发者 GA，定价 $10/月；Technical Preview 期间约 <strong>120 万</strong>用户。Nadella 在 FY22 Q4 财报电话中称 GA 首月约 <strong>40 万付费</strong>订阅。到 <strong>2023 年 1 月</strong>，累计 <strong>100 万+</strong> 使用者。</p>
+<p><strong>2023 年 2 月 14 日</strong>，Copilot for Business GA，底层「升级 Codex 模型」并加入安全漏洞过滤器。<strong>2023 年 3 月 22 日</strong>，GitHub 发布 Copilot X 愿景——接入 GPT-4、Chat、PR 描述、CLI、Docs。产品形态从「编辑器内补全」转向「全生命周期 AI 助手」；底层从专用 Codex 向通用 GPT-4 迁移。</p>
+<p>GitHub 官方数据：启用 Copilot 的文件中，<strong>35–46%</strong> 的代码由 AI 生成。Copilot 定义了「AI 结对编程」这个品类。</p>
+<h4>2023 年 3 月：第一代 Codex 被「通用模型吞噬」</h4>
+<p><strong>2023 年 3 月 23 日</strong>，OpenAI 正式关停 Codex API。<code>code-davinci-*</code>、<code>code-cushman-*</code> 等模型下线，建议迁移至 GPT-3.5-Turbo / GPT-4。</p>
+<p>官方理由：「最新 GPT-3.5 模型在编码任务上已更优」；通用模型还能处理文档、错误信息、架构推理。维护多条模型线的成本太高，Copilot 已验证「补全 + 通用推理」更实用。</p>
+<p>社区反应复杂：短通知期引发不满；Sam Altman 推文称将为研究人员保留访问；依赖 Codex API 的第三方需改接口。但 Copilot 用户几乎无感——GitHub 已切到新模型。</p>
+<p><strong>2023 年 3 月至 2025 年 4 月</strong>，「Codex」作为模型/API 品牌进入约两年空窗。Copilot 继续独立演进。这个名字，暂时死了。</p>
+<h4>2025 年：品牌复活，战略完全转向 Agent</h4>
+<p>转折点来得突然。<strong>2025 年 4 月 16 日</strong>，随 o3 / o4-mini 发布，OpenAI 推出 <strong>Codex CLI</strong>——Rust 编写、Apache-2.0 开源，并宣布 $100 万开源资助计划。GitHub 仓库 <code>openai/codex</code> 截至 2026 年已有 <strong>9 万+ stars</strong>。</p>
+<p>一个月后，<strong>2025 年 5 月 16 日</strong>，OpenAI 发布 <strong>ChatGPT 云端 Codex Agent</strong> 研究预览。模型 <strong>codex-1</strong>（o3 优化版 + RL），在沙箱并行任务、可提 PR。同步发布 <strong>codex-mini</strong>（o4-mini 变体），为 CLI 默认模型。</p>
+<p>Alexander Embiricos 任新 Codex Product Lead（2024 入职 OpenAI，前 Remotion/Multi 创始人）。他在公开访谈中的决策逻辑：瓶颈从模型能力转向「人类如何委派与审查」；o 系列推理 + RL 使<strong>长程自主任务</strong>可行；开发者需求从「Tab 补全」转向「委派整段工程任务」。</p>
+<p><strong>2025 年 6 月 3 日</strong>，Codex 向 ChatGPT Plus 开放；任务执行可开互联网。<strong>2025 年 9 月</strong>，Codex 统一为单一产品体验（CLI / IDE / Web / GitHub / iOS 互通）。<strong>2025 年 9 月 15 日</strong> 发布 <strong>GPT-5-Codex</strong>，可独立运行最长约 <strong>7 小时</strong>。<strong>2025 年 10 月 6 日</strong> DevDay 2025：Codex <strong>GA</strong>；Slack 集成、Codex SDK、Admin 工具；日活自 8 月初 <strong>10x+</strong>；GPT-5-Codex 三周 <strong>40T tokens</strong>。Sam Altman 称：「OpenAI 今日几乎所有新代码都由 Codex 用户编写。」</p>
+<h4>2025 末–2026：专用模型回归 + 多 Agent 指挥中心</h4>
+<p>看似与 2023「通用优于专精」矛盾，实则场景不同：<br>
+- <strong>2023</strong>：API 补全/短生成 → 通用 GPT 足够<br>
+- <strong>2025+</strong>：Agent 需 tool use、测试循环、PR 风格、Compaction → 需 <strong>GPT-5.x-Codex</strong> 专精变体</p>
+<p>约 14 个月内发布 codex-1 → GPT-5-Codex → 5.1-Max → 5.2 → 5.3，迭代极快。</p>
+<p><strong>2025 年 11 月 19 日</strong>，GPT-5.1-Codex-Max 发布 Compaction 跨上下文窗口；内部 <strong>95%</strong> 工程师周用 Codex，PR 量约 <strong>+70%</strong>。<strong>2025 年 12 月 18 日</strong>，GPT-5.2-Codex 增强 Windows 环境、长程 refactor、网络安全。<strong>2026 年 2 月 2 日</strong>，<strong>Codex 桌面 App（macOS）</strong> 发布——多 Agent 并行、Worktrees、Skills、Automations。<strong>2026 年 2 月 5 日</strong>，GPT-5.3-Codex 合并编码与推理栈，比前代快 25%，OpenAI 称参与「自举」开发。<strong>2026 年 3 月 4 日</strong>，Codex App <strong>Windows</strong> 版上线。</p>
+<p>OpenAI 官方在 2026 年的产品矩阵：<br>
+- <strong>Codex CLI</strong>：本地终端 Agent（开源）<br>
+- <strong>Codex Web</strong>：<code>chatgpt.com/codex</code> 云端委派<br>
+- <strong>Codex App</strong>：多 Agent 指挥中心<br>
+- <strong>IDE Extension</strong>：VS Code / Cursor / Windsurf / JetBrains<br>
+- <strong>Automations / Slack / GitHub Action</strong>：CI/CD、Issue 分流</p>
+<p>过去一个月 <strong>100 万+</strong> 开发者使用 Codex（官方数据，2026 年 2 月 Codex App 发布时）。</p>
+<h4>阶段划分（Codex）</h4>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>时间</th>
+<th>核心特征</th>
+<th>核心矛盾</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>萌芽期</td>
+<td>2020–2021</td>
+<td>专精代码模型 + Copilot 合作</td>
+<td>能力 vs 商业化路径</td>
+</tr>
+<tr>
+<td>规模化期</td>
+<td>2022–2023 初</td>
+<td>Copilot GA、百万用户</td>
+<td>补全够用 vs Agent 想象</td>
+</tr>
+<tr>
+<td>空窗/转型期</td>
+<td>2023–2025</td>
+<td>API 退役、Copilot 接 GPT-4</td>
+<td>专精 vs 通用</td>
+</tr>
+<tr>
+<td>Agent 复活期</td>
+<td>2025–2026</td>
+<td>CLI→Cloud→App 全栈</td>
+<td>委派 vs 结对、与 Copilot 竞合</td>
+</tr>
+</tbody>
+</table>
+<h4>争议与阴影</h4>
+<p><strong>2022 年 11 月</strong>，Doe v. GitHub, OpenAI, Microsoft 集体诉讼——指控 Copilot 训练未遵守开源许可证。NYU/Calgary 研究称 Copilot 建议代码约 <strong>40%</strong> 含安全漏洞。</p>
+<p><strong>2025+</strong>，「Codex」同时指 2021 模型与 2025 Agent，文档与教程易混。<strong>2026 年 2 月</strong>，GPT-5.3-Codex「自举」叙事引发能力宣传与验证讨论。</p>
+<hr>
+<h3>2.2 Anthropic Claude Cowork——从 Computer Use 到「Claude Code for the rest of us」</h3>
+<h4>起源：影子用法倒逼产品化</h4>
+<p>Anthropic 的 Agent 故事，要从 <strong>Computer Use</strong> 说起。</p>
+<p><strong>2024 年 10 月 22 日</strong>，Anthropic 发布 Computer Use API beta——Claude 3.5 Sonnet 升级版，模型能「看屏 + 点按」。<strong>10 月 31 日</strong>，Claude Desktop macOS/Windows beta 上线，但仍是 Chat 壳，没有 agent 能力。<strong>11 月 25 日</strong>，<strong>MCP（Model Context Protocol）</strong> 开源，Desktop 支持 local MCP——这是后来整个 Claude 生态的连接器标准。</p>
+<p>2025 年，开发者 Agent 层成型。<strong>2 月 24 日</strong>，Claude 3.7 Sonnet + <strong>Claude Code</strong> Research Preview 发布。<strong>5 月 22 日</strong>，Claude Code GA 1.0。<strong>10 月</strong>，Claude Desktop GA；Claude Code Web 向 Pro/Max 开放。</p>
+<p>Claude Code 迅速成为终端原生 Agent 品类的标杆。GitHub <strong>13.3 万+ stars</strong>；JetBrains 2026 年调查：工作采用率从 2025 年 4–6 月的 ~3% 增长 <strong>6 倍</strong>至 18%，CSAT <strong>91%</strong>、NPS <strong>54</strong>，为各工具最高。</p>
+<p>但 Anthropic 内部观察到一个「影子用法」：<br>
+- Marketing、Data 等非工程团队绕过 Chat，直接用 <strong>Claude Code</strong> 做复杂多步工作；<br>
+- 开发者用 Code 做度假调研、幻灯片、邮件整理、文件整理等非编码任务。</p>
+<p>Boris Cherny（Claude Code 创建者）在 X 上列举这些用法。结论：<strong>用户要的是 agent 能力，不是 terminal 界面</strong>。</p>
+<h4>诞生节点：2026 年 1 月 12 日</h4>
+<p><strong>2026 年 1 月 12 日</strong>，Anthropic 发布 <strong>Claude Cowork</strong> Research Preview。</p>
+<p>官方表述：<strong>「Claude Code for the rest of your work」</strong>——同一套 Claude Agent SDK，GUI 封装，面向非开发者知识工作者。</p>
+<p>首发形态：<br>
+- <strong>仅 macOS + Claude Max</strong>（$100/$200/月）<br>
+- 用户选择工作文件夹，Claude 在沙箱 VM 中自主规划、并行执行<br>
+- 可读写本地文件、调用 Connectors/MCP/Skills/Plugins<br>
+- 可与 Claude in Chrome 配合做浏览器自动化</p>
+<p>VentureBeat 报道：Cowork 团队约 <strong>4 人</strong>，<strong>~10 天</strong>用 Claude Code 自举开发整个功能——这本身成了产品叙事的一部分。</p>
+<p><strong>2026 年 1 月 13 日</strong>，Anthropic 宣布 <strong>Anthropic Labs</strong> 正式扩编，Mike Krieger（Instagram 联创、前 CPO）加入，与联创 Ben Mann 共领。Cowork 列为 Labs 产出之一。Daniela Amodei（President）：<em>"Labs gives us room to break the mold and explore"</em>。</p>
+<h4>快速扩 tier：从 Max 精英到全员可用</h4>
+<p><strong>2026 年 1 月 16 日</strong>，Cowork 扩展至 <strong>Pro</strong>（$20/月）——Engadget 等媒体报道，距发布仅 4 天。</p>
+<p><strong>2026 年 1 月 23 日</strong>，扩展至 <strong>Team / Enterprise</strong>；加入 @项目上下文、Chrome 协同。</p>
+<p><strong>2026 年 2 月 10–12 日</strong>，<strong>Windows 版 Cowork</strong> 上线（具体日期来源略有出入）。</p>
+<p><strong>2026 年 2 月 24 日</strong>，<strong>Plugins</strong> 发布——把 Skills + Connectors + slash commands + sub-agents 文件化打包。</p>
+<p><strong>2026 年 2 月 25 日</strong>，<strong>Scheduled Tasks</strong>（<code>/schedule</code>）——需 Desktop 常开、电脑 awake。</p>
+<p><strong>2026 年 4 月 9 日</strong>，<strong>GA</strong>：RBAC、组预算、Usage Analytics、OpenTelemetry、Zoom MCP、按工具 MCP 权限。同期发布 Managed Agents 等企业 Agent 栈组件。</p>
+<p><strong>2026 年 5 月 25 日</strong>，Engineering 长文《How we contain Claude》详解 Cowork VM 架构；承认 Files API 外泄漏洞并描述 MITM proxy 修复。</p>
+<p><strong>2026 年 6 月 5 日</strong>，官方 Cowork Product Guide 发布。</p>
+<p>从 Research Preview 到 GA，<strong>不到 3 个月</strong>——竞争窗口驱动了极速 ship。</p>
+<h4>决策逻辑：为什么 Cowork 长这样</h4>
+<p><strong>1. Bottom-up 而非 top-down</strong></p>
+<p>先 Code 验证 agent loop，再抽象为 Cowork。对标 Microsoft Copilot 的 OS 级整合，Anthropic 选 <strong>folder-scoped + VM 隔离</strong>——更轻、更可控。</p>
+<p><strong>2. 安全优先于功能</strong></p>
+<p>非技术用户无法审 bash → 采用 <strong>full/local VM</strong>（Apple Virtualization / Windows HCS），而非 Claude Code 式逐条审批。Simon Willison（2026-01-12）评价：VM 默认沙箱优于 <code>--dangerously-skip-permissions</code>。</p>
+<p><strong>3. 极速 ship + Labs 机制</strong></p>
+<p>~10 天 MVP，RP 快速扩 tier。Ben Mann 的产品哲学：「为 6 个月后的模型能力而构建」。</p>
+<p><strong>4. 开放生态</strong></p>
+<p>MCP / Skills / Plugins 文件化、GitHub 开源集合。Labs 文称 MCP <strong>1 亿月下载</strong>——生态位战略，避免 walled garden。</p>
+<p><strong>5. GA 重心转向企业治理</strong></p>
+<p>2026-04 GA 增加 OTel/Analytics/RBAC——官方判断 enterprise 瓶颈在 <strong>compliance layer</strong> 而非 agent 能力本身。</p>
+<h4>阶段划分（Cowork 及前置生态）</h4>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>时间</th>
+<th>核心特征</th>
+<th>核心矛盾</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>能力基建</td>
+<td>2024 Q4</td>
+<td>Computer Use + MCP + Desktop</td>
+<td>能看屏 vs 敢放权</td>
+</tr>
+<tr>
+<td>开发者验证</td>
+<td>2025</td>
+<td>Claude Code 爆发</td>
+<td>终端 vs 普及</td>
+</tr>
+<tr>
+<td>知识工作下沉</td>
+<td>2026 Q1</td>
+<td>Cowork RP→GA</td>
+<td>能力 vs 安全/合规</td>
+</tr>
+<tr>
+<td>企业治理</td>
+<td>2026 Q2</td>
+<td>RBAC/OTel/Plugins</td>
+<td>采用 vs 审计</td>
+</tr>
+</tbody>
+</table>
+<h4>争议与口碑</h4>
+<p><strong>正面</strong>：Simon Willison 称「把 Claude Code 能力带给更广泛受众」；Lenny Rachitsky 用 320 期播客 transcript 做主题挖掘；企业案例（Zapier、Jamf、Airtree）见 GA 博客。</p>
+<p><strong>批评</strong>：<br>
+- <strong>Prompt injection</strong>：非技术用户难以识别可疑 agent 行为<br>
+- <strong>Files API 外泄</strong>：2025-10 已报告，Cowork 发布时仍可利用 workspace 内恶意文件外泄<br>
+- <strong>合规/审计缺口</strong>：Cowork 活动不在 enterprise audit logs、Compliance API 中（第三方合规分析多次强调）<br>
+- <strong>Token 消耗</strong>：截图、多步 agent 快速打满 Pro 配额（社区共识为 Chat 的 5–20 倍，非官方精确倍数）<br>
+- <strong>产品定位尴尬</strong>：Claire Vo 称对新手太复杂、对专家不如直接用 Code</p>
+<p>Peter McCrory（Anthropic 经济学负责人）：劳动影响将「非常不均匀」，数据录入类岗位风险更高。</p>
+<hr>
+<h2>三、横向分析：竞争图谱</h2>
+<h3>3.1 场景判断：Codex 与 Cowork 是「同赛道不同轴」</h3>
+<p>Codex 和 Cowork <strong>不是直接竞品</strong>。它们共享「Agent 委派」范式，但锚定不同劳动类型：</p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>OpenAI Codex</th>
+<th>Anthropic Claude Cowork</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>核心劳动</td>
+<td>软件工程（写代码、修 bug、提 PR）</td>
+<td>知识工作（文档、表格、文件整理）</td>
+</tr>
+<tr>
+<td>界面</td>
+<td>CLI / IDE / 桌面 App / Web</td>
+<td>Claude Desktop Tab</td>
+</tr>
+<tr>
+<td>沙箱</td>
+<td>本地 + 云端 GitHub 仓库</td>
+<td>本地 VM + 文件夹 scope</td>
+</tr>
+<tr>
+<td>目标用户</td>
+<td>开发者、DevOps</td>
+<td>法务、财务、运营、市场</td>
+</tr>
+<tr>
+<td>订阅</td>
+<td>ChatGPT Plus $20+</td>
+<td>Claude Pro $20+</td>
+</tr>
+<tr>
+<td>开源</td>
+<td>CLI 开源（9 万+ stars）</td>
+<td>Agent SDK 部分开放，Cowork 闭源</td>
+</tr>
+<tr>
+<td>2026 工作采用率</td>
+<td>~3%（JetBrains）</td>
+<td>无单独披露（含在 Claude 订阅）</td>
+</tr>
+</tbody>
+</table>
+<p>更准确的横向对比，是把 Codex 放进 <strong>「开发者 Agent」</strong> 赛道，Cowork 放进 <strong>「桌面知识工作 Agent」</strong> 赛道——但两者在 <strong>2026 年 Agent 平台战争</strong> 中代表 OpenAI 与 Anthropic 的「执行层」产品，值得放在一起看。</p>
+<h3>3.2 Codex 在开发者 Agent 赛道</h3>
+<p><strong>场景 C：竞品充分（3 个及以上）</strong>。选取最具代表性的 4 个对比。</p>
+<h4>vs Anthropic Claude Code</h4>
+<p>Claude Code 是 Codex 最直接的对手——同为终端/CLI 原生 Agent，2026 年工作采用率并列 <strong>18%</strong>。</p>
+<table>
+<thead>
+<tr>
+<th>对比项</th>
+<th>Codex</th>
+<th>Claude Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>模型</td>
+<td>GPT-5.5 / 5.3-Codex 系列</td>
+<td>Opus/Sonnet 4.x</td>
+</tr>
+<tr>
+<td>形态</td>
+<td>CLI + App + IDE + Cloud 全栈</td>
+<td>CLI 为主 + Desktop + Web + IDE</td>
+</tr>
+<tr>
+<td>MCP</td>
+<td>支持</td>
+<td>支持最全（OAuth、Channels、Hooks）</td>
+</tr>
+<tr>
+<td>多 Agent</td>
+<td>Subagents、Worktrees</td>
+<td>Agent Teams、Dynamic Workflows</td>
+</tr>
+<tr>
+<td>满意度</td>
+<td>—</td>
+<td>CSAT 91%、NPS 54（最高）</td>
+</tr>
+<tr>
+<td>社区分工</td>
+<td>「Codex for keystrokes, Claude Code for commits」</td>
+<td>复杂重构/全仓库 Agent 首选</td>
+</tr>
+</tbody>
+</table>
+<p>HN 共识：「Claude Code 是 senior architect，Cursor 是 pair programmer。You want both.」Terminal-Bench 2.0 上 Codex（~77%）领先 Claude Code（~65%），但盲测代码质量 Claude Code 胜率更高。</p>
+<p>用户选 Codex：已有 ChatGPT 订阅、要 CLI 自动化 + 云端 PR 委托、Terminal/DevOps 场景。<br>
+用户选 Claude Code：复杂多文件重构、CI/CD 集成、最高满意度、终端工作流。</p>
+<h4>vs Cursor</h4>
+<p>Cursor 定义「AI-first IDE」品类，~$2B ARR，18% 工作采用率。</p>
+<p>Cursor 是 <strong>人在环内</strong>——Tab 补全、可视化 diff、多模型聚合。Codex 是 <strong>委派型</strong>——描述任务，后台跑完交结果。社区主流工作流：<strong>Cursor（IDE 流）+ Claude Code 或 Codex（终端 Agent）</strong> 组合拳。</p>
+<p>Cursor 2025 年 6 月从「请求制」改为「积分池制」，引发用户反弹。Agent 重度用户月账单可达 $180–500 溢出——与 Codex「订阅内含 + API 溢出」双轨形成对比。</p>
+<h4>vs GitHub Copilot</h4>
+<p>Copilot 是 Codex <strong>2021 年的同源兄弟</strong>，2026 年已是 <strong>竞合分离</strong>。</p>
+<p>Copilot：29% 工作采用率（第一，增速放缓）；~4.7M 付费用户；$10/月入门；企业合规最成熟；2026 年 6 月全面转向 AI Credits 用量计费。</p>
+<p>Copilot 活成「安全的企业默认选项」——42% 市场份额，但复杂 Agent 自主性弱于 Codex/Claude Code。新 Codex 属 OpenAI/ChatGPT，与 Microsoft/GitHub 的 Copilot 是同业竞争。</p>
+<p><strong>Copilot Workspace</strong> 技术预览已于 2025 年 5 月 30 日 sunset——GitHub 的「云端 Agent 工作区」尝试失败，OpenAI Codex Cloud 接过了这个叙事。</p>
+<h4>vs Google Antigravity / Jules</h4>
+<p>Google 2026 年 6 月将 Gemini Code Assist 和 Gemini CLI <strong>迁移至 Antigravity 平台</strong>——桌面 App + <code>agy</code> CLI + SDK + Managed Agents API。Antigravity 2.0 支持 subagent 编排、定时任务。</p>
+<p>Jules 做异步云端 Agent（克隆 repo 到 GCE VM，输出 PR）；Antigravity 做同步+编排。工作采用率 6%（上线约 2 个月），Google 工具频繁 rebranding 引发社区疲劳。</p>
+<h3>3.3 Cowork 在知识工作 Agent 赛道</h3>
+<p>Cowork 的竞品不是 Codex，而是：</p>
+<h4>vs Microsoft Copilot（Office/Windows 整合）</h4>
+<p>Microsoft 将 AI 嵌入 Word/Excel/Teams/Windows——OS 级、应用内整合。Cowork 选 <strong>folder-scoped + Desktop Tab</strong>——更轻，不强迫换工具。</p>
+<p>The Decoder 曾报道 Microsoft 适配 Cowork 技术进 Copilot，细节未在 Anthropic 一手源确认。战略上，Microsoft 有分发优势（Enterprise 900M+ Office 用户），Anthropic 有 Agent 架构深度（MCP、Skills、VM containment）。</p>
+<h4>vs ChatGPT Agent / Operator</h4>
+<p>OpenAI 的 Operator（2025 初）和 ChatGPT 的 computer use 能力，与 Cowork 在「非开发者桌面 Agent」上正面交锋。OpenAI 2026 年 Codex App 也扩展了 in-app browser、文件预览（PDF/表格/幻灯片）——<strong>边界在模糊</strong>。</p>
+<p>Codex App 官方表述：「现有 IDE 和终端工具不是为 multi-agent 编排而建的」——这同样适用于 Cowork 要解决的「知识工作者委派」场景。两者从开发者/non-developer 两端向中间挤压。</p>
+<h4>vs 传统 RPA + AI（UiPath、Automation Anywhere + LLM）</h4>
+<p>Cowork 不是传统 RPA——没有录屏回放，而是 LLM 理解意图 + 工具调用。优势：灵活、自然语言；劣势：非确定性、审计链不完整。Enterprise GA 后 OTel/Analytics 试图补齐，但第三方仍称 Compliance API 存在差距。</p>
+<h3>3.4 生态位与 2026 格局</h3>
+<pre><code class="language-mermaid">flowchart LR
+    subgraph dev [开发者 Agent 轴]
+        Codex[Codex]
+        CC[Claude Code]
+        Cursor[Cursor]
+        Copilot[Copilot]
+    end
+
+    subgraph knowledge [知识工作 Agent 轴]
+        Cowork[Cowork]
+        MS365[Copilot M365]
+        Operator[ChatGPT Agent]
+    end
+
+    subgraph async [云端异步 Agent 轴]
+        Devin[Devin]
+        Jules[Jules]
+        CodexCloud[Codex Cloud]
+    end
+
+    Codex --&gt; CodexCloud
+    CC -.-&gt;|同一 SDK| Cowork
+</code></pre>
+<p><strong>2026 年开发者共识</strong>：不再「只选一个」，而是组合——Cursor + Claude Code，或 Copilot（企业合规）+ 专用 Agent。</p>
+<p><strong>定价趋同</strong>：$20/月成为个人档地板（Cursor Pro = Claude Pro = Codex Plus = Replit Core）。</p>
+<p><strong>用量计费成为常态</strong>：Cursor（2025.6）、Copilot（2026.6）均已转向 credits/积分池。</p>
+<p><strong>Claude Code 是最大变量</strong>：增速最快、满意度最高，若趋势延续可能在 2026 年底超越 Copilot 个人采用率。</p>
+<p><strong>Codex 的 paradox</strong>：知晓率 27%、采用率 3%——「知道的人多、深度用的人少」，但 CLI 9 万+ stars、100 万+ 月活开发者说明从早期采用者向主流渗透中。</p>
+<hr>
+<h2>四、横纵交汇洞察</h2>
+<h3>4.1 历史如何塑造了当下的竞争位置</h3>
+<p>Codex 的 <strong>2023 年 API 退役</strong>，表面是失败，实则是战略收缩——OpenAI 把「代码补全」让给 Microsoft/GitHub Copilot，自己押注 ChatGPT 通用路线。这导致 2023–2025 两年空窗，但也让 OpenAI 在 Agent 时代可以<strong>不受 Copilot 产品定义束缚</strong>，以全新形态复活 Codex。</p>
+<p>2023 年「通用优于专精」的决策，在 2025 年被 <strong>GPT-5.x-Codex 专精模型族</strong> 部分逆转——不是推翻，是 <strong>场景分化</strong>：短补全用通用，长 Agent 用专精。我的判断是：OpenAI 在 2023 砍的是「API 时代的专精」，2025 建的是「Agent 时代的专精」。</p>
+<p>Cowork 的路径相反——<strong>没有空窗，是连续下沉</strong>。Computer Use（2024）→ Claude Code（2025）→ Cowork（2026），每一步都在验证「Agent 能力可以下放给更多人」。Boris Cherny 观察到的影子用法，是 Cowork 诞生的真实土壤——这不是 top-down 的战略规划，是 bottom-up 的需求倒逼。</p>
+<p>Anthropic 选 <strong>Labs 机制</strong> 快速 ship（~10 天 MVP），OpenAI 选 <strong>DevDay GA + 开源 CLI</strong> 建立生态——两者都反映了 2026 年 Agent 竞争的紧迫性：窗口期以月计，不以年计。</p>
+<h3>4.2 竞品的纵向对比：两条 Agent 哲学</h3>
+<p>如果把 Codex 和 Cowork 放到同一条时间线上，会看到 OpenAI 与 Anthropic 的 <strong>Agent 哲学分野</strong>：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>OpenAI（Codex）</th>
+<th>Anthropic（Cowork）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>起点</td>
+<td>代码模型 → Copilot 合作 → API 退役 → Agent 复活</td>
+<td>Computer Use → Code → Cowork 下沉</td>
+</tr>
+<tr>
+<td>核心隐喻</td>
+<td>「委派给工程师」</td>
+<td>「留言给同事」</td>
+</tr>
+<tr>
+<td>安全模型</td>
+<td>沙箱 + 可选开网；开发者自负</td>
+<td>VM containment；非用户审 bash</td>
+</tr>
+<tr>
+<td>生态策略</td>
+<td>开源 CLI + ChatGPT 捆绑</td>
+<td>MCP 开放 + Skills/Plugins 文件化</td>
+</tr>
+<tr>
+<td>商业化</td>
+<td>订阅内含 + 用量溢出</td>
+<td>订阅内含，无独立 SKU</td>
+</tr>
+<tr>
+<td>内部采用</td>
+<td>95% 工程师周用 Codex</td>
+<td>~4 人团队 10 天自举 Cowork</td>
+</tr>
+</tbody>
+</table>
+<p>OpenAI 的 Codex 故事是 <strong>「同一个名字的凤凰涅槃」</strong>——从模型到 Agent 平台，产品矩阵最全（CLI/App/IDE/Cloud/Slack/GitHub Action）。Anthropic 的 Cowork 故事是 <strong>「Code 的非开发者版」</strong>——不重新发明 Agent，而是换界面、换沙箱、换受众。</p>
+<h3>4.3 优势的历史根源</h3>
+<p><strong>Codex 今天的优势</strong>：<br>
+- <strong>ChatGPT 用户基数</strong>：Plus/Pro/Business 订阅内含，降低 adoption 摩擦<br>
+- <strong>全栈形态</strong>：唯一同时覆盖 CLI + 桌面 App + IDE + 云端 + CI 的产品<br>
+- <strong>开源 CLI 社区</strong>：9 万+ stars 建立开发者信任与贡献<br>
+- <strong>专用 Codex 模型迭代速度</strong>：14 个月 5 代，Agent 场景持续优化</p>
+<p><strong>Cowork 今天的优势</strong>：<br>
+- <strong>Claude Code 的 Agent 架构背书</strong>：同一 SDK，能力已验证<br>
+- <strong>MCP 生态</strong>：1 亿月下载，Connectors/Plugins 最成熟<br>
+- <strong>VM containment 对非技术用户友好</strong>：不需要理解 bash 审批<br>
+- <strong>Labs 快速迭代文化</strong>：RP 到 GA 不到 3 个月</p>
+<h3>4.4 劣势的历史根源</h3>
+<p><strong>Codex</strong>：<br>
+- <strong>命名混淆</strong>：2021 模型 vs 2025 Agent，伤害认知<br>
+- <strong>与 Copilot 竞合</strong>：同一母公司生态（Microsoft）内的复杂关系<br>
+- <strong>采用率滞后</strong>：3% vs Claude Code 18%，「知道但不用」<br>
+- <strong>2023 API 退役遗留</strong>：第三方开发者信任损伤</p>
+<p><strong>Cowork</strong>：<br>
+- <strong>Token 消耗</strong>：Agent 任务烧配额，Pro 用户易触顶 → 倒逼升 Max<br>
+- <strong>合规/审计缺口</strong>：Enterprise 采购障碍<br>
+- <strong>Desktop 依赖</strong>：Scheduled Tasks 需本机 awake，无云执行<br>
+- <strong>定位尴尬</strong>：对新手复杂，对专家不如 Code——「夹心层」风险</p>
+<h3>4.5 未来推演：三个剧本</h3>
+<h4>剧本一：最可能——「双轴收敛，各守疆界」</h4>
+<p>Codex 继续深耕开发者 Agent 全栈，Cowork 继续下沉知识工作者。两者边界在 2026–2027 年缓慢模糊（Codex App 已支持 PDF/表格预览；Cowork 已支持 Plugins 和 Scheduled Tasks），但不会正面融合——因为 <strong>订阅绑定</strong>（ChatGPT vs Claude）是各自商业核心。</p>
+<p>开发者主流工作流稳定为 <strong>Cursor + Claude Code/Codex</strong> 组合；非开发者 Agent 市场由 Cowork 与 Microsoft Copilot 瓜分。Codex 采用率从 3% 向 10% 爬升，Cowork 无独立 ARR 披露但驱动 Claude Max 升级。</p>
+<h4>剧本二：最危险——「合规事故 + 信任崩塌」</h4>
+<p>Cowork 的 VM containment 被 prompt injection 或恶意文件攻破（Files API 外泄已有先例）；或 Codex 在不可信 repo 上执行导致供应链攻击（两者均有 CVE 披露）。社区共识已是「不要对不可信 repo 直接跑 Agent」——一次高调事故可能触发 Enterprise 采购冻结。</p>
+<p>对 Cowork 而言，audit log 缺口是定时炸弹；对 Codex 而言，「自举」叙事若被证伪，将伤害技术可信度。版权诉讼（Doe v. GitHub）若终局不利，对整个 AI 编程赛道是系统性风险。</p>
+<h4>剧本三：最乐观——「Agent 成为默认劳动界面」</h4>
+<p>2027 年，Agent 委派成为知识工作和软件开发的 <strong>默认交互模式</strong>——Chat 退居二线。Codex 100 万+ 月活扩展至 1000 万；Cowork 随 Claude Enterprise 渗透至 Fortune 500 非技术团队。</p>
+<p>MCP 成为 Agent 工具调用的 HTTP——跨平台互通。OpenAI 与 Anthropic 均在「执行层」赚到订阅溢价，模型层竞争继续，但 <strong>工作流锁定</strong>（Skills、Automations、Connectors 配置）成为新 moat。Peter McCrory 的「不均匀劳动影响」成真——数据录入类岗位大幅缩减，但 Agent 编排者（「AI 同事的管理者」）成为新工种。</p>
+<hr>
+<p>开头提到的 <strong>2023 年 Codex 之死</strong>，在交汇处有了回响：那个被通用 GPT 吞噬的专精模型，它的灵魂——「让 AI 写代码」——并没有消失，而是在 2025 年以 Agent 的形态归来，还带走了 Claude Code 验证过的「委派范式」，以及 Cowork 正在向非开发者扩散的「Agent 劳动」想象。</p>
+<p>两条轴，同一个时代的问题：<strong>人还需要亲手做多少事？</strong></p>
+<hr>
+<h2>五、信息来源</h2>
+<table>
+<thead>
+<tr>
+<th>来源</th>
+<th>URL</th>
+<th>访问时间</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OpenAI - Introducing Codex</td>
+<td>https://openai.com/index/introducing-codex/</td>
+<td>2026-06-23</td>
+</tr>
+<tr>
+<td>OpenAI - Introducing the Codex app</td>
+<td>https://openai.com/index/introducing-the-codex-app/</td>
+<td>2026-06-23</td>
+</tr>
+<tr>
+<td>OpenAI - Introducing upgrades to Codex</td>
+<td>https://openai.com/index/introducing-upgrades-to-codex/</td>
+<td>2026-06-23</td>
+</tr>
+<tr>
+<td>OpenAI - Codex GA</td>
+<td>https://openai.com/index/codex-now-generally-available/</td>
+<td>2026-06-23</td>
+</tr>
+<tr>
+<td>OpenAI - GPT-5.1-Codex-Max</td>
+<td>https://openai.com/index/gpt-5-1-codex-max/</td>
+<td>2026-06-23</td>
+</tr>
+<tr>
+<td>OpenAI - GPT-5.3-Codex</td>
+<td>https://openai.com/index/introducing-gpt-5-3-codex/</td>
+<td>2026-06-23</td>
+</tr>
+<tr>
+<td>OpenAI Codex CLI 文档</td>
+<td>https://developers.openai.com/codex/cli</td>
+<td>2026-06-23</td>
+</tr>
+<tr>
+<td>OpenAI Codex GitHub</td>
+<td>https://github.com/openai/codex</td>
+<td>2026-06-23</td>
+</tr>
+<tr>
+<td>OpenAI API Deprecations</td>
+<td>https://developers.openai.com/api/docs/deprecations</td>
+<td>2026-06-23</td>
+</tr>
+<tr>
+<td>arXiv - Evaluating LLMs Trained on Code</td>
+<td>https://arxiv.org/abs/2107.03374</td>
+<td>2026-06-23</td>
+</tr>
+<tr>
+<td>GitHub Copilot 2021 发布</td>
+<td>https://github.blog/2021-06-29-introducing-github-copilot-ai-pair-programmer/</td>
+<td>2026-06-23</td>
+</tr>
+<tr>
+<td>TechCrunch - OpenAI Codex Agent</td>
+<td>https://techcrunch.com/2025/05/16/openai-launches-codex-an-ai-coding-agent-in-chatgpt/</td>
+<td>2026-06-23</td>
+</tr>
+<tr>
+<td>Anthropic - Claude Cowork 产品页</td>
+<td>https://www.anthropic.com/product/claude-cowork</td>
+<td>2026-06-23</td>
+</tr>
+<tr>
+<td>Anthropic - Introducing Anthropic Labs</td>
+<td>https://www.anthropic.com/news/introducing-anthropic-labs</td>
+<td>2026-06-23</td>
+</tr>
+<tr>
+<td>Anthropic - How we contain Claude</td>
+<td>https://www.anthropic.com/engineering/how-we-contain-claude</td>
+<td>2026-06-23</td>
+</tr>
+<tr>
+<td>Anthropic - Cowork for Enterprise</td>
+<td>https://claude.com/blog/cowork-for-enterprise</td>
+<td>2026-06-23</td>
+</tr>
+<tr>
+<td>Anthropic - MCP 发布</td>
+<td>https://www.anthropic.com/news/model-context-protocol</td>
+<td>2026-06-23</td>
+</tr>
+<tr>
+<td>VentureBeat - Claude Cowork 发布</td>
+<td>https://venturebeat.com/technology/anthropic-launches-cowork-a-claude-desktop-agent-that-works-in-your-files-no</td>
+<td>2026-06-23</td>
+</tr>
+<tr>
+<td>The Verge - Claude Cowork</td>
+<td>https://www.theverge.com/ai-artificial-intelligence/860730/anthropic-cowork-feature-ai-agents-claude-code</td>
+<td>2026-06-23</td>
+</tr>
+<tr>
+<td>Engadget - Claude Cowork</td>
+<td>https://www.engadget.com/ai/anthropic-launches-claude-cowork-a-version-of-its-coding-ai-for-regular-people-193000849.html</td>
+<td>2026-06-23</td>
+</tr>
+<tr>
+<td>Simon Willison - Claude Cowork</td>
+<td>https://simonwillison.net/2026/jan/12/claude-cowork/</td>
+<td>2026-06-23</td>
+</tr>
+<tr>
+<td>JetBrains AI Pulse 2026</td>
+<td>https://blog.jetbrains.com/research/2026/04/which-ai-coding-tools-do-developers-actually-use-at-work/</td>
+<td>2026-06-23</td>
+</tr>
+<tr>
+<td>Claude Code 产品页</td>
+<td>https://claude.com/product/claude-code</td>
+<td>2026-06-23</td>
+</tr>
+<tr>
+<td>GitHub Copilot 计费变更</td>
+<td>https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/</td>
+<td>2026-06-23</td>
+</tr>
+<tr>
+<td>Hacker News - Cursor vs Claude Code</td>
+<td>https://news.ycombinator.com/item?id=46563650</td>
+<td>2026-06-23</td>
+</tr>
+</tbody>
+</table>
+<p><strong>信息缺口标注</strong>：<br>
+- Cowork 无独立 launch 官方博客，首发细节多来自媒体报道<br>
+- Dario Amodei 对 Cowork 无直接公开论述<br>
+- Cowork / Codex 均无独立 ARR 或用户量官方拆分<br>
+- 2023 Codex 退役无独立 retrospective 长文<br>
+- Microsoft 与「新 Codex」关系无一手说明</p>
+<hr>
+<h2>方法论说明</h2>
+<p>本报告采用<strong>横纵分析法</strong>（Horizontal-Vertical Analysis），由数字生命卡兹克提出，融合索绪尔的历时-共时分析、社会科学的纵向-横截面研究设计、商学院案例研究法与竞争战略分析。纵轴追踪研究对象从诞生到当下的完整历程；横轴在当下时间截面与竞品/同类进行系统对比；最终交汇产出综合判断。</p>
+</body>
+</html>

@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkillHub Public — AI Skill 精选库分享</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&family=Noto+Serif+SC:wght@400;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet">
+  <style>
+    /* === THEME: Signal Editorial === */
+    :root {
+      --navy: #1C2644;
+      --navy-alt: #232F55;
+      --cream: #F0ECE3;
+      --cream-alt: #E6E0D4;
+      --text-warm: #E2DCD0;
+      --text-muted-dark: #8A96A8;
+      --text-hint-dark: #4E5A6E;
+      --ink: #1A2030;
+      --text-muted-light: #5A6270;
+      --gold: #C8A870;
+      --border-dark: #2E3D5C;
+      --border-light: #CAC4B4;
+      --stage-bg: #0f1525;
+      --font-display: 'Source Serif 4', 'Noto Serif SC', Georgia, serif;
+      --font-body: 'DM Sans', 'Noto Sans SC', sans-serif;
+      --font-mono: 'IBM Plex Mono', monospace;
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --duration: 0.65s;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* === VIEWPORT-BASE.CSS (FULL) === */
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: var(--stage-bg);
+    }
+    .deck-viewport {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      background: var(--stage-bg);
+    }
+    .deck-stage {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      transform-origin: 0 0;
+    }
+    .slide {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      display: block;
+      visibility: hidden;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .slide.active, .slide.visible {
+      visibility: visible;
+      opacity: 1;
+      pointer-events: auto;
+      z-index: 1;
+    }
+    img, video, canvas, svg { max-width: 100%; max-height: 100%; }
+    @media print {
+      html, body { width: 1920px; height: auto; overflow: visible; background: #fff; }
+      .deck-viewport { position: static; overflow: visible; background: #fff; }
+      .deck-stage { position: static; width: auto; height: auto; transform: none !important; }
+      .slide {
+        position: relative;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        width: 1920px;
+        height: 1080px;
+        break-after: page;
+        page-break-after: always;
+      }
+      .deck-controls, .progress-bar, .edit-hotzone, .edit-toggle { display: none !important; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.2s !important;
+      }
+    }
+
+    /* === SLIDE SURFACES === */
+    .slide--dark {
+      background: var(--navy);
+      color: var(--text-warm);
+    }
+    .slide--dark::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(200,168,112,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(200,168,112,0.03) 1px, transparent 1px);
+      background-size: 80px 80px;
+      pointer-events: none;
+    }
+    .slide--light {
+      background: var(--cream);
+      color: var(--ink);
+    }
+
+    /* === LAYOUT === */
+    .slide-inner {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      padding: 80px 144px;
+      display: flex;
+      flex-direction: column;
+    }
+    .slide-inner--center {
+      justify-content: center;
+      align-items: flex-start;
+    }
+    .slide-inner--split {
+      justify-content: space-between;
+    }
+
+    /* === TYPOGRAPHY === */
+    .kicker {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 24px;
+    }
+    .slide--light .kicker { color: #9a7d4a; }
+    .display {
+      font-family: var(--font-display);
+      font-size: 110px;
+      font-weight: 700;
+      line-height: 0.96;
+      letter-spacing: -0.02em;
+    }
+    .display em, .h1 em, .h2 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .slide--light .display em, .slide--light .h1 em { color: #9a7d4a; }
+    .h1 {
+      font-family: var(--font-display);
+      font-size: 88px;
+      font-weight: 600;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      margin-bottom: 32px;
+    }
+    .h2 {
+      font-family: var(--font-display);
+      font-size: 58px;
+      font-weight: 600;
+      line-height: 1.12;
+      margin-bottom: 40px;
+    }
+    .lead {
+      font-family: var(--font-body);
+      font-size: 28px;
+      line-height: 1.55;
+      max-width: 1200px;
+    }
+    .slide--dark .lead { color: var(--text-muted-dark); }
+    .slide--light .lead { color: var(--text-muted-light); }
+    .body {
+      font-family: var(--font-body);
+      font-size: 22px;
+      line-height: 1.6;
+    }
+    .stat {
+      font-family: var(--font-display);
+      font-size: 96px;
+      font-weight: 600;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .slide--light .stat { color: #9a7d4a; }
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-top: 12px;
+      opacity: 0.7;
+    }
+
+    /* === COMPONENTS === */
+    .gold-rule {
+      width: 80px;
+      height: 3px;
+      background: var(--gold);
+      margin: 32px 0;
+    }
+    .slide-num {
+      position: absolute;
+      top: 80px;
+      right: 144px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      opacity: 0.5;
+      z-index: 3;
+    }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 16px;
+    }
+    .card-grid--2 { grid-template-columns: repeat(2, 1fr); }
+    .card-grid--4 { grid-template-columns: repeat(4, 1fr); }
+    .card {
+      padding: 32px;
+      border: 1px solid var(--border-dark);
+      background: rgba(35, 47, 85, 0.4);
+    }
+    .slide--light .card {
+      border-color: var(--border-light);
+      background: rgba(255,255,255,0.5);
+    }
+    .card-title {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+    .slide--light .card-title { color: #9a7d4a; }
+    .card h3 {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+    .card p {
+      font-size: 18px;
+      line-height: 1.5;
+      opacity: 0.85;
+    }
+    .bullet-list {
+      list-style: none;
+      margin-top: 8px;
+    }
+    .bullet-list li {
+      font-size: 22px;
+      line-height: 1.55;
+      padding-left: 28px;
+      position: relative;
+      margin-bottom: 16px;
+    }
+    .bullet-list li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+    }
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 24px;
+      font-size: 20px;
+    }
+    .compare-table th {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-align: left;
+      padding: 16px 24px;
+      border-bottom: 2px solid var(--gold);
+      color: var(--gold);
+    }
+    .compare-table td {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border-dark);
+      vertical-align: top;
+    }
+    .slide--light .compare-table td { border-color: var(--border-light); }
+    .compare-table td:first-child {
+      font-family: var(--font-mono);
+      font-size: 16px;
+      opacity: 0.7;
+      width: 180px;
+    }
+    .flow {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+    .flow-step {
+      padding: 20px 28px;
+      border: 1px solid var(--border-dark);
+      font-size: 18px;
+      background: rgba(35,47,85,0.35);
+    }
+    .slide--light .flow-step {
+      border-color: var(--border-light);
+      background: rgba(255,255,255,0.55);
+    }
+    .flow-arrow {
+      color: var(--gold);
+      font-size: 24px;
+    }
+    .quote-block {
+      font-family: var(--font-display);
+      font-size: 52px;
+      line-height: 1.28;
+      font-weight: 400;
+      max-width: 1400px;
+    }
+    .quote-block em { color: var(--gold); font-style: italic; }
+    .footer-meta {
+      margin-top: auto;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      opacity: 0.5;
+    }
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+    }
+    .tag {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      padding: 10px 18px;
+      border: 1px solid var(--border-dark);
+      letter-spacing: 0.06em;
+    }
+    .slide--light .tag { border-color: var(--border-light); }
+
+    /* === ANIMATIONS === */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity var(--duration) var(--ease-out-expo),
+                  transform var(--duration) var(--ease-out-expo);
+    }
+    .slide.visible .reveal {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal:nth-child(1) { transition-delay: 0.05s; }
+    .reveal:nth-child(2) { transition-delay: 0.12s; }
+    .reveal:nth-child(3) { transition-delay: 0.19s; }
+    .reveal:nth-child(4) { transition-delay: 0.26s; }
+    .reveal:nth-child(5) { transition-delay: 0.33s; }
+    .reveal:nth-child(6) { transition-delay: 0.4s; }
+
+    /* === CHROME (outside stage) === */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: var(--gold);
+      z-index: 2000;
+      transition: width 0.3s ease;
+    }
+    .deck-controls {
+      position: fixed;
+      left: 50%;
+      bottom: 22px;
+      transform: translateX(-50%);
+      z-index: 1000;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      color: rgba(226,220,208,0.6);
+      background: rgba(28,38,68,0.85);
+      padding: 10px 20px;
+      border: 1px solid var(--border-dark);
+    }
+    .edit-hotzone {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 80px;
+      height: 80px;
+      z-index: 10000;
+      cursor: pointer;
+    }
+    .edit-toggle {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 10001;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      background: var(--navy);
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      padding: 8px 14px;
+      font-size: 16px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+    }
+    .edit-toggle.show, .edit-toggle.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    [contenteditable="true"] {
+      outline: 2px dashed var(--gold);
+      outline-offset: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="progress-bar" id="progressBar"></div>
+  <div class="edit-hotzone" id="editHotzone"></div>
+  <button class="edit-toggle" id="editToggle" title="编辑模式 (E)">✏️ 编辑</button>
+
+  <div class="deck-viewport">
+    <main class="deck-stage" id="deckStage">
+
+      <!-- SLIDE 01: Title -->
+      <section class="slide slide--dark active">
+        <span class="slide-num">01 / 16</span>
+        <div class="slide-inner slide-inner--center">
+          <p class="kicker reveal">Internal Sharing · 2026</p>
+          <h1 class="display reveal">SkillHub<br><em>Public</em></h1>
+          <div class="gold-rule reveal"></div>
+          <p class="lead reveal">我的 AI Agent Skill 精选与验证仓库<br>200+ 能力包 · 按场景分类 · 开箱即用</p>
+          <p class="footer-meta reveal">chenyueli829 / skillhub-public</p>
+        </div>
+      </section>
+
+      <!-- SLIDE 02: One-liner -->
+      <section class="slide slide--light">
+        <span class="slide-num">02 / 16</span>
+        <div class="slide-inner slide-inner--center">
+          <p class="kicker reveal">Opening</p>
+          <p class="quote-block reveal">不是 Prompt 合集，而是让 Agent <em>按流程办事</em> 的能力包</p>
+          <p class="lead reveal" style="margin-top:48px">Cursor · Claude Code · OpenClaw · Hermes — 一个 GitHub 链接，Agent 自己安装</p>
+        </div>
+      </section>
+
+      <!-- SLIDE 03: What is Skill -->
+      <section class="slide slide--dark">
+        <span class="slide-num">03 / 16</span>
+        <div class="slide-inner">
+          <p class="kicker reveal">Concept</p>
+          <h2 class="h2 reveal">什么是 <em>Skill</em>？</h2>
+          <p class="lead reveal">给 AI 写的 SOP — 标准作业程序</p>
+          <ul class="bullet-list reveal">
+            <li>持久化的 <code>SKILL.md</code> 文件，不是一次性对话</li>
+            <li>Agent 根据 description 自动匹配，或 <code>@</code> 显式调用</li>
+            <li>完整工作流：步骤、约束、输出格式、脚本、参考文档</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- SLIDE 04: Compare -->
+      <section class="slide slide--light">
+        <span class="slide-num">04 / 16</span>
+        <div class="slide-inner">
+          <p class="kicker reveal">Compare</p>
+          <h2 class="h2 reveal">Prompt vs Skill</h2>
+          <table class="compare-table reveal">
+            <thead>
+              <tr><th>维度</th><th>普通 Prompt</th><th>Skill</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>形态</td><td>一次性对话</td><td>持久化 SKILL.md</td></tr>
+              <tr><td>触发</td><td>每次手动粘贴</td><td>自动匹配 / @ 调用</td></tr>
+              <tr><td>内容</td><td>几句话</td><td>完整 SOP + 脚本</td></tr>
+              <tr><td>复用</td><td>难</td><td>GitHub 链接一键安装</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- SLIDE 05: Why -->
+      <section class="slide slide--dark">
+        <span class="slide-num">05 / 16</span>
+        <div class="slide-inner">
+          <p class="kicker reveal">Problem</p>
+          <h2 class="h2 reveal">为什么做<em>这个仓库</em>？</h2>
+          <div class="card-grid reveal">
+            <div class="card">
+              <div class="card-title">痛点 01</div>
+              <h3>散落各处</h3>
+              <p>GitHub、大 V 分享、官方仓库 — 找起来费时</p>
+            </div>
+            <div class="card">
+              <div class="card-title">痛点 02</div>
+              <h3>质量参差</h3>
+              <p>有的缺中文，有的根本没跑通过</p>
+            </div>
+            <div class="card">
+              <div class="card-title">痛点 03</div>
+              <h3>安装不统一</h3>
+              <p>不同 Agent 路径不同，容易装错</p>
+            </div>
+          </div>
+          <p class="lead reveal" style="margin-top:40px">定位：<strong>精选 + 归档 + 验证</strong> — 我筛过、用过、愿意推荐的清单</p>
+        </div>
+      </section>
+
+      <!-- SLIDE 06: Stats -->
+      <section class="slide slide--light">
+        <span class="slide-num">06 / 16</span>
+        <div class="slide-inner slide-inner--center">
+          <p class="kicker reveal">Scale</p>
+          <div class="card-grid card-grid--4 reveal">
+            <div class="card" style="text-align:center">
+              <div class="stat">200+</div>
+              <div class="stat-label">Skill 入口</div>
+            </div>
+            <div class="card" style="text-align:center">
+              <div class="stat">63</div>
+              <div class="stat-label">A 精选</div>
+            </div>
+            <div class="card" style="text-align:center">
+              <div class="stat">10+</div>
+              <div class="stat-label">场景分类</div>
+            </div>
+            <div class="card" style="text-align:center">
+              <div class="stat">7</div>
+              <div class="stat-label">来源合集</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 07: Structure -->
+      <section class="slide slide--dark">
+        <span class="slide-num">07 / 16</span>
+        <div class="slide-inner">
+          <p class="kicker reveal">Structure</p>
+          <h2 class="h2 reveal">仓库<em>结构</em></h2>
+          <div class="card-grid card-grid--2 reveal">
+            <div class="card">
+              <div class="card-title">⭐ A精选10个Skill</div>
+              <p>按场景组织：PRD、研究、写作、绘图、PPT、设计…</p>
+            </div>
+            <div class="card">
+              <div class="card-title">baoyu同款 · 22</div>
+              <p>内容创作全流程：公众号、小红书、漫画、信息图</p>
+            </div>
+            <div class="card">
+              <div class="card-title">hermes-skills官方 · 71</div>
+              <p>全品类：开发、创意、研究、生产力、MLOps</p>
+            </div>
+            <div class="card">
+              <div class="card-title">卡兹克 · 三万 · Anthropic</div>
+              <p>大 V 实战验证 + 官方标准 + 历史存档</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 08: A精选 PRD -->
+      <section class="slide slide--light">
+        <span class="slide-num">08 / 16</span>
+        <div class="slide-inner">
+          <p class="kicker reveal">A精选 · 产品</p>
+          <h2 class="h2 reveal">PRD / 产品<em>场景</em></h2>
+          <div class="tag-row reveal">
+            <span class="tag">brainstorming</span>
+            <span class="tag">idea-validator</span>
+            <span class="tag">writing-plans</span>
+            <span class="tag">ai-painpoint-kb</span>
+          </div>
+          <ul class="bullet-list reveal" style="margin-top:32px">
+            <li>头脑风暴 → 需求验证 → 写计划 → 挖 HN 痛点</li>
+            <li>brainstorming 有 HARD-GATE：没批准设计前禁止写代码</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- SLIDE 09: Research & Content -->
+      <section class="slide slide--dark">
+        <span class="slide-num">09 / 16</span>
+        <div class="slide-inner">
+          <p class="kicker reveal">A精选 · 研究 & 内容</p>
+          <h2 class="h2 reveal">研究 · 写作 · <em>信息源</em></h2>
+          <div class="card-grid reveal">
+            <div class="card">
+              <div class="card-title">研究</div>
+              <h3>深度调研</h3>
+              <p>ecc-deep-research、产品体验报告、hv-analysis 横纵分析</p>
+            </div>
+            <div class="card">
+              <div class="card-title">写作</div>
+              <h3>内容生产</h3>
+              <p>小红书爆款研究+撰写、humanizer 去 AI 味</p>
+            </div>
+            <div class="card">
+              <div class="card-title">信息源</div>
+              <h3>趋势捕获</h3>
+              <p>last30days 近 30 天多平台话题、newsletter 周报</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 10: Visual & Browser -->
+      <section class="slide slide--light">
+        <span class="slide-num">10 / 16</span>
+        <div class="slide-inner">
+          <p class="kicker reveal">A精选 · 视觉 & 自动化</p>
+          <h2 class="h2 reveal">绘图 · 设计 · <em>浏览器</em></h2>
+          <div class="card-grid reveal">
+            <div class="card">
+              <div class="card-title">绘图</div>
+              <p>21 种信息图、漫画、架构图、配图</p>
+            </div>
+            <div class="card">
+              <div class="card-title">PPT / 视频</div>
+              <p>HTML 演示稿、PPT 生成、短视频</p>
+            </div>
+            <div class="card">
+              <div class="card-title">浏览器</div>
+              <p>Playwright、Page Agent — 含买机票实测</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 11: Collections -->
+      <section class="slide slide--dark">
+        <span class="slide-num">11 / 16</span>
+        <div class="slide-inner">
+          <p class="kicker reveal">Collections</p>
+          <h2 class="h2 reveal">其他<em>精选合集</em></h2>
+          <ul class="bullet-list reveal">
+            <li><strong>宝玉同款</strong> — 公众号全流程，按需安装勿全装</li>
+            <li><strong>卡兹克</strong> — 磁盘清理、AI HOT、横纵分析、写作</li>
+            <li><strong>Hermes 官方</strong> — 71 个全品类能力库</li>
+            <li><strong>三万同款</strong> — programmatic-seo、对抗式评审</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- SLIDE 12: How to use -->
+      <section class="slide slide--light">
+        <span class="slide-num">12 / 16</span>
+        <div class="slide-inner slide-inner--center">
+          <p class="kicker reveal">Usage</p>
+          <h2 class="h2 reveal">怎么<em>用</em>？</h2>
+          <p class="lead reveal">对 Agent 说：</p>
+          <p class="body reveal" style="margin-top:24px;font-family:var(--font-mono);font-size:18px;line-height:1.7;max-width:1500px;padding:32px;border:1px solid var(--border-light);background:rgba(255,255,255,0.6)">
+            帮我安装这个 skill：<br>
+            github.com/chenyueli829/skillhub-public/.../SKILL.md
+          </p>
+          <p class="lead reveal" style="margin-top:32px">或 @skill-name 直接调用 · @skill-evaluator 生成评测文档</p>
+        </div>
+      </section>
+
+      <!-- SLIDE 13: Philosophy -->
+      <section class="slide slide--dark">
+        <span class="slide-num">13 / 16</span>
+        <div class="slide-inner">
+          <p class="kicker reveal">Philosophy</p>
+          <h2 class="h2 reveal">使用<em>哲学</em></h2>
+          <div class="card-grid reveal">
+            <div class="card">
+              <div class="card-title">01</div>
+              <h3>Skill 是 SOP</h3>
+              <p>不是万能 Prompt，要有硬约束</p>
+            </div>
+            <div class="card">
+              <div class="card-title">02</div>
+              <h3>少即是多</h3>
+              <p>只装真正会用的，上下文是稀缺资源</p>
+            </div>
+            <div class="card">
+              <div class="card-title">03</div>
+              <h3>先评测再入库</h3>
+              <p>补齐中文 + 评测文档，避免装了不会触发</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 14: Workflow -->
+      <section class="slide slide--light">
+        <span class="slide-num">14 / 16</span>
+        <div class="slide-inner slide-inner--center">
+          <p class="kicker reveal">Workflow</p>
+          <h2 class="h2 reveal">入库<em>工作流</em></h2>
+          <div class="flow reveal">
+            <div class="flow-step">发现好 Skill</div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-step">安装验证</div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-step">skill-evaluator</div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-step">入库分享</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 15: Recommendations -->
+      <section class="slide slide--dark">
+        <span class="slide-num">15 / 16</span>
+        <div class="slide-inner">
+          <p class="kicker reveal">Starter Pack</p>
+          <h2 class="h2 reveal">入门<em>三件套</em></h2>
+          <div class="card-grid card-grid--2 reveal">
+            <div class="card">
+              <div class="card-title">产品经理</div>
+              <p>brainstorming + idea-validator + claim-verifier</p>
+            </div>
+            <div class="card">
+              <div class="card-title">内容创作者</div>
+              <p>baoyu-post-to-wechat + humanizer + baoyu-comic</p>
+            </div>
+            <div class="card">
+              <div class="card-title">开发者</div>
+              <p>brainstorming + writing-plans + systematic-debugging</p>
+            </div>
+            <div class="card">
+              <div class="card-title">研究者</div>
+              <p>ecc-deep-research + last30days + hv-analysis</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 16: Closing -->
+      <section class="slide slide--light">
+        <span class="slide-num">16 / 16</span>
+        <div class="slide-inner slide-inner--center">
+          <p class="kicker reveal">Closing</p>
+          <p class="quote-block reveal">会选 Skill，<em>比会写 Prompt 更重要</em></p>
+          <div class="gold-rule reveal"></div>
+          <p class="lead reveal">github.com/chenyueli829/skillhub-public</p>
+          <p class="footer-meta reveal">欢迎 Star · PR · Issues 推荐好 Skill</p>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <div class="deck-controls" id="deckControls">← → 翻页 · Space 下一页 · E 编辑</div>
+
+  <script>
+    /* === STAGE SCALING & NAVIGATION === */
+    class SlidePresentation {
+      constructor() {
+        this.slides = Array.from(document.querySelectorAll('.slide'));
+        this.currentSlide = 0;
+        this.stage = document.getElementById('deckStage');
+        this.progressBar = document.getElementById('progressBar');
+        this.controls = document.getElementById('deckControls');
+        this.touchStartX = 0;
+        this.setupStageScale();
+        this.setupKeyboardNav();
+        this.setupTouchNav();
+        this.setupWheelNav();
+        this.showSlide(0);
+      }
+
+      setupStageScale() {
+        const scale = () => {
+          const factor = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+          const x = (window.innerWidth - 1920 * factor) / 2;
+          const y = (window.innerHeight - 1080 * factor) / 2;
+          this.stage.style.transform = `translate(${x}px, ${y}px) scale(${factor})`;
+        };
+        scale();
+        window.addEventListener('resize', scale);
+      }
+
+      showSlide(index) {
+        this.currentSlide = Math.max(0, Math.min(index, this.slides.length - 1));
+        this.slides.forEach((slide, i) => {
+          const active = i === this.currentSlide;
+          slide.classList.toggle('active', active);
+          slide.classList.toggle('visible', active);
+        });
+        const pct = ((this.currentSlide + 1) / this.slides.length) * 100;
+        this.progressBar.style.width = pct + '%';
+        this.controls.textContent = `${this.currentSlide + 1} / ${this.slides.length} · ← → 翻页 · Space 下一页 · E 编辑`;
+      }
+
+      next() { this.showSlide(this.currentSlide + 1); }
+      prev() { this.showSlide(this.currentSlide - 1); }
+
+      setupKeyboardNav() {
+        document.addEventListener('keydown', (e) => {
+          if (e.target.getAttribute('contenteditable') === 'true') return;
+          if (['ArrowRight', 'ArrowDown', 'PageDown', ' '].includes(e.key)) {
+            e.preventDefault();
+            this.next();
+          } else if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(e.key)) {
+            e.preventDefault();
+            this.prev();
+          } else if (e.key === 'Home') {
+            this.showSlide(0);
+          } else if (e.key === 'End') {
+            this.showSlide(this.slides.length - 1);
+          }
+        });
+      }
+
+      setupTouchNav() {
+        document.addEventListener('touchstart', (e) => {
+          this.touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+        document.addEventListener('touchend', (e) => {
+          const diff = e.changedTouches[0].screenX - this.touchStartX;
+          if (Math.abs(diff) > 50) {
+            diff < 0 ? this.next() : this.prev();
+          }
+        }, { passive: true });
+      }
+
+      setupWheelNav() {
+        let wheelTimeout;
+        document.addEventListener('wheel', (e) => {
+          clearTimeout(wheelTimeout);
+          wheelTimeout = setTimeout(() => {
+            if (e.deltaY > 30) this.next();
+            else if (e.deltaY < -30) this.prev();
+          }, 50);
+        }, { passive: true });
+      }
+    }
+
+    /* === INLINE EDITING === */
+    class InlineEditor {
+      constructor() {
+        this.isActive = false;
+        this.toggle = document.getElementById('editToggle');
+        this.hotzone = document.getElementById('editHotzone');
+        this.hideTimeout = null;
+        this.setup();
+      }
+
+      setup() {
+        this.toggle.addEventListener('click', () => this.toggleEditMode());
+        this.hotzone.addEventListener('click', () => this.toggleEditMode());
+
+        this.hotzone.addEventListener('mouseenter', () => {
+          clearTimeout(this.hideTimeout);
+          this.toggle.classList.add('show');
+        });
+        this.hotzone.addEventListener('mouseleave', () => {
+          this.hideTimeout = setTimeout(() => {
+            if (!this.isActive) this.toggle.classList.remove('show');
+          }, 400);
+        });
+        this.toggle.addEventListener('mouseenter', () => clearTimeout(this.hideTimeout));
+        this.toggle.addEventListener('mouseleave', () => {
+          this.hideTimeout = setTimeout(() => {
+            if (!this.isActive) this.toggle.classList.remove('show');
+          }, 400);
+        });
+
+        document.addEventListener('keydown', (e) => {
+          if ((e.key === 'e' || e.key === 'E') && e.target.getAttribute('contenteditable') !== 'true') {
+            this.toggleEditMode();
+          }
+          if (e.key === 's' && (e.ctrlKey || e.metaKey) && this.isActive) {
+            e.preventDefault();
+            this.saveToLocalStorage();
+            alert('已保存到浏览器 localStorage');
+          }
+        });
+
+        this.loadFromLocalStorage();
+      }
+
+      toggleEditMode() {
+        this.isActive = !this.isActive;
+        this.toggle.classList.toggle('active', this.isActive);
+        this.toggle.textContent = this.isActive ? '✅ 完成' : '✏️ 编辑';
+        document.querySelectorAll('.slide h1, .slide h2, .slide h3, .slide p, .slide li, .slide td, .slide .stat, .slide .tag, .slide .flow-step').forEach(el => {
+          el.contentEditable = this.isActive ? 'true' : 'false';
+        });
+      }
+
+      saveToLocalStorage() {
+        const data = {};
+        document.querySelectorAll('.slide').forEach((slide, i) => {
+          data[i] = slide.innerHTML;
+        });
+        localStorage.setItem('skillhub-deck-edits', JSON.stringify(data));
+      }
+
+      loadFromLocalStorage() {
+        const saved = localStorage.getItem('skillhub-deck-edits');
+        if (!saved) return;
+        try {
+          const data = JSON.parse(saved);
+          document.querySelectorAll('.slide').forEach((slide, i) => {
+            if (data[i]) slide.innerHTML = data[i];
+          });
+        } catch (_) {}
+      }
+    }
+
+    const presentation = new SlidePresentation();
+    const editor = new InlineEditor();
+  </script>
+</body>
+</html>

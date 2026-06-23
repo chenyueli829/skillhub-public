@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkillHub Public — Dark Botanical</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Sans:wght@300;400&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root { --stage-bg:#080808; --ease:cubic-bezier(0.16,1,0.3,1); }
+    *{margin:0;padding:0;box-sizing:border-box}
+    html,body{width:100%;height:100%;overflow:hidden;background:var(--stage-bg)}
+    .deck-viewport{position:fixed;inset:0;overflow:hidden}
+    .deck-stage{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+    .slide{position:absolute;inset:0;width:1920px;height:1080px;overflow:hidden;background:#0f0f0f;display:flex;align-items:center;justify-content:center}
+    .blob1,.blob2,.blob3{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.45}
+    .blob1{width:520px;height:520px;background:#e8b4b8;top:-80px;right:200px}
+    .blob2{width:400px;height:400px;background:#d4a574;bottom:-60px;left:120px}
+    .blob3{width:280px;height:280px;background:#c9b896;top:200px;left:400px;opacity:0.25}
+    .line{position:absolute;left:50%;top:120px;width:1px;height:160px;background:linear-gradient(to bottom,transparent,#d4a574,transparent);transform:translateX(-50%)}
+    .content{position:relative;z-index:2;text-align:center;padding:0 160px;max-width:1400px}
+    .kicker{font-family:'IBM Plex Sans',sans-serif;font-size:13px;letter-spacing:0.28em;text-transform:uppercase;color:#9a9590;margin-bottom:40px;font-weight:300}
+    h1{font-family:'Cormorant','Noto Serif SC',serif;font-size:108px;font-weight:400;line-height:1.02;color:#e8e4df;letter-spacing:-0.01em}
+    h1 em{font-style:italic;color:#d4a574}
+    .subtitle{font-family:'IBM Plex Sans','Noto Sans SC',sans-serif;font-size:26px;font-weight:300;color:#9a9590;margin-top:36px;line-height:1.65;max-width:880px;margin-left:auto;margin-right:auto}
+    .signature{font-family:'Cormorant',serif;font-style:italic;font-size:22px;color:#e8b4b8;margin-top:56px;opacity:0.8}
+    .reveal{opacity:0;transform:translateY(18px);animation:rise .8s var(--ease) forwards}
+    .reveal:nth-child(2){animation-delay:.15s}.reveal:nth-child(3){animation-delay:.3s}.reveal:nth-child(4){animation-delay:.45s}
+    @keyframes rise{to{opacity:1;transform:translateY(0)}}
+    @media (prefers-reduced-motion:reduce){.reveal{animation:none;opacity:1;transform:none}}
+  </style>
+</head>
+<body>
+  <div class="deck-viewport"><main class="deck-stage" id="stage">
+    <section class="slide">
+      <div class="blob1"></div><div class="blob2"></div><div class="blob3"></div>
+      <div class="line"></div>
+      <div class="content">
+        <p class="kicker reveal">Curated Intelligence</p>
+        <h1 class="reveal">SkillHub <em>Public</em></h1>
+        <p class="subtitle reveal">我的 AI Agent Skill 精选库 — 筛过、用过、愿意推荐的能力包</p>
+        <p class="signature reveal">— 200+ skills, thoughtfully archived</p>
+      </div>
+    </section>
+  </main></div>
+  <script>
+    const s=document.getElementById('stage');
+    const scale=()=>{const f=Math.min(innerWidth/1920,innerHeight/1080);s.style.transform=`translate(${(innerWidth-1920*f)/2}px,${(innerHeight-1080*f)/2}px) scale(${f})`;};
+    scale();addEventListener('resize',scale);
+  </script>
+</body>
+</html>

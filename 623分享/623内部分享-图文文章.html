@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>从 AI 小白到「养虾大户」——一个产品经理的 AI Native 实战</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #FAFAF7;
+  --surface: #FFFFFF;
+  --ink: #1A1A1A;
+  --ink-2: #4A4A4A;
+  --muted: #9A9A9A;
+  --accent: #E85A1F;
+  --accent-light: #FFF0E8;
+  --blue: #2563EB;
+  --green: #16A34A;
+  --yellow: #EAB308;
+  --purple: #7C3AED;
+  --border: #E5E5E0;
+  --shadow: 0 2px 12px rgba(0,0,0,0.06);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.10);
+  --radius: 12px;
+  --radius-lg: 20px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Noto Sans SC', 'Inter', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.75;
+  font-size: 17px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* === Layout === */
+.container {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 60px 24px 120px;
+}
+
+/* === Header === */
+.header {
+  text-align: center;
+  margin-bottom: 64px;
+  padding-bottom: 48px;
+  border-bottom: 1px solid var(--border);
+}
+.header-tag {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  padding: 6px 16px;
+  border-radius: 20px;
+  margin-bottom: 24px;
+  text-transform: uppercase;
+}
+.header h1 {
+  font-size: clamp(28px, 5vw, 42px);
+  font-weight: 900;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+}
+.header-sub {
+  font-size: 18px;
+  color: var(--ink-2);
+  max-width: 520px;
+  margin: 0 auto 20px;
+  line-height: 1.6;
+}
+.header-meta {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--muted);
+}
+.header-meta span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* === Sections === */
+.section {
+  margin-bottom: 56px;
+}
+.section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.section h2 {
+  font-size: clamp(22px, 3.5vw, 30px);
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  margin-bottom: 16px;
+}
+.section h3 {
+  font-size: 19px;
+  font-weight: 700;
+  margin: 32px 0 12px;
+  color: var(--ink);
+}
+.section p {
+  color: var(--ink-2);
+  margin-bottom: 16px;
+}
+.section strong {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+/* === Quote blocks === */
+.quote-block {
+  background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%);
+  border-left: 4px solid var(--yellow);
+  padding: 24px 28px;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  margin: 28px 0;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.65;
+  color: #78350F;
+}
+.quote-block.cyan {
+  background: linear-gradient(135deg, #ECFEFF 0%, #CFFAFE 100%);
+  border-left-color: var(--blue);
+  color: #164E63;
+}
+.quote-block.green {
+  background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%);
+  border-left-color: var(--green);
+  color: #14532D;
+}
+.quote-block.purple {
+  background: linear-gradient(135deg, #FAF5FF 0%, #F3E8FF 100%);
+  border-left-color: var(--purple);
+  color: #581C87;
+}
+.quote-block .quote-attribution {
+  display: block;
+  margin-top: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0.7;
+}
+
+/* === Images === */
+.article-figure {
+  margin: 32px 0;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  background: var(--surface);
+}
+.article-figure img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.article-figure figcaption {
+  padding: 14px 20px;
+  font-size: 14px;
+  color: var(--muted);
+  text-align: center;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  font-style: italic;
+}
+
+/* Two column image grid */
+.img-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 28px 0;
+}
+.img-grid .article-figure { margin: 0; }
+
+/* === Timeline / Evolution === */
+.timeline {
+  position: relative;
+  padding-left: 36px;
+  margin: 24px 0;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 11px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--border);
+}
+.timeline-item {
+  position: relative;
+  margin-bottom: 28px;
+  padding: 20px 24px;
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.timeline-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -29px;
+  top: 26px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 3px solid var(--accent);
+  background: var(--surface);
+}
+.timeline-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+.timeline-item h4 {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.timeline-item p {
+  font-size: 15px;
+  color: var(--ink-2);
+  margin: 0;
+  line-height: 1.55;
+}
+
+/* === Cards Grid === */
+.cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 24px 0;
+}
+.card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+.card-icon {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+.card h4 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.card p {
+  font-size: 14px;
+  color: var(--ink-2);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Full-width card row */
+.card-row {
+  display: grid;
+  gap: 16px;
+  margin: 24px 0;
+}
+.card-row.cols-3 { grid-template-columns: repeat(3, 1fr); }
+.card-row.cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+@media (max-width: 640px) {
+  .cards, .img-grid { grid-template-columns: 1fr; }
+  .card-row.cols-3, .card-row.cols-4 { grid-template-columns: 1fr 1fr; }
+}
+
+/* === Table === */
+.table-wrap {
+  overflow-x: auto;
+  margin: 24px 0;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+  font-size: 15px;
+}
+thead th {
+  background: var(--ink);
+  color: #fff;
+  font-weight: 700;
+  padding: 14px 18px;
+  text-align: left;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+tbody td {
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--border);
+  color: var(--ink-2);
+}
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover td { background: #FAFAFA; }
+
+/* === Tags === */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0;
+}
+.tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  padding: 5px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--ink-2);
+}
+.tag--accent { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+.tag--blue { background: #EFF6FF; border-color: var(--blue); color: var(--blue); }
+.tag--green { background: #F0FDF4; border-color: var(--green); color: var(--green); }
+.tag--yellow { background: #FFFBEB; border-color: var(--yellow); color: #A16207; }
+
+/* === List styles === */
+ul.check-list {
+  list-style: none;
+  margin: 16px 0;
+}
+ul.check-list li {
+  padding: 8px 0 8px 28px;
+  position: relative;
+  color: var(--ink-2);
+  font-size: 16px;
+}
+ul.check-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--green);
+  font-weight: 700;
+  font-size: 16px;
+}
+
+/* === Divider === */
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 48px auto;
+  max-width: 200px;
+}
+
+/* === Footer CTA === */
+.cta-box {
+  background: linear-gradient(135deg, var(--ink) 0%, #2A2A2A 100%);
+  color: #fff;
+  border-radius: var(--radius-lg);
+  padding: 40px 36px;
+  text-align: center;
+  margin-top: 56px;
+}
+.cta-box h3 {
+  color: #fff;
+  font-size: 24px;
+  margin-bottom: 16px;
+}
+.cta-box p {
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+.cta-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent);
+  color: #fff;
+  padding: 12px 28px;
+  border-radius: 30px;
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+  margin-top: 16px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.cta-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(232,90,31,0.4);
+}
+
+/* === Highlight number === */
+.hl-num {
+  font-family: 'Inter', sans-serif;
+  font-weight: 900;
+  color: var(--accent);
+  font-size: 1.1em;
+}
+
+/* === Stage indicator === */
+.stage-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+.stage-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  body { font-size: 16px; }
+  .container { padding: 40px 16px 80px; }
+  .header { margin-bottom: 40px; padding-bottom: 32px; }
+  .section { margin-bottom: 40px; }
+  .timeline { padding-left: 28px; }
+  .cta-box { padding: 28px 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- ====== HEADER ====== -->
+<header class="header">
+  <span class="header-tag">AI Native · Internal Sharing · 2026.06</span>
+  <h1>从 AI 小白到「养虾大户」</h1>
+  <p class="header-sub">一个产品经理的 AI Native 实战：如何把 AI 用成一个产品军团</p>
+  <div class="header-meta">
+    <span>📅 2026.06.23</span>
+    <span>⏱️ 约 35 分钟</span>
+    <span>✍️ 莉莉安 (lylianchen)</span>
+  </div>
+</header>
+
+
+
+<!-- ====== PART 1: EVOLUTION ====== -->
+<section class="section">
+  <div class="section-label">Part 01 — 工具演进</div>
+  <h2>2026 是 Agent 爆发元年</h2>
+  <p>我的工具一路换，本质是认知一路升。一页讲清三个阶段：</p>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-badge">阶段一 · 跑通流程</div>
+      <h4>OpenClaw（内网）· Lighthouse · 飞书养虾</h4>
+      <p>第一次让 AI 干活，跑通流程。体感：<strong>「哇，能跑通了！」</strong></p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-badge">阶段二 · 提速</div>
+      <h4>内网 Hermes · 本地 Hermes</h4>
+      <p>把能力搬到手边，提速。体感：<strong>「快了，但还是单线。」</strong></p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-badge">阶段三 · 军团模式</div>
+      <h4>WorkBuddy · Claude Code · Claude Cowork · Claude Design</h4>
+      <p>多 Agent 协作，进入「一个人指挥一支队伍」。体感：<strong>「一个人 = 一个小团队。」</strong></p>
+    </div>
+  </div>
+
+  <div class="quote-block cyan">
+    换工具是表象，真正变的是我把任务拆成流程的能力。<br>
+    <span class="quote-attribution">— 核心洞察</span>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+
+<!-- ====== PART 2: WHAT I DID ====== -->
+<section class="section">
+  <div class="section-label">Part 02 — 实践</div>
+  <h2>对于产品经理，我做了哪些事？</h2>
+
+  <p>两条主线：<strong>能力扩展</strong> + <strong>知识沉淀</strong>。具体来说：</p>
+
+  <div class="cards">
+    <div class="card">
+      <div class="card-icon">🤖</div>
+      <h4>制作自己的分身</h4>
+      <p>Lylian 的产品军团：产品、运营、架构师，各司其职。通过 SOUL.md 定义人设，Skill Tools 扩展能力。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🧩</div>
+      <h4>拓展技能 &amp; 评测</h4>
+      <p>大量使用并评测各种 Skill，筛出真正好用的。建立了 SkillHub Public 精选仓库。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📚</div>
+      <h4>构建个人知识库</h4>
+      <p>Obsidian 本地管理 + Agent 可调用 + 多端 Sync。知识不是存起来，而是能被 AI 随时调用。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🚀</div>
+      <h4>AI 原生新项目</h4>
+      <p>想法 → Demo → 落地的小团队快跑模式。比如支付 Agent2Agent、金融资金业务产品助理（培养中）。</p>
+    </div>
+  </div>
+
+</section>
+
+<div class="divider"></div>
+
+
+<!-- ====== PART 3: AHA MOMENTS ====== -->
+<section class="section">
+  <div class="section-label">Part 03 — 案例</div>
+  <h2>Aha Moment：当分身真的开始干活</h2>
+  <p>理论说一百遍，不如看一次真实截图。以下都是我的分身在实际工作中产出的内容：</p>
+
+  <h3>案例一：AI 运营团队 — 24 小时不休息</h3>
+  <p>配置了一个运营团队：文案专员 + 热点抓取专员 + 管理员八万。目标很简单——保证每天 2 篇 AI 相关的小红书文章发布，发布前只需我确认。</p>
+
+  <figure class="article-figure">
+    <img src="images/case-xiaohongshu.png" alt="AI运营产出的小红书文章">
+    <figcaption>AI 运营分身自动产出的小红书文章 —— 从选题到文案到标签，全自动</figcaption>
+  </figure>
+
+  <figure class="article-figure">
+    <img src="images/aha-operation.png" alt="AI分身产出的Lovable产品体验报告">
+    <figcaption>AI 分身产出的 Lovable 产品体验报告 —— 结构化研究框架 + 竞品分析 + 核心结论，从需求到定价模型完整覆盖</figcaption>
+  </figure>
+
+  <h3>案例二：24 小时滚动行业研究
+  <p>让分身做 AI 支付产品专家，每 15 分钟汇报一次竞品动态思考，重要结论沉淀到 Memory 形成知识库，报告生成后自动发布到 iWiki。</p>
+
+  <figure class="article-figure">
+    <img src="images/case-research-list.png" alt="23轮AI支付竞品分析列表">
+    <figcaption>分身自动完成了 <span class="hl-num">23 轮</span> AI 支付竞品分析，覆盖 Stripe、Apple Pay、银联等全球主流方案</figcaption>
+  </figure>
+
+  <h3>案例三：ToB 解决方案架构师 — 快速定制角色</h3>
+  <p>需要了解项目细节时，快速定制一个 ToB 方案架构师角色。基于阿里 AI 支付官网和 OpenClaw、腾讯 Ima 等工具合作案例，设计演示方案书。</p>
+
+  <figure class="article-figure">
+    <img src="images/case-architect.png" alt="ToB方案架构师输出">
+    <figcaption>ToB 方案架构师自动完成角色更新，聚焦 AI 支付对客方案，输出完整解决方案</figcaption>
+  </figure>
+
+  <div class="quote-block green">
+    核心认知：<strong>AI 与人类的复利协同</strong>。<br>
+    一次性的分身与 Skill 配置，可长期复用——做能产生复利的事。
+  </div>
+</section>
+
+<div class="divider"></div>
+
+
+<!-- ====== PART 4: SKILL EVALUATION ====== -->
+<section class="section">
+  <div class="section-label">Part 04 — 干货①</div>
+  <h2>Skill 评测法：哪些夯、哪些拉？</h2>
+
+  <h3>先搞清楚：什么是 Skill？</h3>
+  <p><strong>Skill = 给 AI 写的 SOP（标准作业程序）</strong>，不是一次性 Prompt，不是聊天记录。它是持久化的 SKILL.md 文件，包含完整的触发条件、工作步骤、约束规则、输出格式和质量红线。</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>维度</th><th>普通 Prompt</th><th>Skill</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>形态</td><td>一次性对话</td><td>持久化 SKILL.md 文件</td></tr>
+        <tr><td>触发</td><td>每次手动粘贴</td><td>自动匹配 / @ 显式调用</td></tr>
+        <tr><td>内容</td><td>几句话</td><td>完整 SOP + 脚本 + 参考文档</td></tr>
+        <tr><td>复用</td><td>难，每次重写</td><td>GitHub 链接一键安装</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="quote-block purple">
+    Prompt 是你说一次，Skill 是你定一次规矩，AI 以后都照着办。<br>
+    <span class="quote-attribution">— 一句话区分</span>
+  </div>
+
+  <h3>SkillHub Public 精选库</h3>
+  <p>定位很简单：<strong>我筛过、用过、愿意推荐的清单。</strong>不盲目安装，只装真正会用的。</p>
+
+  <div class="card-row cols-3" style="margin: 24px 0;">
+    <div class="card" style="text-align: center; border-top: 4px solid var(--accent);">
+      <div style="font-size: 36px; font-weight: 900; color: var(--accent);">63</div>
+      <div style="font-size: 13px; color: var(--ink-2); margin-top: 4px;">个精选 Skill</div>
+    </div>
+    <div class="card" style="text-align: center; border-top: 4px solid var(--blue);">
+      <div style="font-size: 36px; font-weight: 900; color: var(--blue);">11</div>
+      <div style="font-size: 13px; color: var(--ink-2); margin-top: 4px;">个场景分类</div>
+    </div>
+    <div class="card" style="text-align: center; border-top: 4px solid var(--green);">
+      <div style="font-size: 36px; font-weight: 900; color: var(--green);">6</div>
+      <div style="font-size: 13px; color: var(--ink-2); margin-top: 4px;">个角色推荐</div>
+    </div>
+  </div>
+
+  <figure class="article-figure">
+    <img src="images/skillhub-map.jpg" alt="SkillHub Public精选库地图">
+    <figcaption>SkillHub Public 精选库地图：63 个精选 Skill，11 个来源，6 大场景分类 + 按角色推荐组合</figcaption>
+  </figure>
+
+  <h3>按场景取用：我有哪些 Skill</h3>
+
+  <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 24px 0;">
+    <div class="card" style="padding: 16px; border-left: 4px solid #F06CA8;">
+      <h4 style="font-size: 15px;">📋 PRD/产品 ×4</h4>
+      <p style="font-size: 13px; margin-top: 6px;">brainstorming · idea-validator · writing-plans · ai-painpoint-kb</p>
+    </div>
+    <div class="card" style="padding: 16px; border-left: 4px solid #1F8A4C;">
+      <h4 style="font-size: 15px;">🔬 研究 ×3</h4>
+      <p style="font-size: 13px; margin-top: 6px;">ecc-deep-research · 产品体验报告 · hv-analysis</p>
+    </div>
+    <div class="card" style="padding: 16px; border-left: 4px solid #F5C518;">
+      <h4 style="font-size: 15px;">✍️ 写作 ×4</h4>
+      <p style="font-size: 13px; margin-top: 6px;">公众号 · 小红书 · humanizer去AI味 · 对抗式评审</p>
+    </div>
+    <div class="card" style="padding: 16px; border-left: 4px solid #E85A1F;">
+      <h4 style="font-size: 15px;">🎨 绘图 ×4</h4>
+      <p style="font-size: 13px; margin-top: 6px;">21种信息图 · 漫画 · 文章配图 · 架构图/路线图</p>
+    </div>
+    <div class="card" style="padding: 16px; border-left: 4px solid #2D6CDF;">
+      <h4 style="font-size: 15px;">📊 PPT ×3</h4>
+      <p style="font-size: 13px; margin-top: 6px;">deerflow-ppt · frontend-slides · HTML模板</p>
+    </div>
+    <div class="card" style="padding: 16px; border-left: 4px solid var(--border);">
+      <h4 style="font-size: 15px;">🖥️ 设计 ×3</h4>
+      <p style="font-size: 13px; margin-top: 6px;">frontend-design · taste-skill去AI味 · web-artifacts</p>
+    </div>
+    <div class="card" style="padding: 16px; border-left: 4px solid var(--border);">
+      <h4 style="font-size: 15px;">🌐 浏览器 ×3</h4>
+      <p style="font-size: 13px; margin-top: 6px;">agent-browser · playwright · page-agent</p>
+    </div>
+    <div class="card" style="padding: 16px; border-left: 4px solid var(--border);">
+      <h4 style="font-size: 15px;">📡 信息源 ×4</h4>
+      <p style="font-size: 13px; margin-top: 6px;">last30days · newsletter · follow-builders · aihot</p>
+    </div>
+    <div class="card" style="padding: 16px; border-left: 4px solid var(--border);">
+      <h4 style="font-size: 15px;">📚 知识/笔记 ×3</h4>
+      <p style="font-size: 13px; margin-top: 6px;">getnote · iwiki-organizer · notebooklm</p>
+    </div>
+    <div class="card" style="padding: 16px; border-left: 4px solid #F06CA8;">
+      <h4 style="font-size: 15px;">🎬 视频 ×1</h4>
+      <p style="font-size: 13px; margin-top: 6px;">deerflow-video 短视频</p>
+    </div>
+    <div class="card" style="padding: 16px; border-left: 4px solid #1F8A4C;">
+      <h4 style="font-size: 15px;">🛡️ 幻觉消除 ×1</h4>
+      <p style="font-size: 13px; margin-top: 6px;">claim-verifier 事实核查</p>
+    </div>
+    <div class="card" style="padding: 16px; border-left: 4px solid #F5C518;">
+      <h4 style="font-size: 15px;">⚡ 怎么用</h4>
+      <p style="font-size: 13px; margin-top: 6px;">贴 SKILL.md 链接安装 · @skill-name 调用</p>
+    </div>
+  </div>
+
+  <h3>按角色取用：哪些角色适合用哪些 Skill</h3>
+
+  <div class="cards" style="grid-template-columns: 1fr 1fr 1fr;">
+    <div class="card" style="border-top: 4px solid #F06CA8;">
+      <h4>🧭 产品经理</h4>
+      <p>brainstorming · idea-validator · claim-verifier · 产品体验报告</p>
+    </div>
+    <div class="card" style="border-top: 4px solid #1F8A4C;">
+      <h4>🔬 研究员/分析师</h4>
+      <p>ecc-deep-research · hv-analysis · last30days · notebooklm</p>
+    </div>
+    <div class="card" style="border-top: 4px solid #F5C518;">
+      <h4>✍️ 内容创作者</h4>
+      <p>公众号 · 小红书 · humanizer · baoyu-comic</p>
+    </div>
+    <div class="card" style="border-top: 4px solid #E85A1F;">
+      <h4>🎨 设计师/前端</h4>
+      <p>frontend-design · taste-skill · web-artifacts · 架构图</p>
+    </div>
+    <div class="card" style="border-top: 4px solid #2D6CDF;">
+      <h4>📈 运营/增长</h4>
+      <p>follow-builders · aihot · newsletter · last30days</p>
+    </div>
+    <div class="card" style="border-top: 4px solid var(--ink);">
+      <h4>💻 开发者</h4>
+      <p>writing-plans · playwright · agent-browser · claim-verifier</p>
+    </div>
+  </div>
+
+  <div class="quote-block">
+    会选 Skill，比会写 Prompt 更重要。<br>
+    只装真正会用的 —— 上下文是稀缺资源。<br>
+    <span class="quote-attribution">— SkillHub Public 核心理念 · github.com/chenyueli829/skillhub-public</span>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+
+<!-- ====== PART 5: KNOWLEDGE BASE ====== -->
+<section class="section">
+  <div class="section-label">Part 05 — 干货②</div>
+  <h2>知识库：Obsidian + Agent + Sync</h2>
+
+  <p>一句话讲清架构：</p>
+  <div class="quote-block cyan">
+    本地 Obsidian 沉淀 → Agent 可随时调用 → 多端 Sync<br>
+    <span class="quote-attribution">知识库不是仓库，是 AI 的外挂大脑——存了能用，才是真存了。</span>
+  </div>
+
+  <p>关键认知：<strong>知识不是存起来就完了，而是要能被 AI 在正确的时间调用到正确的场景里。</strong> 我的知识库里存着产品方法论、行业笔记、项目经验——当我启动一个新项目或做一个判断时，Agent 能直接从知识库里调取相关背景。</p>
+
+  <p>最近也在想做一个线上版本……不过我的虾给我拍死了（评分不高）。😂 这恰恰说明了一个道理：<strong>AI 输出需要人的审美和判断来把关。</strong></p>
+</section>
+
+<div class="divider"></div>
+
+
+<!-- ====== PART 6: LEARNING & INFO SOURCES ====== -->
+<section class="section">
+  <div class="section-label">Part 06 — 干货③</div>
+  <h2>如何保持跟进：不用翻墙的 AI 资讯源</h2>
+
+  <p>全场最容易被截图的一页——先给福利再讲方法。</p>
+
+  <h3>我的信息获取三件套</h3>
+  <div class="cards">
+    <div class="card">
+      <div class="card-icon">🌊</div>
+      <h4>Follow Builders / AIHot</h4>
+      <p>信息流式被动接收，26 位全球从业者 Twitter 动态自动聚合推送</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🎙️</div>
+      <h4>听播客</h4>
+      <p>创业者视角的一手思考：MiniMax、智谱等从业者的深度对谈</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">⭐</div>
+      <h4>关注头部大 V</h4>
+      <p>有人帮你做预筛选：张咋啦、baoyu 等</p>
+    </div>
+  </div>
+
+  <figure class="article-figure">
+    <img src="images/follow-builders.png" alt="Follow Builders群二维码" style="max-width: 260px; margin: 0 auto;">
+    <figcaption>Follow Builders — 企业内部群聊，聚合 26 位全球 AI 从业者动态</figcaption>
+  </figure>
+
+  <div class="quote-block green">
+    保持跟进不靠刷，靠让信息自己流到你面前。<br>
+    <span class="quote-attribution">— 信息获取原则</span>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+
+<!-- ====== PART 7: PRODUCT LAB ====== -->
+<section class="section">
+  <div class="section-label">Part 07 — 产品预告</div>
+  <h2>ProductLab：产品决策实验室</h2>
+  <p>这是我目前最有代表性的 AI Native 项目。一个面向独立开发者和早期产品探索者的<strong>产品决策实验室</strong>。</p>
+
+  <h3>痛点：早期探索缺的不是想法，是判断</h3>
+  <p>一个产品点子冒出来后，通常需要回答这些问题：</p>
+  <ul class="check-list">
+    <li>这个需求是真痛点，还是我自己的想象？</li>
+    <li>用户现在用什么替代方案？</li>
+    <li>竞品已经做到什么程度？</li>
+    <li>最大风险是什么？下一步应该验证什么？</li>
+  </ul>
+
+  <p>传统做法需要反复打开搜索、社区、竞品官网、评论区——看了很多，但不知道下一步做什么。</p>
+
+  <h3>我做了一套什么</h3>
+  <p>把产品研究链路压成一组 AI Native 工具：</p>
+  <div class="tags" style="justify-content: center; margin: 20px 0;">
+    <span class="tag tag--blue">领域情报</span>
+    <span style="font-size: 20px; color: var(--muted); display:flex;align-items:center;">→</span>
+    <span class="tag tag--green">机会雷达</span>
+    <span style="font-size: 20px; color: var(--muted); display:flex;align-items:center;">→</span>
+    <span class="tag tag--yellow">竞品分析</span>
+    <span style="font-size: 20px; color: var(--muted); display:flex;align-items:center;">→</span>
+    <span class="tag tag--accent">反馈雷达</span>
+    <span style="font-size: 20px; color: var(--muted); display:flex;align-items:center;">→</span>
+    <span class="tag" style="background:var(--ink);color:#fff;border-color:var(--ink);">产品判断台</span>
+  </div>
+
+  <h3>核心创新：判断卡</h3>
+  <p>不写长报告、不打 100 分。固定输出一张判断卡，只回答这几件事：</p>
+  <div class="cards" style="grid-template-columns: 1fr 1fr 1fr;">
+    <div class="card" style="text-align: center; padding: 20px 16px;">
+      <div style="font-size: 32px; font-weight: 900; color: var(--accent);">3</div>
+      <div style="font-size: 13px; color: var(--ink-2); margin-top: 4px;">个关键假设</div>
+    </div>
+    <div class="card" style="text-align: center; padding: 20px 16px;">
+      <div style="font-size: 32px; font-weight: 900; color: var(--blue);">1</div>
+      <div style="font-size: 13px; color: var(--ink-2); margin-top: 4px;">个最大风险</div>
+    </div>
+    <div class="card" style="text-align: center; padding: 20px 16px;">
+      <div style="font-size: 32px; font-weight: 900; color: var(--green);">1–3</div>
+      <div style="font-size: 13px; color: var(--ink-2); margin-top: 4px;">个低成本验证动作</div>
+    </div>
+  </div>
+  <p style="text-align: center; margin-top: 16px; font-size: 15px; color: var(--ink-2);">
+    故意限制输出——因为<strong>早期产品探索需要的不是长，而是清楚</strong>。
+  </p>
+
+  <h3>AI Native 的四个体现</h3>
+  <div class="cards">
+    <div class="card">
+      <h4>🔄 流程引擎</h4>
+      <p>把 AI 当流程引擎而非文本助手。参与完整工作流：检索→归纳→结构化→生成→提炼。</p>
+    </div>
+    <div class="card">
+      <h4>📦 压缩能力</h4>
+      <p>能把模糊问题压缩成可判断结构。强制收敛到可行动粒度。</p>
+    </div>
+    <div class="card">
+      <h4>🏷️ 证据分级</h4>
+      <p>不伪装确定性。竞品证据/用户反馈/趋势信号/待验证假设——缺证据就标出来。</p>
+    </div>
+    <div class="card">
+      <h4>♻️ 系统沉淀</h4>
+      <p>把个人经验封装成可复用 Skill。标准模板 + 数据结构 + 质量红线 + 验证清单。</p>
+    </div>
+  </div>
+
+  <h3>三条经验</h3>
+  <ol style="padding-left: 20px; color: var(--ink-2);">
+    <li style="margin-bottom: 10px;"><strong style="color: var(--ink);">AI Native 的关键不是「生成更多」，而是「压缩更准」。</strong>限制输出反而更有价值。</li>
+    <li style="margin-bottom: 10px;"><strong style="color: var(--ink);">好的 AI 工具需要质量红线。</strong>不编数据、不给伪建议、不堆砌无关资料。</li>
+    <li style="margin-bottom: 10px;"><strong style="color: var(--ink);">个人能力可以通过 Skill 变成系统能力。</strong>过去在脑子里，现在可以封装成 AI 重复执行的方法。</li>
+  </ol>
+
+  <h3>下一步方向</h3>
+  <div class="card-row cols-3">
+    <div class="card">
+      <h4>判断台产品化</h4>
+      <p>从工具集合收敛成主体验：输入想法 → 直接得到判断卡</p>
+    </div>
+    <div class="card">
+      <h4>真实数据源接入</h4>
+      <p>接入搜索、社区、GitHub、PH、小红书实时数据</p>
+    </div>
+    <div class="card">
+      <h4>判断卡传播机制</h4>
+      <p>截图/Markdown复制/投稿案例页，变成可传播资产</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+
+<!-- ====== PART 8: CAPABILITY MAP ====== -->
+<section class="section">
+  <div class="section-label">Part 08 — 方法论收束</div>
+  <h2>产品经理用 AI 能做什么？</h2>
+  <p>把前面的故事抽象成一张能力地图——这是我希望你们带走的东西：</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>能力维度</th><th>AI 具体在做什么</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>提认知</strong></td><td>市场研究 · 竞品分析 · 行业趋势扫描</td></tr>
+        <tr><td><strong>做判断</strong></td><td>正方反方、多维度思考（→ ProductLab 判断卡）</td></tr>
+        <tr><td><strong>去行动</strong></td><td>用户调研 · 机会洞察 · PRD · Vibe Coding · 设计 Demo</td></tr>
+        <tr><td><strong>找合作</strong></td><td>架构师 Agent — 技术可行性评估</td></tr>
+        <tr><td><strong>做运营</strong></td><td>自动化运营 — 内容生产到发布的全链路</td></tr>
+        <tr><td><strong>懂用户</strong></td><td>模拟小白用户 — Agent-Browser 跑用户反馈和痛点</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="quote-block purple">
+    不是每个维度都要自己干，但每个维度你都要能定义 AI 怎么干。<br>
+    <span class="quote-attribution">— 核心方法论</span>
+  </div>
+</section>
+
+
+<!-- ====== CTA ====== -->
+<div class="cta-box">
+  <h3>金线三连 🎯</h3>
+  <p>1. 换工具是表象，<strong>升认知是本质</strong>。</p>
+  <p>2. 一个人可以靠 AI <strong>扩展成一个团队</strong>。</p>
+  <p>3. 把经验写成 Skill，<strong>让 AI 替你重复执行</strong>。</p>
+  <br>
+  <p style="opacity: 0.6; font-size: 14px;">仓库地址：github.com/chenyueli829/skillhub-public<br>资讯源 / Skill 评测法 / ProductLab 思路 —— 欢迎来抄、来共建、来拍砖 🔥</p>
+</div>
+
+
+</div><!-- /.container -->
+
+</body>
+</html>
